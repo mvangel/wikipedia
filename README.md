@@ -1,4 +1,4 @@
-wikipedia
+Wikipedia
 =========
 
-Parsing of useful data from Wikipedia, DBPedia and Freebase 
+Parsing of redirects and sections which target to sections of pages as single pages.
