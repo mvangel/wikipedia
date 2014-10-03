@@ -1,4 +1,4 @@
-ï»¿<http://sk.dbpedia.org/resource/Isaac_Newton> <http://xmlns.com/foaf/0.1/isPrimaryTopicOf> <http://sk.wikipedia.org/wiki/Isaac_Newton> .
+<http://sk.dbpedia.org/resource/Isaac_Newton> <http://xmlns.com/foaf/0.1/isPrimaryTopicOf> <http://sk.wikipedia.org/wiki/Isaac_Newton> .
 
 <http://sk.dbpedia.org/resource/Isaac_Newton> <http://www.w3.org/2000/01/rdf-schema#comment> "Sir Isaac Newton, prezident Krá¾ovskej spoloènosti (* 4. január 1643, Woolsthorpe-by-Colsterworth, Anglicko – † 31. marec 1727, Kensington,) bol anglický fyzik, matematik a filozof.Založil infinitezimálny poèet a formuloval prvú teóriu sily a gravitácie. Jeho objavy v matematike, optike a mechanike položili základy pre modernú fyziku.Je jednou z najväèších postáv v dejinách ¾udského poznania a od neho sa vlastne poèíta fyzika ako novodobá veda."@sk .
 
