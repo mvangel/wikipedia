@@ -1,0 +1,47 @@
+{
+  "root": {
+    "parsererror": {
+      "-style": "display: block; white-space: pre; border: 2px solid #c77; padding: 0 1em 0 1em; margin: 1em; background-color: #fdd; color: black",
+      "h3": [
+        "This page contains the following errors:",
+        "Below is a rendering of the page up to the first error."
+      ],
+      "div": {
+        "-style": "font-family:monospace;font-size:12px",
+        "#text": "error on line 29 at column 64: EntityRef: expecting ';'
+"
+      }
+    },
+    "shortAbstract": "Sir Isaac Newton, prezident Krá¾ovskej spoloènosti (* 4. január 1643, Woolsthorpe-by-Colsterworth, Anglicko – † 31. marec 1727, Kensington,) bol anglickı fyzik, matematik a filozof.Zaloil infinitezimálny poèet a formuloval prvú teóriu sily a gravitácie. Jeho objavy v matematike, optike a mechanike poloili základy pre modernú fyziku.Je jednou z najväèších postáv v dejinách ¾udského poznania a od neho sa vlastne poèíta fyzika ako novodobá veda.",
+    "longAbstract": "\"Sir Isaac Newton, prezident Krá¾ovskej spoloènosti (* 4. január 1643, Woolsthorpe-by-Colsterworth, Anglicko – † 31. marec 1727, Kensington,) bol anglickı fyzik, matematik a filozof.Zaloil infinitezimálny poèet a formuloval prvú teóriu sily a gravitácie. Jeho objavy v matematike, optike a mechanike poloili základy pre modernú fyziku.Je jednou z najväèších postáv v dejinách ¾udského poznania a od neho sa vlastne poèíta fyzika ako novodobá veda. Newton nadviazal na vısledky svojich predchodcov – Galileiho, Keplera, Descarta a ïalších. Presne sformuloval základné zákony mechanického pohybu, dal im podobu matematickıch rovníc a vytvoril diferenciálny a integrálny poèet, pomocou ktorého vieme tieto rovnice rieši. A od èias Newtona sa stalo monım vypoèíta pohyby planét, predpoveda presné termíny zatmenia Slnka a Mesiaca, èas návratu periodickıch planét (hlavne známej Halleyovej kométy), a dokonca vypoèíta i polohu a pohyb doteraz neznámych telies. Tak bola v minulom storoèí predpovedaná existencia niektorıch planétiek a novej planéty Neptúna, ktoré potom hvezdári na oblohe skutoène našli. Newtonov gravitaènı zákon umonil urèi hmotnos nebeskıch telies a sily pôsobiace medzi nimi, odvái zemegu¾u. Newton dokázal, e nie je rozdiel medzi zákonmi pozemskıch a nebeskıch pohybov, ako sa domnieval Aristoteles, ale e sila, ktorá spôsobuje pohyb planét okolo Slnka je tá istá, ako sila, ktorá spôsobuje, e padáme zo schodov.Newton sa ako skutoènı vedec pridriaval len pozorovanıch faktov a vısledkov experimentov a nepúšal sa do nepodloenıch špekulácií. Vedel, e ešte nemôe vysvetli príèiny a podstatu gravitácie a vyhlasoval, e hypotézy si nevymıš¾a. Bol si pritom vedomı, do akej miery vïaèí za svoje vısledky svojim predchodcom a napísal, e ak videl ïalej ako ostatní, bolo to preto, e stál na ramenách obrov. Zároveò si uvedomoval, e èím viac vedu poznáva, tım viac sa rozširujú aj obzory nepoznaného a prirovnával sa k malému chlapcovi, ktorı sa len hrá s peknımi kamienkami a mušlièkami na brehu nekoneèného oceánu poznania. V Newtonovıch súèasníkoch vzbudzovali jeho objavy obdiv a nadšenie. Zdalo sa im, ako keby príroda náhle odhalila svoje tajomstvá a všetko sa stalo jasnım. Svedèia o tom verše dobového básnika Alexandra Popea: Poriadok prírody bol dlho tmou noci zastrenı. Boh povedal: Buï Newton! A deò zaiari jasnı.A nasledujúci vıvoj ukázal, ako ve¾a ešte nepoznáme a o ko¾ko je svet zloitejší, bohatší a zaujímavejší, ne mohol tuši Newton a jeho súèasníci. Napriek oprávnenej sláve, ktorou je Newtonovo meno obostreté, nebol on sám ako èlovek bez ¾udskıch nedostatkov a jeho ivot, ktorı prebiehal v nepokojnıch èasoch anglickej histórie, sa neobišiel bez vıkyvov. Newton mal obdobie, kedy sa dokázal hlboko sústredi a plodi jeden geniálny objav za druhım a pritom, ako to u vedcov bıva, sa nestaral o svoje okolie, ani o ivotosprávu a telesne a duševne sa vyèerpával. Potom sa zase dlhé roky vedeckej práci nevenoval, vyíval sa v osobnıch a prestínych sporoch, zaoberal sa pochybnımi èinnosami v oblasti alchımie, h¾adaním kameòa mudrcov, mytologickımi letopoètami, a dokonca preíval aj roky vyslovene duševnıch kríz a porúch.",
+    "articleCategory": {
+      "cat": [
+        "Anglickí_filozofi",
+        "Anglickí_fyzici",
+        "Anglickí_matematici",
+        "Optici",
+        "Alchymisti",
+        "Okultisti",
+        "Prezidenti_Krá¾ovskej_spoloènosti"
+      ]
+    },
+    "articleTemplates": {
+      "template": [
+        "Infobox_Osobnos",
+        "Gutenberg_autor",
+        "Projekt",
+        "Link_FA",
+        "Link_GA"
+      ],
+      "articleTemplates": {
+        "links": {
+          "wiki": { "link": "http://sk.wikipedia.org/wiki/Isaac_Newton" },
+          "freeBase": { "link": "http://rdf.freebase.com/ns/m.03s9v" },
+          "external": {
+            
+          }
+        }
+      }
+    }
+  }
+}
