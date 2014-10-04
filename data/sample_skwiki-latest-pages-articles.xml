@@ -3,7 +3,7 @@
     <title>Main Page</title>
     <ns>0</ns>
     <id>2</id>
-    <redirect title="Hlavn· str·nka" />
+    <redirect title="Hlavn√° str√°nka" />
     <revision>
       <id>89777</id>
       <timestamp>2003-08-31T12:01:53Z</timestamp>
@@ -11,7 +11,7 @@
         <username>Andre Engels</username>
         <id>2</id>
       </contributor>
-      <text xml:space="preserve">#REDIRECT [[Hlavn· str·nka]]</text>
+      <text xml:space="preserve">#REDIRECT [[Hlavn√° str√°nka]]</text>
       <sha1>gj4ij44roeqj42e06ryb2oj86hae6f8</sha1>
       <model>wikitext</model>
       <format>text/x-wiki</format>
@@ -21,7 +21,7 @@
     <title>Science fiction</title>
     <ns>0</ns>
     <id>698</id>
-    <redirect title="Vedeck· fantastika" />
+    <redirect title="Vedeck√° fantastika" />
     <revision>
       <id>90471</id>
       <parentid>11896</parentid>
@@ -30,8 +30,8 @@
         <username>AtonX</username>
         <id>147</id>
       </contributor>
-      <comment>#REDIRECT [[Vedeck· fantastika]] (SlovenskÈ n·zvy Ël·nkov)</comment>
-      <text xml:space="preserve">#REDIRECT [[Vedeck· fantastika]]</text>
+      <comment>#REDIRECT [[Vedeck√° fantastika]] (Slovensk√© n√°zvy ƒçl√°nkov)</comment>
+      <text xml:space="preserve">#REDIRECT [[Vedeck√° fantastika]]</text>
       <sha1>tvamc8dug349j9410pe1pcdqvogaf85</sha1>
       <model>wikitext</model>
       <format>text/x-wiki</format>
