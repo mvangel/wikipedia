@@ -1,4 +1,9 @@
-Kazdy clanok definovanyo  osobe obsahuje za obsahom tieto data:
+Tema: Sparsovanie osob wikipedie vytvorenie jednoduchej sluzby 'mohli sa stretnut?'
+po zadani dvoch mien urci ci sa mohli dane osoby stretnut (prekryv casu ich zivota)
+Veduci: Kassak
+
+
+Kazdy clanok definovany o  osobe obsahuje za obsahom tieto data:
 Z nich je potrebne vytiahnut datum narodenia a umrtia ak su uveden. Pozor je dolezite overit si typy roznych moznosti datumov narodenia.
 Nasledne tieto data ulozit zvlast aby sme nemali zbytocne velke mnozstvo nepouzitych dat. Zindexovat ich a nasledne porovnavat. 
 
