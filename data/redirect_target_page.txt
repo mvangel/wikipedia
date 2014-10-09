@@ -1,35 +1,3 @@
-{{one source|date=September 2014}}
-{{Infobox military conflict
-| conflict    = Battle of Kwajalein
-| image       = [[File:Men of the 7th Div HD-SN-99-02846.jpg|300px|Soldiers of the U.S. 7th Infantry Division attack a Japanese blockhouse on Kwajalein]]
-| caption     = Soldiers of the U.S. 7th Infantry Division attack a Japanese blockhouse on Kwajalein.
-| partof      = [[World War II]], [[Pacific War]]
-| date        = 31 January-3 February 1944
-| place       = [[Kwajalein Atoll]], [[Marshall Islands]]
-| result      = United States victory
-| combatant1  = {{flag|United States|1912}}
-| combatant2  = {{flag|Empire of Japan}}
-| commander1  = {{flagicon|United States|1912}} [[Richmond K. Turner]]<br/>{{flagicon|United States|1912}} [[Holland M. Smith]]<br/>{{flagicon|United States|1912}} [[Harry Schmidt (USMC)|Harry Schmidt]]<br/>{{flagicon|United States|1912}} [[Charles H. Corlett]]<br/>{{flagicon|United States|1912}} [[Thomas E. Watson (USMC)|Thomas E. Watson]]
-| commander2  = {{flagicon|Empire of Japan|naval}} [[Monzo Akiyama]]{{KIA}}<br/>{{flagicon|Empire of Japan|naval}} [[Masami Kobayashi]]<br/>{{flagicon|Empire of Japan|naval}} Yamada Michiyuki{{KIA}}<br/>{{flagicon|Empire of Japan|army}} [[Yoshimi Nishida]]{{KIA}}
-| strength1   = 46,670<ref name=Rottman>Rottman, G., 2004, The Marshall Islands 1944: "Operation Flintlock, the capture of Kwajalein and Eniwetok", Oxford: Osprey Publishing Ltd, ISBN 1-84176-851-0</ref>{{rp|27–28}}
-
-| strength2   = Kwajalein:<br/>about 5,000<br/>Roi-Namur:<br/> about 3,000<ref name=Rottman/>{{rp|31}}
-| casualties1 = Kwajalein:<br/>142 killed<br/>845 wounded<br/>2 missing<br/>Roi-Namur:<br/>206 killed<br/>617 wounded<br/>181 missing<ref name=Rottman/>{{rp|88}}
-| casualties2 = Kwajalein:<br/>4,300 killed<br/>166 captured<br />Roi-Namur:<br/>3,500 killed<br/>87 captured<ref name=Rottman/>{{rp|88}}
-| campaignbox = {{Campaignbox Gilberts and Marshalls}}
-}}
-
-The '''Battle of Kwajalein''' was fought as part of the [[Pacific War|Pacific campaign]] of [[World War II]]. It took place from 31 January-3 February 1944, on [[Kwajalein Atoll]] in the [[Marshall Islands]]. Employing the hard-learned lessons of the [[battle of Tarawa]], the United States launched a successful twin assault on the main islands of Kwajalein in the south and [[Roi-Namur]] in the north. The Japanese defenders put up stiff resistance, although outnumbered and under-prepared. The determined defense of Roi-Namur left only 51 survivors of an original garrison of 3,500.
-
-For the US, the battle represented both the next step in its [[Leapfrogging (strategy)|island-hopping]] march to Japan and a significant moral victory because it was the first time the Americans had penetrated the "outer ring" of the Japanese Pacific sphere. For the Japanese, the battle represented the failure of the beach-line defense. Japanese defenses became prepared in depth, and the battles of [[Peleliu]], [[Guam]], and the [[Marianas]] proved far more costly to the US.
-
-==Background==
-
-===Geography===
-Kwajalein Atoll is in the heart of the Marshall Islands. It lies in the Ralik Chain, {{convert|2100|nmi|mi km|lk=on|abbr=on}} southwest of [[Honolulu]], [[Hawaii]] at {{coord|8|43|N|167|44|E}}. Kwajalein is the world's largest coral atoll and comprises 93 islands and islets, it has a land area of 1,560&nbsp;acres (6.33&nbsp;km²),<ref name=Rottman/>{{rp|12}} and surrounds one of the largest lagoons in the world, measuring 324&nbsp;mi² (839&nbsp;km²) in size.
-
-The two most significant land masses are Kwajalein Island in the south, and the linked islands of Roi-Namur in the north. By the start of World War II, the Marshalls ([[South Pacific Mandate]]) were already an integral part of the Japanese perimeter of defense. Its facilities were being utilized as outlying bases for submarines and surface warships, as well as for air staging for future advances being planned against [[Tuvalu|Ellice]], the [[Fiji Islands]], and [[Samoa]].
-
 ===Gilbert and Marshall Islands campaign===
 After the [[battle of Makin|capture of Makin]] and [[battle of Tarawa|Tarawa]] in the [[Gilbert Islands]], the next step in the [[United States Navy]]'s campaign in the central [[Pacific Ocean Areas|Pacific]] was the Marshall Island chain.<ref name=Rottman/>{{rp|7}} These islands had been [[Germany|German]] colonies, after their purchase from Spain in 1899,<ref name=Rottman/>{{rp|11}} until [[World War I]], when they were assigned to Japan in the post-war settlement as the "Eastern Mandates". The islands had become a mystery since the Japanese closed them to the outside world. It was presumed the Japanese had built illegal fortifications throughout the islands, however the precise extent of any such fortifications was unknown.<ref name=Rottman/>{{rp|9}} To the Japanese, regarding them as part of the "outer ring" of Japanese territory.<ref name=Rottman/>{{rp|10}}
 
