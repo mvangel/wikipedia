@@ -1,0 +1,2 @@
+(2302,'en','Karl Leonhard Reinhold'),(516312,'en','Karl Malden'),(515844,'en','Karl Malone'),(2225,'en','Karl Marx')
+(271668,'en','Tomáš Slovák'),(49494,'en','Tomáš Starosta'),(318462,'en','Tomáš Stúpala'),(46417,'en','Tomáš Surový')
