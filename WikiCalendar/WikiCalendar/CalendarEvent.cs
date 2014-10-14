@@ -38,71 +38,142 @@ namespace WikiCalendar
 			datePaterns[i] = sb.Insert(0, "(", 1).ToString();
 
 			String[] delimiter2 = { " " };
-			if (System.Text.RegularExpressions.Regex.IsMatch(_input, datePaterns[0]))//Y|MM|DD
+			if (_input.Contains(" AD"))
 			{
+				_input=_input.Replace(" AD", " ");
+			}
+			_input=_input.Trim().Trim('}');
 
-				//date = DateTime.ParseExact(_input, "yyyy|M|d", provider);
-				String[] separatedDate = _input.Split('|');
-				int day = int.Parse(separatedDate[2]);
-				int month = int.Parse(separatedDate[1]);
+			if (_input.Contains("BC") || _input.Contains("BCE"))
+			{
+				throw new DataMisalignedException("BC or BCE date");
+			}
+
+			if (_input.Contains("|"))
+			{
+				String[]delimiterPipe = {"|"};
+				String[] separatedDate = _input.Split(delimiterPipe, StringSplitOptions.RemoveEmptyEntries);
 				int year = int.Parse(separatedDate[0]);
-
-				date = new DateTime(year, month, day);
-			}
-			else if (System.Text.RegularExpressions.Regex.IsMatch(_input, datePaterns[1])) //'BCE'|Y 
-			{
-				if (_input.Contains("BC"))
+				int month = 1, day = 1;
+				if (separatedDate.Length >= 2)
 				{
-					//_input = _input.Split('|')[1];
+					month = int.Parse(separatedDate[1]);
 				}
-				//workaround
-				_input = _input.Split('|')[1];
-				_input = _input.Split('}')[0];
-				date = new DateTime(int.Parse(_input),1,1);
-				//date = DateTime.ParseExact(_input, "y", provider);
-			}
-			else if (System.Text.RegularExpressions.Regex.IsMatch(_input, datePaterns[2])) //3 July 2001
-			{
-				
-				String[] separatedDate = _input.Split(delimiter2, StringSplitOptions.RemoveEmptyEntries);
-				int day = int.Parse(separatedDate[0]);
-				int month = getMonthFromText(separatedDate[1]);
-				int year = int.Parse(separatedDate[2]);
-
-				date = new DateTime(year, month, day);
-
-				//date = DateTime.ParseExact(_input, "d MMMM yyyy", provider);
-			}
-			else if (System.Text.RegularExpressions.Regex.IsMatch(_input, datePaterns[3]))// July 3, 2001
-			{
-				//parsing comma 
-				_input = _input.Replace(", "," ");
-				String[] separatedDate = _input.Split(delimiter2, StringSplitOptions.RemoveEmptyEntries);
-				int month = getMonthFromText(separatedDate[0]);
-				int day = int.Parse(separatedDate[1]);
-				int year = int.Parse(separatedDate[2]);
-
-				date = new DateTime(year, month, day);
-					//DateTime.ParseExact(_input, "MMMM d yyyy", provider);
-			}
-			else if (System.Text.RegularExpressions.Regex.IsMatch(_input, datePaterns[4]))//3 July AD 2001
-			{
-				if (_input.Contains(" AD"))
+				if (separatedDate.Length >= 3)
 				{
-					_input.Replace(" AD", " ");
+					day = int.Parse(separatedDate[2]);
 				}
+
+				date = new DateTime(year, month, day);
+			}
+			else if (_input.Contains(","))
+			{
 				_input = _input.Replace(", ", " ");
-				
 				String[] separatedDate = _input.Split(delimiter2, StringSplitOptions.RemoveEmptyEntries);
-				int day = int.Parse(separatedDate[0]);
-				int month = getMonthFromText(separatedDate[1]);
-				int year = int.Parse(separatedDate[2]);
+				
+				int month = 1, day = 1,year = 1;
+				if (separatedDate.Length < 3)
+				{
+					throw new DataMisalignedException("not date format");
+				}
+
+				month = getMonthFromText(separatedDate[0]);
+				day = int.Parse(separatedDate[1]);
+				year = int.Parse(separatedDate[2]);
+
+				date = new DateTime(year, month, day);
+			}
+			else 
+			{
+				String[] separatedDate = _input.Split(delimiter2, StringSplitOptions.RemoveEmptyEntries);
+				
+				int month = 1, day = 1, year = 1;
+				if (separatedDate.Length >= 1)
+				{
+					day = int.Parse(separatedDate[0]);
+				}
+				if (separatedDate.Length >= 2)
+				{
+					month = getMonthFromText(separatedDate[1]);
+				}
+				if (separatedDate.Length >= 3)
+				{
+					year = int.Parse(separatedDate[2]);
+				}
 
 				date = new DateTime(year, month, day);
 
-				//DateTime.ParseExact(_input, "MMMM d yyyy", provider);
 			}
-			else throw new Exception();//we are doomed
+							
+
+
+
+
+			//if (System.Text.RegularExpressions.Regex.IsMatch(_input, datePaterns[0]))//Y|MM|DD
+			//{
+
+			//	//date = DateTime.ParseExact(_input, "yyyy|M|d", provider);
+			//	String[] separatedDate = _input.Split('|');
+			//	int day = int.Parse(separatedDate[2]);
+			//	int month = int.Parse(separatedDate[1]);
+			//	int year = int.Parse(separatedDate[0]);
+
+			//	date = new DateTime(year, month, day);
+			//}
+			//else if (System.Text.RegularExpressions.Regex.IsMatch(_input, datePaterns[1])) //'BCE'|Y 
+			//{
+			//	if (_input.Contains("BC"))
+			//	{
+			//		//_input = _input.Split('|')[1];
+			//	}
+			//	//workaround
+			//	_input = _input.Split('|')[1];
+			//	_input = _input.Split('}')[0];
+			//	date = new DateTime(int.Parse(_input),1,1);
+			//	//date = DateTime.ParseExact(_input, "y", provider);
+			//}
+			//else if (System.Text.RegularExpressions.Regex.IsMatch(_input, datePaterns[2])) //3 July 2001
+			//{
+				
+			//	String[] separatedDate = _input.Split(delimiter2, StringSplitOptions.RemoveEmptyEntries);
+			//	int day = int.Parse(separatedDate[0]);
+			//	int month = getMonthFromText(separatedDate[1]);
+			//	int year = int.Parse(separatedDate[2]);
+
+			//	date = new DateTime(year, month, day);
+
+			//	//date = DateTime.ParseExact(_input, "d MMMM yyyy", provider);
+			//}
+			//else if (System.Text.RegularExpressions.Regex.IsMatch(_input, datePaterns[3]))// July 3, 2001
+			//{
+			//	//parsing comma 
+			//	_input = _input.Replace(", "," ");
+			//	String[] separatedDate = _input.Split(delimiter2, StringSplitOptions.RemoveEmptyEntries);
+			//	int month = getMonthFromText(separatedDate[0]);
+			//	int day = int.Parse(separatedDate[1]);
+			//	int year = int.Parse(separatedDate[2]);
+
+			//	date = new DateTime(year, month, day);
+			//		//DateTime.ParseExact(_input, "MMMM d yyyy", provider);
+			//}
+			//else if (System.Text.RegularExpressions.Regex.IsMatch(_input, datePaterns[4]))//3 July AD 2001
+			//{
+			//	if (_input.Contains(" AD"))
+			//	{
+			//		_input.Replace(" AD", " ");
+			//	}
+			//	_input = _input.Replace(", ", " ");
+				
+			//	String[] separatedDate = _input.Split(delimiter2, StringSplitOptions.RemoveEmptyEntries);
+			//	int day = int.Parse(separatedDate[0]);
+			//	int month = getMonthFromText(separatedDate[1]);
+			//	int year = int.Parse(separatedDate[2]);
+
+			//	date = new DateTime(year, month, day);
+
+			//	//DateTime.ParseExact(_input, "MMMM d yyyy", provider);
+			//}
+			//else throw new Exception();//we are doomed
 
 			//Console.WriteLine(date.ToString());
 			/*
@@ -140,7 +211,7 @@ namespace WikiCalendar
 				case "October": return 10;
 				case "November": return 11;
 				case "December": return 12;
-				default: return -1;
+				default: throw new DataMisalignedException("not date format");
 
 			}
 				

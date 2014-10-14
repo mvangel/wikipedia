@@ -73,7 +73,7 @@ namespace WikiCalendar
 						String dateExtractPattern //="([0-9]{0,}\\|[0-1]{0,1}[0-9]{1}\\|[0-3]{0,1}[0-9]{1})|(BCE\\|[0-9]+)";
 							= @"([0-9]{1,4}\|[0-1]{0,1}[0-9]{1}\|[0-3]{0,1}[0-9]{1})" //Y|MM|DD
 							+ @"|((?:(BC)?|(BCE)?)\|[0-9]+(\|\d\|\d){0}})" //'BCE'|Y 
-							+ @"|((?:([0-3]?[0-9]) ((?:January)?|(?:February)?|(?:March)?|(?:April)?|(?:May)?|(?:June)?|(?:July)?|(?:August)?|(?:September)?|(?:October)?|(?:November)?|(?:December)?) )[0-9]{0,}\s?(?:(BC)?|(BCE)?))" //3 July 2001
+							+ @"((?:([0-3]?[0-9]) ((?:January)?|(?:February)?|(?:March)?|(?:April)?|(?:May)?|(?:June)?|(?:July)?|(?:August)?|(?:September)?|(?:October)?|(?:November)?|(?:December)?) )((\d+(\sBCE)?|(\sBC)?)|((AD\s)?\d{1,})))" //3 July 2001
 
 							+ @"|(?:(?:January)?|(?:February)?|(?:March)?|(?:April)?|(?:May)?|(?:June)?|(?:July)?|(?:August)?|(?:September)?|(?:October)?|(?:November)?|(?:December)?) (?:([0-3]?[0-9])), [0-9]{0,}\s?(?:(BC)?|(BCE)?)"// July 3, 2001
 							+ @"|((?:([0-3]?[0-9]) ((?:January)?|(?:February)?|(?:March)?|(?:April)?|(?:May)?|(?:June)?|(?:July)?|(?:August)?|(?:September)?|(?:October)?|(?:November)?|(?:December)?) )(?:(AD)?)\s[0-9]{1,})"; //3 July AD 2001
@@ -111,7 +111,14 @@ namespace WikiCalendar
 						foreach (Match o in dateExtract)
 						{
 							allEvents.AddLast(new CalendarEvent(page));
-							allEvents.Last.Value.setDates(o.Value, dateExtractPattern);
+							try
+							{
+								allEvents.Last.Value.setDates(o.Value, dateExtractPattern);
+							}
+							catch (DataMisalignedException exc) {
+								allEvents.RemoveLast();
+								continue;
+							}
 							//Console.WriteLine(o.Value);
 						}
                         /*
