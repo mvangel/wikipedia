@@ -1,0 +1,10 @@
+﻿<Window x:Class="WikiCalendar.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="MainWindow" Height="473" Width="525">
+    <Grid>
+        <Button x:Name="LoadButton" Content="Load" HorizontalAlignment="Left" Height="51" Margin="375,10,0,0" VerticalAlignment="Top" Width="132" Click="Button_Click"/>
+        <TextBlock x:Name="TextConsole" HorizontalAlignment="Left" Margin="10,0,0,0" TextWrapping="Wrap" Width="360"/>
+
+    </Grid>
+</Window>

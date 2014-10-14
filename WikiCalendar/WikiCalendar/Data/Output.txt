@@ -1,0 +1,2 @@
+| birth_date = {{BCE|384}} {{longitem|padding-top:0;line-height:1.4em |[[Stagira (ancient city)|Stagira]],&lt;br/&gt;Chalcidice ([[Chalkidiki]]),&lt;br/&gt;northern [[Greece]]}}
+| death_date = {{nowrap|{{BCE|322}} (aged 62)&lt;br/&gt;[[Euboea]], Greece}}
