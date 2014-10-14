@@ -16,9 +16,9 @@ import testAndTools.TestFileCreater;
 
 // TODO: Auto-generated Javadoc
 /**
- * The Class Konzultacia2.
+ * The Class InflectedFormMergingTest.
  */
-public class Konzultacia2 {
+public class InflectedFormMergingTest {
 
 	/**
 	 * Test.
@@ -39,7 +39,8 @@ public class Konzultacia2 {
 		FileWriter fw = new FileWriter();
 		String outputData = fw.namedEntityListToString(moif.getNamedEntityList());
 	
-		assertTrue("Sample output is equal to program output",outputData.equals(sampleData));
+		assertEquals(outputData,sampleData); 
+		//assertTrue("Sample output is equal to program output",outputData.equals(sampleData));
 	}
 
 }
