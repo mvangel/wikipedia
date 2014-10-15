@@ -12,14 +12,5 @@
 <cat>Pervasive_developmental_disorders</cat>
 <cat>Psychiatric_diagnosis</cat>
 </categories>
-<redirect></redirect>
-</article>
-<article>
-<title>Classic_autism</title>
-<short_abstract></short_abstract>
-<categories>
-<nmbcat>0</nmbcat>
-</categories>
-<redirect><http://dbpedia.org/resource/Autism></redirect>
 </article>
 </dbpedia>
