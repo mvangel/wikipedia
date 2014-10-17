@@ -5,6 +5,11 @@
     <Grid>
         <Button x:Name="LoadButton" Content="Load" HorizontalAlignment="Left" Height="51" Margin="375,10,0,0" VerticalAlignment="Top" Width="132" Click="Button_Click"/>
         <TextBlock x:Name="TextConsole" HorizontalAlignment="Left" Margin="10,0,0,0" TextWrapping="Wrap" Width="360"/>
+        <Label Content="Pages:" HorizontalAlignment="Left" Height="28" Margin="375,66,0,0" VerticalAlignment="Top" Width="45"/>
+        <Label Content="Events:" HorizontalAlignment="Left" Height="26" Margin="375,99,0,0" VerticalAlignment="Top" Width="48"/>
+        <ProgressBar x:Name="pagesProgresBar" HorizontalAlignment="Left" Height="18" Margin="375,130,0,0" VerticalAlignment="Top" Width="132" RenderTransformOrigin="0.51,3.074"/>
+        <TextBox x:Name="pagesCountTextBox" HorizontalAlignment="Left" Height="28" Margin="423,66,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="84"/>
+        <TextBox x:Name="eventsCountTextBox" HorizontalAlignment="Left" Height="26" Margin="423,99,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="84"/>
 
     </Grid>
 </Window>

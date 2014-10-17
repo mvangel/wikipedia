@@ -1,0 +1,25 @@
+<days>
+	<day>
+		<date></date>
+		
+		<events>
+			<event>
+				<event_title></event_title>
+				<event_type></event_type>
+				<page_text></page_text>
+			</event>
+		</events>
+	</day>
+	<day>
+		<date></date>
+		
+		<events>
+			<event>
+				<event_title></event_title>
+				<event_type></event_type>
+				<page_text></page_text>
+			</event>
+		</events>
+	</day>
+</days>
+
