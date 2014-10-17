@@ -12,7 +12,7 @@ import AnchortextAndStatistika.XML_wiki;
 
 
 
-public class Unit_test {
+public class Anchor_extraction_test {
 	
 	//prepare program output file for testing
 	public void setUp() throws Exception
