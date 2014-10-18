@@ -10,13 +10,21 @@ namespace WikiCalendar
 {
 	class Controller
 	{
+		public Controller()
+		{
+			xml = new XElement("days");
+			allEvents = new LinkedList<CalendarEvent>();
+		}
 		long pagesCount{get;set;}
 		long eventsCount { get; set; }
 
+		XElement xml { get; set; }
+		LinkedList<CalendarEvent> allEvents;
 		public void initParsing(String path)
 		{
 			//XDocument input = XDocument.Load(@"..\..\..\..\Data\input.xml");
-			XDocument input = XDocument.Load(@"D:\downNew\wiki\enwiki-latest-pages-articles1.xml-p000000010p000010000");
+			//XDocument input = XDocument.Load(@"D:\downNew\wiki\enwiki-latest-pages-articles1.xml-p000000010p000010000");
+			XDocument input = XDocument.Load(path);
 			// Console.WriteLine(booksFromFile);
 
 
@@ -29,11 +37,11 @@ namespace WikiCalendar
 			pagesCount = pages.Count();
 			
 			//pagesCountTextBox.Text = pages.Count().ToString();		
-			
-			
+
+
 			// matching infobox from page text
 			
-			LinkedList<CalendarEvent> allEvents = new LinkedList<CalendarEvent>();
+			
 			int pageCounter = 0;
             foreach(XElement page in pages)
             {
@@ -127,10 +135,22 @@ namespace WikiCalendar
             }
 			Console.WriteLine(allEvents.Count);
 
+		}
+		public void exportEventsXML() 
+		{
+			StringBuilder sb = new StringBuilder();
+			
+			String path = @"..\..\..\..\Data\sample_output_enwiki-latest-pages-articles1_Test_example";
+			foreach (CalendarEvent ce in allEvents)
+			{
+				xml.Add(ce.exportXML());
+			}
+			xml.Save(path);
+		}
 
-	
-        
-
+		internal string getXmlString()
+		{
+			return xml.ToString();
 		}
 	}
 }

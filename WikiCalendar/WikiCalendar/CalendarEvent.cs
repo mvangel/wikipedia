@@ -8,7 +8,7 @@ using System.Xml.Linq;
 
 namespace WikiCalendar
 {
-    class CalendarEvent
+    public class CalendarEvent
     {
 		public DateTime date { get; set; } //TODO parsing dates of wiki
         public long dateOffset { get; set; }
@@ -230,5 +230,20 @@ namespace WikiCalendar
             Console.WriteLine(sb.ToString());
         }
 
+		public XElement exportXML()
+		{
+			XElement eventXml = new XElement("day",
+				new XElement("date",date.ToString("yyyy|MM|dd")),
+				new XElement("events",
+					new XElement("event",
+						new XElement("event_title",title),
+						new XElement("event_type","XNA"),//TODO eventType recognition
+						new XElement("page_id",id.ToString())
+					)
+				)
+			);
+			return eventXml;
+
+		}
 	}
 }

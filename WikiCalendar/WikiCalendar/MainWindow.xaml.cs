@@ -31,10 +31,13 @@ namespace WikiCalendar
         }
 		private void Button_Click(object sender, RoutedEventArgs e)
 		{
-			String inputPath = @"D:\downNew\wiki\enwiki-latest-pages-articles1.xml-p000000010p000010000";
+			String inputPath =
+				//@"D:\downNew\wiki\enwiki-latest-pages-articles1.xml-p000000010p000010000";
+				@"..\..\..\..\Data\sample_input_enwiki-latest-pages-articles1.xml";
 
 			control.initParsing(inputPath);
-			
+			control.exportEventsXML();
+			TextConsole.Text = control.getXmlString();
 		}
 
 	
