@@ -1,0 +1,6 @@
+c:\users\michal\documents\visual studio 2013\Projects\WikiParser\WikiParser\bin\Debug\WikiParser.exe.config
+c:\users\michal\documents\visual studio 2013\Projects\WikiParser\WikiParser\bin\Debug\WikiParser.exe
+c:\users\michal\documents\visual studio 2013\Projects\WikiParser\WikiParser\bin\Debug\WikiParser.pdb
+c:\users\michal\documents\visual studio 2013\Projects\WikiParser\WikiParser\obj\Debug\WikiParser.csprojResolveAssemblyReference.cache
+c:\users\michal\documents\visual studio 2013\Projects\WikiParser\WikiParser\obj\Debug\WikiParser.exe
+c:\users\michal\documents\visual studio 2013\Projects\WikiParser\WikiParser\obj\Debug\WikiParser.pdb

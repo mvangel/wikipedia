@@ -1,0 +1,9 @@
+c:\users\michal\documents\visual studio 2013\Projects\CanTheyMeet\CanTheyMeet\bin\Debug\CanTheyMeet.exe.config
+c:\users\michal\documents\visual studio 2013\Projects\CanTheyMeet\CanTheyMeet\bin\Debug\CanTheyMeet.exe
+c:\users\michal\documents\visual studio 2013\Projects\CanTheyMeet\CanTheyMeet\bin\Debug\CanTheyMeet.pdb
+c:\users\michal\documents\visual studio 2013\Projects\CanTheyMeet\CanTheyMeet\obj\Debug\CanTheyMeet.csprojResolveAssemblyReference.cache
+c:\users\michal\documents\visual studio 2013\Projects\CanTheyMeet\CanTheyMeet\obj\Debug\CanTheyMeet.CanTheyMeet.resources
+c:\users\michal\documents\visual studio 2013\Projects\CanTheyMeet\CanTheyMeet\obj\Debug\CanTheyMeet.Properties.Resources.resources
+c:\users\michal\documents\visual studio 2013\Projects\CanTheyMeet\CanTheyMeet\obj\Debug\CanTheyMeet.csproj.GenerateResource.Cache
+c:\users\michal\documents\visual studio 2013\Projects\CanTheyMeet\CanTheyMeet\obj\Debug\CanTheyMeet.exe
+c:\users\michal\documents\visual studio 2013\Projects\CanTheyMeet\CanTheyMeet\obj\Debug\CanTheyMeet.pdb
