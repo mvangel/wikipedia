@@ -8,15 +8,15 @@ using System.Xml.Linq;
 
 namespace WikiCalendar
 {
-	class Controller
+	public class Controller
 	{
 		public Controller()
 		{
 			xml = new XElement("days");
 			allEvents = new LinkedList<CalendarEvent>();
 		}
-		long pagesCount{get;set;}
-		long eventsCount { get; set; }
+		public long pagesCount { get; set; }
+		public long eventsCount { get; set; }
 
 		XElement xml { get; set; }
 		LinkedList<CalendarEvent> allEvents;
@@ -136,19 +136,22 @@ namespace WikiCalendar
 			Console.WriteLine(allEvents.Count);
 
 		}
-		public void exportEventsXML() 
+		public void exportEventsXML(String path) 
 		{
-			StringBuilder sb = new StringBuilder();
-			
-			String path = @"..\..\..\..\Data\sample_output_enwiki-latest-pages-articles1_Test_example";
 			foreach (CalendarEvent ce in allEvents)
 			{
 				xml.Add(ce.exportXML());
 			}
+			Console.WriteLine(xml.ToString());
+			saveXml(path);
+		}
+
+		private void saveXml(String path)
+		{
 			xml.Save(path);
 		}
 
-		internal string getXmlString()
+		public string getXmlString()
 		{
 			return xml.ToString();
 		}

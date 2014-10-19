@@ -1,12 +1,9 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using WikiCalendar;
-using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Text;
-
 using System.Xml.Linq;
 using WikiCalendar;
 
@@ -15,26 +12,23 @@ namespace WikiCalendarTest
 	[TestClass]
 	public class CalendarEventTest
 	{
-		CalendarEvent testClass;
 
 		[TestMethod]
 		public void exportXML_test()
 		{
 
-			XElement expected = new XElement("day",
-				new XElement("date", "1992|04|21"),
-				new XElement("events",
-					new XElement("event",
-						new XElement("event_title", "Doom"),
-						new XElement("event_type", "XNA"),//TODO eventType recognition
-						new XElement("page_id", "12345")
-					)
-				)
-			);
+			XElement expected = XElement.Load(@"..\..\..\..\Data\sample_output_enwiki-latest-pages-articles1_Test_example.xml");
+			Console.WriteLine(expected.ToString());
 
+			String inputPath =	@"..\..\..\..\Data\sample_input_enwiki-latest-pages-articles1.xml";
+			String exportPath = @"..\..\..\..\Data\sample_output_enwiki-latest-pages-articles1_unit_test.xml";
+			
+			Controller control = new Controller();
+			control.initParsing(inputPath);
+			control.exportEventsXML(exportPath);
 
-
-			Assert.AreEqual(expected, expected);//TODO
+			Console.WriteLine(control.getXmlString());
+			Assert.AreEqual(expected.ToString(), control.getXmlString());
 			//XElement actual = testClass.exportXML();
 		}
 	}

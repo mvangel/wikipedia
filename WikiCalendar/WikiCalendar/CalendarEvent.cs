@@ -189,7 +189,7 @@ namespace WikiCalendar
         public CalendarEvent(XElement page)
         {
             //XElement page = input.Element("page");
-            title = page. Element("title").Value;
+            title = page.Element("title").Value;
             id = long.Parse(page.Element("id").Value);
             text = page.Element("revision").Element("text").Value;
 

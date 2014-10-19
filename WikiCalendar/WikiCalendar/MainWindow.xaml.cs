@@ -34,10 +34,16 @@ namespace WikiCalendar
 			String inputPath =
 				//@"D:\downNew\wiki\enwiki-latest-pages-articles1.xml-p000000010p000010000";
 				@"..\..\..\..\Data\sample_input_enwiki-latest-pages-articles1.xml";
-
+			//	@"D:\downNew\wikienwiki-latest-pages-articles6.xml-p000185003p000305000";
+			
+			String exportPath = @"..\..\..\..\Data\sample_output_enwiki-latest-pages-articles1_Real_output.xml";
+			
 			control.initParsing(inputPath);
-			control.exportEventsXML();
+			control.exportEventsXML(exportPath);
 			TextConsole.Text = control.getXmlString();
+			pagesCountTextBox.Text = control.pagesCount.ToString();
+			eventsCountTextBox.Text = control.eventsCount.ToString();
+
 		}
 
 	
