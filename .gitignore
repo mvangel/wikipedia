@@ -1,0 +1,16 @@
+.bundle
+.idea
+.project
+.tags
+
+.~lock.*
+*.*~
+
+tags
+
+Gemfile.lock.tags
+
+db/*.sqlite3
+log/*.log
+
+tmp
