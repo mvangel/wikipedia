@@ -29,32 +29,60 @@ public class executing {
 		fileArray = Files.readAllBytes(fileTypes);
 		strTypesFile = new String(fileArray, "UTF-8");
 
-		//just one sentence or now. Leter there will be whole text read from articles
+		//just one sentence or now. Later there will be whole text read from articles
 		//String sentence ="Medzi filozofov bežne spájaných s empirizmom patria tiež [[Aristoteles]], [[Tomáš Akvinský]], [[Francis Bacon]], [[Thomas Hobbes]], [[John Locke]], [[David Hume]] a [[John Stuart Mill]].";
-		//String sentence ="Medzi filozofov bežne spájaných s empirizmom patria tiež [[Aristoteles Aristoteles]], [[Tomáš Akvinský]], [[Francis Bacon]], [[Thomas Hobbes]], [[John Locke]], [[David Hume]] a [[John Stuart Mill]].";
-		//String sentence = "'''Subjektívny idealizmus''' je [[filozofický smer]], ktorého predstavitelia odmietajú oprávnenost tézy o existencii [[objektívna realita|objektívnej reality]].";
-		String sentence = "Svoju teóriu rozvinul v reakcii na [[John Locke|Lockeov]] [[materializmus]]";
+		String sentence1 = "'''Subjektívny idealizmus''' je [[filozofický smer]], ktorého predstavitelia odmietajú oprávnenost tézy o existencii [[objektívna realita|objektívnej reality]] [[Platón]]ovej.";
+		String sentence2 = "'''Konfucianizmus''' = '''konfuciánstvo''' je [[filozofický smer]] - jedna z dvoch vetví osobitného [[Cína (civilizácia)|cínskeho]] polonáboženského kultu univerza a obcianskych cností; prúd cínskej filozofie spájaný s osobou [[Konfucius|Konfucia]], ktorý už nezastáva vieru vo viacerých bohov, vyhýba sa metafyzickým otázkam, pestuje skôr obciansky kult a moralistné normovanie vlastností užitocných pre štát.";
+		//String sentence = "Svoju teóriu rozvinul v reakcii na [[John Locke|Lockeov]] [[materializmus]]";
 		
 		List<Sentence> parsedSentences = new ArrayList<Sentence>();
 		
 		//for each sentence will be done following
-		Sentence oneSent = new Sentence();
-		oneSent.setFullSent(sentence);
-		oneSent.setLinks(getLinks(sentence));
+		Sentence oneSent1 = new Sentence();
+		oneSent1.setFullSent(sentence1);
+		oneSent1.setLinks(getLinks(sentence1));		
+		parsedSentences.add(oneSent1);
 		
-		parsedSentences.add(oneSent);
+		Sentence oneSent2 = new Sentence();
+		oneSent2.setFullSent(sentence2);
+		oneSent2.setLinks(getLinks(sentence2));
+		
+		parsedSentences.add(oneSent2);
 		
 		String output = getOutput(parsedSentences);
 		Path file = Paths.get("C:/Users/Domi/Documents/GitHub/wikipedia/data/output1.xml");
+		//Path file = Paths.get("C:/Users/Domi/Documents/GitHub/wikipedia/data/sample_output_parsed_sentences_and_links.xml");
 		byte[] buf = output.getBytes("UTF-8");
 		Files.write(file, buf);
 
+		System.out.println("Unt test result: " + Boolean.toString(UnitTest(output)));
 		
 		}
 		catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+	}
+	
+	/**unit test - porovnanie so vzorovym suborom/
+	 */
+	public static Boolean UnitTest(String output)
+	{
+		Boolean bResult = false;
+		try
+		{
+			//get pattern file as string
+			Path fileTypes = Paths.get("C:/Users/Domi/Documents/GitHub/wikipedia/data/sample_output_parsed_sentences_and_links.xml");
+			byte[] fileArray = Files.readAllBytes(fileTypes);
+			String strPatternFile = new String(fileArray, "UTF-8");
+			if(strPatternFile.equals(output))
+				bResult=true;
+		}
+		catch(Exception ex)
+		{
+			System.out.println(ex.getMessage());
+		}
+		return bResult;
 	}
 	
 	/**
@@ -66,7 +94,7 @@ public class executing {
 		List<Link> result = new ArrayList<Link>();
 		
 		//pattern to match link
-		Pattern p = Pattern.compile("\\[{2}[\\w\\s\\|]+\\]{2}");
+		Pattern p = Pattern.compile("\\[{2}[\\w\\s\\|\\p{L}]+\\]{2}\\w*");
 		Matcher m = p.matcher(sentence);
 
 		List<String> strLinks = new ArrayList<String>();
@@ -79,12 +107,14 @@ public class executing {
 		for(Link l:result)
 		{
 			getLinkType(l);
+			if(l.getType()==null || l.getType()=="")
+				getLinkTypeFromInfobox(l);
 		}
 		
 		return result;
 	}
 	
-	public static Link getLinkType(Link l)
+	public static void getLinkType(Link l)
 	{
 		String linkType = "";
 		
@@ -109,9 +139,63 @@ public class executing {
 			linkType = linkType.substring(0,linkType.length()-3);
 		}
 		l.setType(linkType);
-		return l;
 	}
 	
+	public static void getLinkTypeFromInfobox(Link l)
+	{
+		String linkType = "";
+		
+		
+		String[] lines = strPagesWikiFile.split("\\r\\n");
+		
+		//finding page with specific title
+		//Pattern p = Pattern.compile("<page>.*<title>" + l.getLemma() + "</title>.*</page>");
+		Pattern pTitle = Pattern.compile("<title>"+ l.getLemma() + "</title>");
+		Pattern pInfobox = Pattern.compile("\\{\\{Infobox");
+		Pattern pTextEnd = Pattern.compile("</text>");
+		Boolean pageFound = false;
+		
+		String infoboxLine = "";
+		
+		for(int i=0;i<lines.length;i++)
+		{
+			if(!pageFound)
+			{
+				Matcher m = pTitle.matcher(lines[i]);			
+				String titleFound = "";			
+				while (m.find()) {
+					titleFound = m.group();
+				}
+				if(titleFound!="")
+					pageFound=true;
+			}	
+			else
+			{
+				Matcher m = pInfobox.matcher(lines[i]);
+				Matcher mEnd = pTextEnd.matcher(lines[i]);
+				String infoboxFound = "";			
+				while (m.find()) {
+					infoboxFound = m.group();
+				}
+				if(infoboxFound!="")
+				{
+					infoboxLine = lines[i];
+					break;
+				}
+				else if(mEnd.find())
+					break;					
+			}
+		}
+		
+		
+		if(infoboxLine!="")
+		{
+			String[] splittedIB = infoboxLine.split("\\s");
+			linkType = splittedIB[splittedIB.length-1];
+		}
+		l.setType(linkType);
+	}
+		
 	public static String getOutput(List<Sentence> sentences)
 	{
 		String strResult = "";

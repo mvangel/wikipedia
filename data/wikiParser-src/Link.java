@@ -76,20 +76,31 @@ public class Link {
 	{
 		//in case the word contains its lemma
 		
-		String[] splitted = parsed.replace("[[", "").replace("]]", "").split("\\|");
-
-		this.lemma = splitted[0];
-		if(splitted.length>1)
+		if(parsed.endsWith("]]"))
 		{
-			int idx=1;
-			while(idx<splitted.length)
+			String[] splitted = parsed.replace("[[", "").replace("]]", "").split("\\|");
+			
+			this.lemma = splitted[0];
+			if(splitted.length>1)
 			{
-				this.label = splitted[idx];
-				idx++;
+				this.label = splitted[1];
 			}
+			else
+				this.label = splitted[0];
 		}
 		else
-			this.label = splitted[0];
+		{
+			String[] splitted = parsed.replace("[[", "").split("\\]\\]");
+			this.lemma = splitted[0];
+			if(splitted.length>1)
+			{
+				this.label = splitted[0] + splitted[1];
+			}
+			else
+			{
+				this.label = splitted[0];
+			}
+		}
 		
 		this.articleAbstract="";
 		this.wLnk="http://sk.wikipedia.org/wiki/" + this.lemma.replace(" ", "_");;
