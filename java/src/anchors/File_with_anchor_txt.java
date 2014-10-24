@@ -1,4 +1,4 @@
-package AnchortextAndStatistika;
+package anchors;
 
 import java.io.*;
 

@@ -1,4 +1,4 @@
-package AnchortextAndStatistika;
+package anchors;
 
 import java.io.*;
 import java.util.regex.*;
@@ -64,7 +64,7 @@ public class XML_wiki
 		    	}
 		    	i++;
 		    }
-		    System.out.println("Poèet riadkov: "+ i + " |  Poèet stránok: " + j + "| Poèet anchorov: " + k);
+		    System.out.println("Poï¿½et riadkov: "+ i + " |  Poï¿½et strï¿½nok: " + j + "| Poï¿½et anchorov: " + k);
 		    
 		}
 		catch (Exception e)

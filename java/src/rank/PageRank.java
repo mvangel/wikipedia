@@ -1,3 +1,4 @@
+package rank;
 
 public class PageRank {
 	public String getPageRank(int total, int actuall)
