@@ -1,4 +1,4 @@
-package UnitTest;
+package anchors;
 
 import static org.junit.Assert.*;
 
@@ -6,9 +6,9 @@ import java.io.*;
 
 import org.junit.Test;
 
-import AnchortextAndStatistika.File_with_anchor_txt;
-import AnchortextAndStatistika.Record_list;
-import AnchortextAndStatistika.XML_wiki;
+import anchors.File_with_anchor_txt;
+import anchors.Record_list;
+import anchors.XML_wiki;
 
 
 
