@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace WikiParser
@@ -14,15 +15,16 @@ namespace WikiParser
             string line = "";
             string line2 = "";
             string line3 = "";
-            System.IO.StreamReader file = new System.IO.StreamReader("c:\\work\\VI\\wikipedia\\rest9");
-            System.IO.StreamWriter good = new System.IO.StreamWriter("c:\\work\\VI\\wikipedia\\finished10");
-            System.IO.StreamWriter bad = new System.IO.StreamWriter("c:\\work\\VI\\wikipedia\\rest10");
-            line=file.ReadLine();
+            int year = -1;
+            System.IO.StreamReader file = new System.IO.StreamReader("c:\\work\\VI\\wikipedia\\test3");
+            System.IO.StreamWriter good = new System.IO.StreamWriter("c:\\work\\VI\\wikipedia\\good");
+            System.IO.StreamWriter bad = new System.IO.StreamWriter("c:\\work\\VI\\wikipedia\\bad");
+            line = file.ReadLine();
             while (line != null)
             {
                 string name = line;
-                int Dmonth,Bmonth=-1;
-                int Dday,Bday=-1;
+                int Dmonth, Bmonth = -1;
+                int Dday, Bday = -1;
                 string birth = file.ReadLine();
                 string death = file.ReadLine();
                 #region CRICA REMOVE
@@ -106,351 +108,119 @@ namespace WikiParser
                 //    good.WriteLine(death);
                 //}
                 #endregion
-                #region Pre_datum_Mesiac_Den_rok_aleb_Den_mesiac_rok
-                //try
-                //{
-                //    death = death.Split('=')[1];
-                //    birth = birth.Split('=')[1];
-                //    if (birth.Equals(""))
-                //    {
-                //        birth = "BIRTH=NOTSET";
-                //    }
-                //    else
-                //    {
-                //        if (birth.Split(' ').Count() == 3)
-                //        {
-                //            if ((StringToMonth(birth.Split(' ')[1]) != -1) || (StringToMonth(birth.Split(' ')[0]) != -1))
-                //            {
-                //                if ((StringToMonth(birth.Split(' ')[1]) != -1))
-                //                {
-                //                    Bmonth = StringToMonth(birth.Split(' ')[1]);
-                //                    if (int.TryParse(birth.Split(' ')[0], out Bday))
-                //                        birth = "BIRTH=" + birth.Split(' ')[2] + "|" + Bmonth + "|" + Bday;
-                //                    else
-                //                        birth = "BIRTH=" + birth.Split(' ')[2] + "|" + Bmonth + "|0";
-                //                }
-                //                else
-                //                {
-                //                    Bmonth = StringToMonth(birth.Split(' ')[0]);
-                //                    if (int.TryParse(birth.Split(' ')[1], out Bday))
-                //                        birth = "BIRTH=" + birth.Split(' ')[2] + "|" + Bmonth + "|" + Bday;
-                //                    else
-                //                        birth = "BIRTH=" + birth.Split(' ')[2] + "|" + Bmonth + "|0";
-                //                }
-                //            }
-                //            else birth = "BIRTH=" + birth;
-                //        }
-                //        else birth = "BIRTH=" + birth;
-                //    }
-                //    if (death.Equals(""))
-                //    {
-                //        death = "DEATH=NOTSET";
-                //    }
-                //    else
-                //    {
-                //        if (death.Split(' ').Count() == 3)
-                //        {
-                //            if ((StringToMonth(death.Split(' ')[0]) != -1) || (StringToMonth(death.Split(' ')[1]) != -1))
-                //            {
-                //                if ((StringToMonth(death.Split(' ')[1]) != -1))
-                //                {
-                //                    Dmonth = StringToMonth(death.Split(' ')[1]);
-                //                    if (int.TryParse(death.Split(' ')[0], out Dday))
-                //                        death = "DEATH=" + death.Split(' ')[2] + "|" + Dmonth + "|" + Dday;
-                //                    else
-                //                        death = "DEATH=" + death.Split(' ')[2] + "|" + Dmonth + "|0";
-                //                }
-                //                else
-                //                {
-                //                    Dmonth = StringToMonth(death.Split(' ')[0]);
-                //                    if (int.TryParse(death.Split(' ')[1], out Dday))
-                //                        death = "DEATH=" + death.Split(' ')[2] + "|" + Dmonth + "|" + Dday;
-                //                    else
-                //                        death = "DEATH=" + death.Split(' ')[2] + "|" + Dmonth + "|0";
-                //                }
-                //            }
-                //            else death = "DEATH=" + death;
-                //        }
-                //        else death = "DEATH=" + death;
-                //    }
-                //    if ((birth.Contains('|') || birth.Equals("BIRTH=NOTSET")) && (death.Contains('|') || death.Equals("DEATH=NOTSET")))
-                //    {
-                //        good.WriteLine(name);
-                //        good.WriteLine(birth);
-                //        good.WriteLine(death);
-                //    }
-                //    else
-                //    {
-                //        bad.WriteLine(name);
-                //        bad.WriteLine(birth);
-                //        bad.WriteLine(death);
-                //    }
-                //}
-                //catch (Exception e)
-                //{
-                //    try
-                //    {
-                //        string pom = death.Split('=')[1];
-                //        if (pom.Equals(""))
-                //        {
-                //            death = "DEATH=NOTSET";
-                //        }
-                //    }
-                //    catch (Exception ex)
-                //    {
-                //        death = "DEATH=NOTSET";
-                //    }
-                //    try
-                //    {
-                //        var pom = birth.Split('=')[1];
-                //        if (pom.Equals(""))
-                //        {
-                //            birth = "BIRTH=NOTSET";
-                //        }
-                //    }
-                //    catch (Exception exe)
-                //    {
-                //        birth = "BIRTH=NOTSET";
-                //    }
-                //    good.WriteLine(name);
-                //    good.WriteLine(birth);
-                //    good.WriteLine(death);
-                //}
+                #region Text operations for change date to unified pattern YYYY|MM|DD
+                try
+                {
+                    death = death.Split('=')[1];
+                    birth = birth.Split('=')[1];
+                    string pattern = @"^[A-Z]+ [0-9]+, [0-9]+$|^[A-Z]+ [0-9]+ [0-9]+$|^[0-9]+ [A-Z]+, [0-9]+$|^[0-9]+ [A-Z]+ [0-9]+$";
+                    //BIRTH
+                    #region BIRTH
+                    if (birth.Equals(""))
+                    {
+                        birth = "BIRTH=NOTSET";
+                    }
+                    else
+                    {
+                        if (Regex.IsMatch(birth, pattern))
+                        {
+                            birth.Replace(",", "");
+                            birth = DateMonthInString(birth, true);
+                        }
+                        else if (Regex.IsMatch(birth, "^[0-9]+-[0-9]+-[0-9]+ |^[0-9]+-[0-9]+-[0-9]+$"))
+                        {
+                            birth = birth.Split(' ')[0];
+                            birth = "BIRTH=" + birth.Replace("-", "|");
+                        }
+                        else if (birth.Equals("UNKNOWN"))
+                        {
+                            birth = "BIRTH=NOTSET";
+                        }
+                        else if ((birth.Split(' ').Count() == 2) && (birth.Split(' ')[1].Equals("BC") || birth.Split(' ')[1].Equals("BCE") || birth.Split(' ')[1].Equals("BC.")))
+                        {
+                            birth = "BIRTH=-" + birth.Split(' ')[0] + "|0|0";
+                        }
+                        else if (int.TryParse(birth, out year))
+                        {
+                            birth = "BIRTH=" + year + "|0|0";
+                        }
+                        else if (Regex.IsMatch(birth, "C. [0-9]+ BC"))
+                        {
+                            birth = "BIRTH=-" + birth.Split(' ')[1] + "|0|0";
+                        }
+                        else if(Regex.IsMatch(birth, "C. [0-9]+$"))
+                        {
+                            birth = "BIRTH=" + birth.Split(' ')[1] + "|0|0";
+                        }
+                        else
+                        {
+                            birth = "BIRTH=" + birth;
+                        }
+                    }
+                    #endregion
+                    //DEATH
+                    #region DEATH
+                    if (death.Equals(""))
+                    {
+                        death = "DEATH=NOTSET";
+                    }
+                    else
+                    {
+
+                        if (Regex.IsMatch(death, pattern))
+                        {
+                            death.Replace(",", "");
+                            death = DateMonthInString(death, false);
+                        }
+                        else if (Regex.IsMatch(death, "^[0-9]+-[0-9]+-[0-9]+ |^[0-9]+-[0-9]+-[0-9]+$"))
+                            {
+                                death = death.Split(' ')[0];
+                                death = "DEATH=" + death.Replace("-", "|");
+                            }
+                        else if (death.Equals("UNKNOWN"))
+                        {
+                            death = "DEATH=NOTSET";
+                        }
+                        else if ((death.Split(' ').Count() == 2) && (death.Split(' ')[1].Equals("BC") || death.Split(' ')[1].Equals("BCE") || death.Split(' ')[1].Equals("BC.")))
+                        {
+                            death = "DEATH=-" + death.Split(' ')[0] + "|0|0";
+                        }
+                        else if (int.TryParse(death, out year))
+                        {
+                            death = "DEATH=" + year + "|0|0";
+                        }
+                        else if (Regex.IsMatch(death, "C. [0-9]+ BC"))
+                        {
+                            death = "DEATH=-" + death.Split(' ')[1] + "|0|0";
+                        }
+                        else if (Regex.IsMatch(death, "C. [0-9]+$"))
+                        {
+                            death = "DEATH=" + death.Split(' ')[1] + "|0|0";
+                        }
+                        else death = "DEATH=" + death;
+                    }
+                    #endregion
+                    if ((birth.Contains('|') || birth.Equals("BIRTH=NOTSET")) && (death.Contains('|') || death.Equals("DEATH=NOTSET")))
+                    {
+                        good.WriteLine(name);
+                        good.WriteLine(birth);
+                        good.WriteLine(death);
+                    }
+                    else
+                    {
+                        bad.WriteLine(name);
+                        bad.WriteLine(birth);
+                        bad.WriteLine(death);
+                    }
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine("NAME=" + name + "  ******  BRITH=" + birth + "  *******  DEATH=" + death);
+                }
+
                 #endregion
-                #region Pre_datum_YYYY-MM-DD
-                //try
-                //{
-                //    death = death.Split('=')[1];
-                //    birth = birth.Split('=')[1];
-                //    if (birth.Equals(""))
-                //    {
-                //        birth = "BIRTH=NOTSET";
-                //    }
-                //    else
-                //    {
-                //        if (birth.Split('-').Count() == 3)
-                //        {
-                //            birth = "BIRTH=" + birth.Replace('-', '|');
-                //        }
-                //        else birth = "BIRTH=" + birth;
-                //    }
-                //    if (death.Equals(""))
-                //    {
-                //        death = "DEATH=NOTSET";
-                //    }
-                //    else
-                //    {
-                //        if (death.Split('-').Count() == 3)
-                //        {
-                //            death = "DEATH=" + death.Replace('-', '|');
-                //        }
-                //        else death = "DEATH=" + death;
-                //    }
-                //    if ((birth.Contains('|') || birth.Equals("BIRTH=NOTSET")) && (death.Contains('|') || death.Equals("DEATH=NOTSET")))
-                //    {
-                //        good.WriteLine(name);
-                //        good.WriteLine(birth);
-                //        good.WriteLine(death);
-                //    }
-                //    else
-                //    {
-                //        bad.WriteLine(name);
-                //        bad.WriteLine(birth);
-                //        bad.WriteLine(death);
-                //    }
-                //}
-
-                //catch (Exception e)
-                //{
-                //    try
-                //    {
-                //        string pom = death.Split('=')[1];
-                //        if (pom.Equals(""))
-                //        {
-                //            death = "DEATH=NOTSET";
-                //        }
-                //    }
-                //    catch (Exception ex)
-                //    {
-                //        death = "DEATH=NOTSET";
-                //    }
-                //    try
-                //    {
-                //        var pom = birth.Split('=')[1];
-                //        if (pom.Equals(""))
-                //        {
-                //            birth = "BIRTH=NOTSET";
-                //        }
-                //    }
-                //    catch (Exception exe)
-                //    {
-                //        birth = "BIRTH=NOTSET";
-                //    }
-
-                //    good.WriteLine(name);
-                //    good.WriteLine(birth);
-                //    good.WriteLine(death);
-                //}
-                #endregion
-                #region BC_a_BCE_bez_C.
-                //try
-                //{
-                //    death = death.Split('=')[1];
-                //    birth = birth.Split('=')[1];
-                //    if (birth.Equals(""))
-                //    {
-                //        birth = "BIRTH=NOTSET";
-                //    }
-                //    else
-                //    {
-                //        if (birth.Split(' ').Count() == 2)
-                //        {
-                //            if (birth.Split(' ')[1].Equals("BC") || birth.Split(' ')[1].Equals("BCE") || birth.Split(' ')[1].Equals("BC."))
-                //            {
-                //                birth = "BIRTH=-" + birth.Split(' ')[0] + "|0|0";
-                //            }
-                //            else birth = "BIRTH=" + birth;
-                //        }
-                //        else birth = "BIRTH=" + birth;
-                //    }
-                //    if (death.Equals(""))
-                //    {
-                //        death = "DEATH=NOTSET";
-                //    }
-                //    else
-                //    {
-                //        if (death.Split(' ').Count() == 2)
-                //        {
-                //            if (death.Split(' ')[1].Equals("BC") || death.Split(' ')[1].Equals("BCE") || death.Split(' ')[1].Equals("BC."))
-                //            {
-                //                death = "DEATH=-" + death.Split(' ')[0] + "|0|0";
-                //            }
-                //            else death = "DEATH=" + death;
-                //        }
-                //        else death = "DEATH=" + death;
-                //    }
-                //    if ((birth.Contains('|') || birth.Equals("BIRTH=NOTSET")) && (death.Contains('|') || death.Equals("DEATH=NOTSET")))
-                //    {
-                //        good.WriteLine(name);
-                //        good.WriteLine(birth);
-                //        good.WriteLine(death);
-                //    }
-                //    else
-                //    {
-                //        bad.WriteLine(name);
-                //        bad.WriteLine(birth);
-                //        bad.WriteLine(death);
-                //    }
-                //}
-
-                //catch (Exception e)
-                //{
-                //    try
-                //    {
-                //        string pom = death.Split('=')[1];
-                //        if (pom.Equals(""))
-                //        {
-                //            death = "DEATH=NOTSET";
-                //        }
-                //    }
-                //    catch (Exception ex)
-                //    {
-                //        death = "DEATH=NOTSET";
-                //    }
-                //    try
-                //    {
-                //        var pom = birth.Split('=')[1];
-                //        if (pom.Equals(""))
-                //        {
-                //            birth = "BIRTH=NOTSET";
-                //        }
-                //    }
-                //    catch (Exception exe)
-                //    {
-                //        birth = "BIRTH=NOTSET";
-                //    }
-
-                //    good.WriteLine(name);
-                //    good.WriteLine(birth);
-                //    good.WriteLine(death);
-                //}
-                #endregion
-                #region LEN_ROKY
-                //try
-                //{
-                //    death = death.Split('=')[1];
-                //    birth = birth.Split('=')[1];
-                //    if (birth.Equals(""))
-                //    {
-                //        birth = "BIRTH=NOTSET";
-                //    }
-                //    else
-                //    {
-                //        int year = 0;
-                //        if (int.TryParse(birth, out year))
-                //        {
-                //            birth = "BIRTH=" + year + "|0|0";
-                //        }
-                //        else birth = "BIRTH=" + birth;
-                //    }
-                //    if (death.Equals(""))
-                //    {
-                //        death = "DEATH=NOTSET";
-                //    }
-                //    else
-                //    {
-                //        int year = 0;
-                //        if (int.TryParse(death, out year))
-                //        {
-                //            death = "DEATH=" + year + "|0|0";
-                //        }
-                //        else death = "DEATH=" + death;
-                //    }
-                //    if ((birth.Contains('|') || birth.Equals("BIRTH=NOTSET")) && (death.Contains('|') || death.Equals("DEATH=NOTSET")))
-                //    {
-                //        good.WriteLine(name);
-                //        good.WriteLine(birth);
-                //        good.WriteLine(death);
-                //    }
-                //    else
-                //    {
-                //        bad.WriteLine(name);
-                //        bad.WriteLine(birth);
-                //        bad.WriteLine(death);
-                //    }
-                //}
-
-                //catch (Exception e)
-                //{
-                //    try
-                //    {
-                //        string pom = death.Split('=')[1];
-                //        if (pom.Equals(""))
-                //        {
-                //            death = "DEATH=NOTSET";
-                //        }
-                //    }
-                //    catch (Exception ex)
-                //    {
-                //        death = "DEATH=NOTSET";
-                //    }
-                //    try
-                //    {
-                //        var pom = birth.Split('=')[1];
-                //        if (pom.Equals(""))
-                //        {
-                //            birth = "BIRTH=NOTSET";
-                //        }
-                //    }
-                //    catch (Exception exe)
-                //    {
-                //        birth = "BIRTH=NOTSET";
-                //    }
-                //    good.WriteLine(name);
-                //    good.WriteLine(birth);
-                //    good.WriteLine(death);
-                //}
-                #endregion
+              
+               
                 #region BC s C.
                 //try
                 //{
@@ -534,164 +304,9 @@ namespace WikiParser
                 //    good.WriteLine(death);
                 //}
                 #endregion
-                #region C. bez BC
-                try
-                {
-                    death = death.Split('=')[1];
-                    birth = birth.Split('=')[1];
-                    if (birth.Equals(""))
-                    {
-                        birth = "BIRTH=NOTSET";
-                    }
-                    else
-                    {
-                        if (birth.Split(' ').Count() == 2)
-                        {
-                            if (birth.Split(' ')[0].Equals("C."))
-                            {
-                                birth = "BIRTH=" + birth.Split(' ')[1] + "|0|0";
-                            }
-                            else birth = "BIRTH=" + birth;
-                        }
-                        else birth = "BIRTH=" + birth;
-                    }
-                    if (death.Equals(""))
-                    {
-                        death = "DEATH=NOTSET";
-                    }
-                    else
-                    {
-                        if (death.Split(' ').Count() == 3)
-                        {
-                            if (death.Split(' ')[0].Equals("C."))
-                            {
-                                death = "DEATH=" + death.Split(' ')[1] + "|0|0";
-                            }
-                            else death = "DEATH=" + death;
-                        }
-                        else death = "DEATH=" + death;
-                    }
-                    if ((birth.Contains('|') || birth.Equals("BIRTH=NOTSET")) && (death.Contains('|') || death.Equals("DEATH=NOTSET")))
-                    {
-                        good.WriteLine(name);
-                        good.WriteLine(birth);
-                        good.WriteLine(death);
-                    }
-                    else
-                    {
-                        bad.WriteLine(name);
-                        bad.WriteLine(birth);
-                        bad.WriteLine(death);
-                    }
-                }
-                catch (Exception e)
-                {
-                    try
-                    {
-                        string pom = death.Split('=')[1];
-                        if (pom.Equals(""))
-                        {
-                            death = "DEATH=NOTSET";
-                        }
-                    }
-                    catch (Exception ex)
-                    {
-                        death = "DEATH=NOTSET";
-                    }
-                    try
-                    {
-                        var pom = birth.Split('=')[1];
-                        if (pom.Equals(""))
-                        {
-                            birth = "BIRTH=NOTSET";
-                        }
-                    }
-                    catch (Exception exe)
-                    {
-                        birth = "BIRTH=NOTSET";
-                    }
-                    good.WriteLine(name);
-                    good.WriteLine(birth);
-                    good.WriteLine(death);
-                }
-                #endregion
-                #region remove UKNOWN REPLACE WITH NOTSET
-                //try
-                //{
-                //    death = death.Split('=')[1];
-                //    birth = birth.Split('=')[1];
-                //    if (birth.Equals(""))
-                //    {
-                //        birth = "BIRTH=NOTSET";
-                //    }
-                //    else
-                //    {
-                //        if (birth.Equals("UNKNOWN"))
-                //        {
-                //            birth = "BIRTH=NOTSET";
-                //        }
-                //        else birth = "BIRTH=" + birth;
-                //    }
-                //    if (death.Equals(""))
-                //    {
-                //        death = "DEATH=NOTSET";
-                //    }
-                //    else
-                //    {
-                //        if (death.Equals("UNKNOWN"))
-                //        {
-                //            death = "DEATH=NOTSET";
-                //        }
-                //        else death = "DEATH=" + death;
-                //    }
-                //    if ((birth.Contains('|') || birth.Equals("BIRTH=NOTSET")) && (death.Contains('|') || death.Equals("DEATH=NOTSET")))
-                //    {
-                //        good.WriteLine(name);
-                //        good.WriteLine(birth);
-                //        good.WriteLine(death);
-                //    }
-                //    else
-                //    {
-                //        bad.WriteLine(name);
-                //        bad.WriteLine(birth);
-                //        bad.WriteLine(death);
-                //    }
-                //}
-
-                //catch (Exception e)
-                //{
-                //    try
-                //    {
-                //        string pom = death.Split('=')[1];
-                //        if (pom.Equals(""))
-                //        {
-                //            death = "DEATH=NOTSET";
-                //        }
-                //    }
-                //    catch (Exception ex)
-                //    {
-                //        death = "DEATH=NOTSET";
-                //    }
-                //    try
-                //    {
-                //        var pom = birth.Split('=')[1];
-                //        if (pom.Equals(""))
-                //        {
-                //            birth = "BIRTH=NOTSET";
-                //        }
-                //    }
-                //    catch (Exception exe)
-                //    {
-                //        birth = "BIRTH=NOTSET";
-                //    }
-
-                //    good.WriteLine(name);
-                //    good.WriteLine(birth);
-                //    good.WriteLine(death);
-                //}
-                #endregion
-                line =file.ReadLine();
-#region parse
+              
+                line = file.ReadLine();
+                #region Parovanie na specificky format
                 //string name = line.Replace("\r\n", "\n");
                 //good.WriteLine(name);
                 //line = file.ReadLine();
@@ -737,7 +352,7 @@ namespace WikiParser
                 //}
                 //bad.WriteLine(line);
                 //line = file.ReadLine();
-#endregion   
+                #endregion
             }
             good.Flush();
             good.Close();
@@ -746,7 +361,7 @@ namespace WikiParser
         }
         public static int StringToMonth(string month)
         {
-            int number=-1;
+            int number = -1;
             switch (month)
             {
                 case "JANUARY":
@@ -788,6 +403,61 @@ namespace WikiParser
                     break;
             }
             return number;
+        }
+        public static string DateMonthInString(string line, bool isBirth)
+        {
+            int Dmonth, Bmonth = -1;
+            int Dday, Bday = -1;
+            if (isBirth)
+            {
+
+                if ((StringToMonth(line.Split(' ')[1]) != -1) || (StringToMonth(line.Split(' ')[0]) != -1))
+                {
+                    if ((StringToMonth(line.Split(' ')[1]) != -1))
+                    {
+                        Bmonth = StringToMonth(line.Split(' ')[1]);
+                        if (int.TryParse(line.Split(' ')[0], out Bday))
+                            line = "BIRTH=" + line.Split(' ')[2] + "|" + Bmonth + "|" + Bday;
+                        else
+                            line = "BIRTH=" + line.Split(' ')[2] + "|" + Bmonth + "|0";
+                    }
+                    else
+                    {
+                        Bmonth = StringToMonth(line.Split(' ')[0]);
+                        if (int.TryParse(line.Split(' ')[1], out Bday))
+                            line = "BIRTH=" + line.Split(' ')[2] + "|" + Bmonth + "|" + Bday;
+                        else
+                            line = "BIRTH=" + line.Split(' ')[2] + "|" + Bmonth + "|0";
+                    }
+                }
+                else line = "BIRTH=" + line;
+            }
+
+
+            else
+            {
+                if ((StringToMonth(line.Split(' ')[0]) != -1) || (StringToMonth(line.Split(' ')[1]) != -1))
+                {
+                    if ((StringToMonth(line.Split(' ')[1]) != -1))
+                    {
+                        Dmonth = StringToMonth(line.Split(' ')[1]);
+                        if (int.TryParse(line.Split(' ')[0], out Dday))
+                            line = "DEATH=" + line.Split(' ')[2] + "|" + Dmonth + "|" + Dday;
+                        else
+                            line = "DEATH=" + line.Split(' ')[2] + "|" + Dmonth + "|0";
+                    }
+                    else
+                    {
+                        Dmonth = StringToMonth(line.Split(' ')[0]);
+                        if (int.TryParse(line.Split(' ')[1], out Dday))
+                            line = "DEATH=" + line.Split(' ')[2] + "|" + Dmonth + "|" + Dday;
+                        else
+                            line = "DEATH=" + line.Split(' ')[2] + "|" + Dmonth + "|0";
+                    }
+                }
+                else line = "DEATH=" + line;
+            }
+            return line;
         }
     }
 }

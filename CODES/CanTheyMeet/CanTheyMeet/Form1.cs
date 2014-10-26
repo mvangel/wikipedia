@@ -16,15 +16,20 @@ namespace CanTheyMeet
         List<Person> people = new List<Person>();
         Person p1 = new Person();
         Person p2 = new Person();
-        StreamReader data = new StreamReader("finished1");
+        StreamReader data = new StreamReader("finished");
         public CanTheyMeet()
         {
             InitializeComponent();
+           
+         
+            int lineCount = File.ReadLines("finished").Count();
+            LoadingScreen l = new LoadingScreen();
+            l.Visible = true;
             result.Visible = false;
-            FillData();
+            l.InitProgressBar(lineCount);
+            FillData(l);
             data.Close();
             data.Dispose();
-           
         }
 
         private void comboboxPerson1_KeyPress(object sender, KeyPressEventArgs e)
@@ -36,9 +41,10 @@ namespace CanTheyMeet
         {
 
         }
-        private void FillData()
+        private void FillData(LoadingScreen l)
         { 
             string line;
+            int i = 0;
             while ((line = data.ReadLine()) != null)
             {
                 Person p = new Person(); ;
@@ -46,53 +52,21 @@ namespace CanTheyMeet
                 p.Birth = new Date(data.ReadLine().Split('=')[1]);
                 p.Death = new Date(data.ReadLine().Split('=')[1]);
                 people.Add(p);
+                i += 3;
+                l.SetProgress(i);
             }
+            l.Dispose();
         
         }
 
         private void comboboxPerson1_KeyUp(object sender, KeyEventArgs e)
         {
-           
-            if ((comboboxPerson1.Text.Length % 3) == 0)
-            {
-                p1.Name = comboboxPerson1.Text;
-              //  comboboxPerson1.Items.Clear();
-                var fine = new List<Person>();
-                fine.Add(p1);
-                string compare = comboboxPerson1.Text.ToUpper();
-                foreach (Person p in people)
-                {
-                    if (p.Name.Contains(compare))
-                    {
-                        fine.Add(p);
-                    }
-                }
-                comboboxPerson1.DataSource = fine;
-                comboboxPerson1.DisplayMember = Name;
-                comboboxPerson1.SelectedIndex = 0;
-            }
+
         }
 
         private void comboboxPerson2_KeyUp(object sender, KeyEventArgs e)
         {
-            if ((comboboxPerson2.Text.Length % 3) == 0)
-            {
-                p2.Name = comboboxPerson2.Text;
-            //    comboboxPerson2.Items.Clear();
-                var fine = new List<Person>();
-                fine.Add(p2);
-                string compare = comboboxPerson2.Text.ToUpper();
-                foreach (Person p in people)
-                {
-                    if (p.Name.Contains(compare))
-                    {
-                        fine.Add(p);
-                    }
-                }
-                comboboxPerson2.DataSource = fine;
-                comboboxPerson2.DisplayMember = Name;
-                comboboxPerson2.SelectedIndex = 0;
-            }
+
         }
         private string canTheyMeet()
         {
@@ -143,6 +117,40 @@ namespace CanTheyMeet
                 }
             }
             return true;
+        }
+
+        private void searchPerson1_Click(object sender, EventArgs e)
+        {
+            p1.Name = comboboxPerson1.Text;
+            var fine = new List<Person>();
+            string compare = comboboxPerson1.Text.ToUpper();
+            foreach (Person p in people)
+            {
+                if (p.Name.Contains(compare))
+                {
+                    fine.Add(p);
+                }
+            }
+            comboboxPerson1.DataSource = fine;
+            comboboxPerson1.DisplayMember = Name;
+            comboboxPerson1.SelectedIndex = 0;
+        }
+
+        private void searchPerson2_Click(object sender, EventArgs e)
+        {
+            p2.Name = comboboxPerson2.Text;
+            var fine = new List<Person>();
+            string compare = comboboxPerson2.Text.ToUpper();
+            foreach (Person p in people)
+            {
+                if (p.Name.Contains(compare))
+                {
+                    fine.Add(p);
+                }
+            }
+            comboboxPerson2.DataSource = fine;
+            comboboxPerson2.DisplayMember = Name;
+            comboboxPerson2.SelectedIndex = 0;
         }
        
     }

@@ -7,3 +7,7 @@ c:\users\michal\documents\visual studio 2013\Projects\CanTheyMeet\CanTheyMeet\ob
 c:\users\michal\documents\visual studio 2013\Projects\CanTheyMeet\CanTheyMeet\obj\Debug\CanTheyMeet.csproj.GenerateResource.Cache
 c:\users\michal\documents\visual studio 2013\Projects\CanTheyMeet\CanTheyMeet\obj\Debug\CanTheyMeet.exe
 c:\users\michal\documents\visual studio 2013\Projects\CanTheyMeet\CanTheyMeet\obj\Debug\CanTheyMeet.pdb
+C:\Users\Michal\Documents\Visual Studio 2013\Projects\CanTheyMeet\CanTheyMeet\obj\Debug\CanTheyMeet.LoadingScreen.resources
+C:\work\VI\wikipedia\CODES\CanTheyMeet\CanTheyMeet\bin\Debug\CanTheyMeet.exe.config
+C:\work\VI\wikipedia\CODES\CanTheyMeet\CanTheyMeet\obj\Debug\CanTheyMeet.exe
+C:\work\VI\wikipedia\CODES\CanTheyMeet\CanTheyMeet\obj\Debug\CanTheyMeet.pdb

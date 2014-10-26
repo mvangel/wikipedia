@@ -35,16 +35,17 @@
             this.label1 = new System.Windows.Forms.Label();
             this.button1 = new System.Windows.Forms.Button();
             this.result = new System.Windows.Forms.Label();
+            this.searchPerson1 = new System.Windows.Forms.Button();
+            this.searchPerson2 = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // comboboxPerson2
             // 
             this.comboboxPerson2.FormattingEnabled = true;
-            this.comboboxPerson2.Location = new System.Drawing.Point(372, 41);
+            this.comboboxPerson2.Location = new System.Drawing.Point(404, 42);
             this.comboboxPerson2.Name = "comboboxPerson2";
             this.comboboxPerson2.Size = new System.Drawing.Size(300, 21);
             this.comboboxPerson2.TabIndex = 0;
-            this.comboboxPerson2.KeyUp += new System.Windows.Forms.KeyEventHandler(this.comboboxPerson2_KeyUp);
             // 
             // comboboxPerson1
             // 
@@ -53,12 +54,11 @@
             this.comboboxPerson1.Name = "comboboxPerson1";
             this.comboboxPerson1.Size = new System.Drawing.Size(300, 21);
             this.comboboxPerson1.TabIndex = 1;
-            this.comboboxPerson1.KeyUp += new System.Windows.Forms.KeyEventHandler(this.comboboxPerson1_KeyUp);
             // 
             // LabelPerson2
             // 
             this.LabelPerson2.AutoSize = true;
-            this.LabelPerson2.Location = new System.Drawing.Point(371, 15);
+            this.LabelPerson2.Location = new System.Drawing.Point(401, 26);
             this.LabelPerson2.Name = "LabelPerson2";
             this.LabelPerson2.Size = new System.Drawing.Size(56, 13);
             this.LabelPerson2.TabIndex = 2;
@@ -75,9 +75,9 @@
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(298, 87);
+            this.button1.Location = new System.Drawing.Point(628, 194);
             this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(88, 45);
+            this.button1.Size = new System.Drawing.Size(158, 62);
             this.button1.TabIndex = 4;
             this.button1.Text = "CanTheyMeet";
             this.button1.UseVisualStyleBackColor = true;
@@ -87,17 +87,39 @@
             // 
             this.result.AutoSize = true;
             this.result.Font = new System.Drawing.Font("Impact", 48F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.result.Location = new System.Drawing.Point(284, 172);
+            this.result.Location = new System.Drawing.Point(21, 172);
             this.result.Name = "result";
             this.result.Size = new System.Drawing.Size(207, 80);
             this.result.TabIndex = 5;
             this.result.Text = "Result";
             // 
+            // searchPerson1
+            // 
+            this.searchPerson1.Location = new System.Drawing.Point(323, 40);
+            this.searchPerson1.Name = "searchPerson1";
+            this.searchPerson1.Size = new System.Drawing.Size(75, 23);
+            this.searchPerson1.TabIndex = 6;
+            this.searchPerson1.Text = "Search";
+            this.searchPerson1.UseVisualStyleBackColor = true;
+            this.searchPerson1.Click += new System.EventHandler(this.searchPerson1_Click);
+            // 
+            // searchPerson2
+            // 
+            this.searchPerson2.Location = new System.Drawing.Point(711, 41);
+            this.searchPerson2.Name = "searchPerson2";
+            this.searchPerson2.Size = new System.Drawing.Size(75, 23);
+            this.searchPerson2.TabIndex = 7;
+            this.searchPerson2.Text = "Search";
+            this.searchPerson2.UseVisualStyleBackColor = true;
+            this.searchPerson2.Click += new System.EventHandler(this.searchPerson2_Click);
+            // 
             // CanTheyMeet
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(684, 261);
+            this.ClientSize = new System.Drawing.Size(794, 261);
+            this.Controls.Add(this.searchPerson2);
+            this.Controls.Add(this.searchPerson1);
             this.Controls.Add(this.result);
             this.Controls.Add(this.button1);
             this.Controls.Add(this.label1);
@@ -120,6 +142,8 @@
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.Label result;
+        private System.Windows.Forms.Button searchPerson1;
+        private System.Windows.Forms.Button searchPerson2;
     }
 }
 
