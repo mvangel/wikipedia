@@ -10,7 +10,7 @@ import edu.jhu.nlp.wikipedia.WikiXMLParser;
 import edu.jhu.nlp.wikipedia.WikiXMLParserFactory;
 
 
-public class Disambiguation_WikipediaParse {
+public class Disambiguation_WikipediaParse_Main {
         /**
          * @author Michal Petras
          * 2014 FIIT - Vyhladavanie informacii

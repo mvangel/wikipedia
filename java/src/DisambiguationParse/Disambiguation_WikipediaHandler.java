@@ -15,7 +15,7 @@ import edu.jhu.nlp.wikipedia.WikiPage;
 
 
 
-public class Disambiguation_WikipediaHandler extends Disambiguation_WikipediaParse implements PageCallbackHandler {
+public class Disambiguation_WikipediaHandler extends Disambiguation_WikipediaParse_Main implements PageCallbackHandler {
 	
         public void process(WikiPage page) {
         	

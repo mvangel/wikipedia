@@ -15,7 +15,7 @@ import java.util.regex.Pattern;
 import edu.jhu.nlp.wikipedia.PageCallbackHandler;
 
 
-public class Disambiguation_Search extends Disambiguation_WikipediaParse {
+public class Disambiguation_Search extends Disambiguation_WikipediaParse_Main {
 	
 	
 	/*

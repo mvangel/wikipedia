@@ -20,21 +20,12 @@ public class Disambiguation_WikipediaHandlerTest extends Disambiguation_Wikipedi
         public void process(WikiPage page) {
     
     		
-    		////WRITER INDEXU
-    		if(IndexFunction==true){
-    			
-    	/*		String titleforme = page.getTitle().trim();
-        		String titleid = page.getID();
-    			
-    		try(PrintWriter out = new PrintWriter(new BufferedWriter(new FileWriter("D:/Trash/WikiParse/index.txt", true)))) {
-    		    out.println("T:"+titleforme+"|"+titleid+"|"+spracovanysubor+"|>");
-    		}catch (IOException e) {
-    		    //exception handling left as an exercise for the reader
-    		}*/
     		
-    		}
+    		/*if(IndexFunction==true){
+    		
+    		}*/
         	
-        	
+        	/* this is part of the test of structure file from wiki xml*/
         	if(page.getTitle().indexOf("disambiguation")>=0 || page.getCategories().indexOf("disambiguation")>=0){
         	
         		

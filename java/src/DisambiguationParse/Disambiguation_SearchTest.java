@@ -13,7 +13,14 @@ import org.junit.Test;
 
 
 public class Disambiguation_SearchTest {
-	
+/* this test has dependency on test wikipediaparsetest 
+ * wikipediaparsetest create an index from first wiki file
+ * this test work with this index and check if index works good
+ * 
+ *  OR
+ *  you create own index AND edit assertEquals function in the bottom of this code into your values
+ *  if every test is true, search class works
+ * */	
 
 @Test
 public void generate() throws IOException{
