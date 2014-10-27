@@ -67,12 +67,12 @@ public class Disambiguation_FinalService  {
 				if(hashMapFinal.containsKey(title)){
 					
 					String actual = hashMapFinal.get(title);
-					actual = actual + System.getProperty("line.separator") + "LINK: "+link + System.getProperty("line.separator") + "ANCHORS: "+anchors + System.getProperty("line.separator") + "DESC: "+desc;
+					actual = actual + System.getProperty("line.separator") + "LINK: "+link + System.getProperty("line.separator") + "ANCHORS: "+anchors + System.getProperty("line.separator") + "DESC: "+desc+ System.getProperty("line.separator")+ System.getProperty("line.separator");
 					hashMapFinal.put(title, actual);
 				}else
 				{
 					String actual ="";
-					actual = actual + System.getProperty("line.separator") + "LINK: "+link + System.getProperty("line.separator") + "ANCHORS: "+anchors + System.getProperty("line.separator") + "DESC: "+desc;
+					actual = actual + System.getProperty("line.separator") + "LINK: "+link + System.getProperty("line.separator") + "ANCHORS: "+anchors + System.getProperty("line.separator") + "DESC: "+desc+ System.getProperty("line.separator")+ System.getProperty("line.separator");
 					hashMapFinal.put(title, actual);
 					
 					

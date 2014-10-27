@@ -16,7 +16,7 @@ public class Disambiguation_WikipediaParse_Main {
          * 2014 FIIT - Vyhladavanie informacii
          */
 	
-	/* dorobit vysledky do wikipage a navod na junit testy*/
+	
 	
 	/* Main class
 	 * Use - parse abstract xml OR call wikipedia files parser
@@ -52,6 +52,13 @@ public class Disambiguation_WikipediaParse_Main {
 	 * 
 	 * */
 	
+	/* LIBRARIES - DEPENDENCY
+	 * - lucene
+	 * - wikixml java
+	 * - junit + hamcrest
+	 * - b2zip
+	 */
+	
 	
 	
 	
@@ -63,7 +70,7 @@ public class Disambiguation_WikipediaParse_Main {
 	static String WorkingFile = "";
 	static boolean IndexFunction = false; // if true - indexing , if false - skip indexing - we must have index
 	static boolean ParseAbstract_function = false; // if true - parse and create abstract index, if false - skip - we must have index
-	static boolean StartService = true; //if true, parser wont work, serach service will turn on
+	static boolean StartService = false; //if true, parser wont work, serach service will turn on
 	static boolean Help = false; //if true, parser wont work, serach service will turn on
 	
 	static String userdir = System.getProperty("user.dir");

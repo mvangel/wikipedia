@@ -13,7 +13,9 @@ import edu.jhu.nlp.wikipedia.PageCallbackHandler;
 import edu.jhu.nlp.wikipedia.WikiPage;
 
 
-
+/* this class is part of wikipediaparseTest 
+ * we test parse one file, which is included in ParseTest 
+ */
 
 public class Disambiguation_WikipediaHandlerTest extends Disambiguation_WikipediaParseTest implements PageCallbackHandler {
 	
