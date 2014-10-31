@@ -57,7 +57,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\WikiCalendar\WikiCalendar.csproj">
+    <ProjectReference Include="..\src\WikiCalendar.csproj">
       <Project>{27c96dcf-7fb6-4dce-90c5-97629d356a2e}</Project>
       <Name>WikiCalendar</Name>
     </ProjectReference>

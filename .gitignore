@@ -1,4 +1,4 @@
-WikiCalendar/WikiCalendar/bin/
-WikiCalendar/WikiCalendar/obj/
-WikiCalendar/WikiCalendarTest/obj/
-WikiCalendar/TestResults/
+C#/src/bin/
+C#/src/obj/
+C#/test/obj/
+C#/TestResults/

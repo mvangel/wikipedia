@@ -17,6 +17,8 @@ namespace WikiCalendar
         public long id { get; set; }
         public String text { get; set; }
 
+		public long dateId { get; set; }
+
 		public void setDates(String _input, String dateExtractPattern)
 		{
 			String[] delimiter = { ")|(" };
@@ -55,16 +57,17 @@ namespace WikiCalendar
 				String[] separatedDate = _input.Split(delimiterPipe, StringSplitOptions.RemoveEmptyEntries);
 				int year = int.Parse(separatedDate[0]);
 				int month = 1, day = 1;
-				if (separatedDate.Length >= 2)
+				if (separatedDate.Length >= 2 && int.Parse(separatedDate[1]) != 0 )
 				{
 					month = int.Parse(separatedDate[1]);
 				}
-				if (separatedDate.Length >= 3)
+				if (separatedDate.Length >= 3 && int.Parse(separatedDate[2]) != 0)
 				{
 					day = int.Parse(separatedDate[2]);
 				}
 
 				date = new DateTime(year, month, day);
+				setDateId(day, month, year);
 			}
 			else if (_input.Contains(","))
 			{
@@ -82,6 +85,7 @@ namespace WikiCalendar
 				year = int.Parse(separatedDate[2]);
 
 				date = new DateTime(year, month, day);
+				setDateId(day, month, year);
 			}
 			else 
 			{
@@ -102,6 +106,7 @@ namespace WikiCalendar
 				}
 
 				date = new DateTime(year, month, day);
+				setDateId(day, month, year);
 
 			}
 							
@@ -244,6 +249,10 @@ namespace WikiCalendar
 			);
 			return eventXml;
 
+		}
+		public void setDateId(int _day, int _month, int _year)
+		{
+			dateId = _year * 10000 + _month * 100 + _day;
 		}
 	}
 }

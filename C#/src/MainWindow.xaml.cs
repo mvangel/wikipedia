@@ -33,8 +33,9 @@ namespace WikiCalendar
 		{
 			String inputPath =
 				//@"D:\downNew\wiki\enwiki-latest-pages-articles1.xml-p000000010p000010000";
-				@"..\..\..\..\Data\sample_input_enwiki-latest-pages-articles1.xml";
-			//	@"D:\downNew\wikienwiki-latest-pages-articles6.xml-p000185003p000305000";
+				//	@"..\..\..\..\Data\sample_input_enwiki-latest-pages-articles1.xml";
+					@"D:\downNew\wiki\enwiki-latest-pages-articles6.xml";
+			//@"D:\downNew\wiki\enwiki-latest-pages-articles3.xml-p000025001p000055000";
 			
 			String exportPath = @"..\..\..\..\Data\sample_output_enwiki-latest-pages-articles1_Real_output.xml";
 			
@@ -45,6 +46,35 @@ namespace WikiCalendar
 			eventsCountTextBox.Text = control.eventsCount.ToString();
 
 		}
+
+		private void dateSearchTextBox_TextChanged(object sender, TextChangedEventArgs e)
+		{
+			
+
+
+
+
+		}
+
+		private void Button_Click_1(object sender, RoutedEventArgs e)
+		{
+			TextConsole.Text = "";
+			HashSet<CalendarEvent> resultSet = control.searchDayEvents(dateSearchTextBox.Text);
+
+			TextConsole.Text += "\n\nDatekey:" + dateSearchTextBox.Text;
+			if (resultSet == null)
+			{
+				return;
+			}
+			foreach (CalendarEvent ce in resultSet)
+			{
+				TextConsole.Text += "\n\t" + ce.title + ":" + "\n";
+			}
+
+
+		}
+
+
 
 	
     }

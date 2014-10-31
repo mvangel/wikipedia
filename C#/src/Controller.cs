@@ -5,6 +5,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Xml.Linq;
+using System.Collections;
 
 namespace WikiCalendar
 {
@@ -14,14 +15,18 @@ namespace WikiCalendar
 		{
 			xml = new XElement("days");
 			allEvents = new LinkedList<CalendarEvent>();
+			allDays = new Dictionary<long,Day>();
 		}
 		public long pagesCount { get; set; }
 		public long eventsCount { get; set; }
 
 		XElement xml { get; set; }
 		LinkedList<CalendarEvent> allEvents;
+		Dictionary<long,Day> allDays;
+
 		public void initParsing(String path)
 		{
+			
 			//XDocument input = XDocument.Load(@"..\..\..\..\Data\input.xml");
 			//XDocument input = XDocument.Load(@"D:\downNew\wiki\enwiki-latest-pages-articles1.xml-p000000010p000010000");
 			XDocument input = XDocument.Load(path);
@@ -51,7 +56,7 @@ namespace WikiCalendar
 				//99% just one iteration
                 foreach (Match infobox in infoboxes)
                 {
-                    String datePattern = "[a-z]+_date\\s+=.+";//TODO optimize!
+                    String datePattern = "[A-Za-z_]+date\\s+=.+";//TODO optimize!
                     MatchCollection dateLine = Regex.Matches(infobox.Value,datePattern);
 					
 					//statisticaly 2 iterations
@@ -102,17 +107,31 @@ namespace WikiCalendar
 						//1 iteration
 						foreach (Match o in dateExtract)
 						{
-							allEvents.AddLast(new CalendarEvent(page));
+							CalendarEvent extractedEvent = new CalendarEvent(page);
 							try
 							{
-								allEvents.Last.Value.setDates(o.Value, dateExtractPattern);
+								extractedEvent.setDates(o.Value, dateExtractPattern);											
 							}
-							catch (DataMisalignedException exc) {
-								allEvents.RemoveLast();
+							catch (DataMisalignedException exc) 
+							{
 								Console.WriteLine(infobox);
 								Console.WriteLine( exc.Message);
 								continue;
 							}
+
+							allEvents.AddLast(extractedEvent);
+							
+							if(allDays.Keys.Contains(extractedEvent.dateId))
+							{
+								allDays[extractedEvent.dateId].Add(extractedEvent);
+							}
+							else
+							{
+
+								allDays.Add(extractedEvent.dateId,new Day(extractedEvent.date.Day,extractedEvent.date.Month,extractedEvent.date.Year));
+							}
+
+
 							//Console.WriteLine(o.Value);
 							eventsCount = allEvents.Count;
 						}
@@ -142,7 +161,7 @@ namespace WikiCalendar
 			{
 				xml.Add(ce.exportXML());
 			}
-			Console.WriteLine(xml.ToString());
+			//Console.WriteLine(xml.ToString());
 			saveXml(path);
 		}
 
@@ -154,6 +173,32 @@ namespace WikiCalendar
 		public string getXmlString()
 		{
 			return xml.ToString();
+		}
+
+		internal HashSet<CalendarEvent> searchDayEvents(String dateKey)
+		{
+			long parsedKey;
+			if(long.TryParse(dateKey,out parsedKey) && allDays.Keys.Contains(parsedKey)){
+				Day d = allDays[parsedKey];
+				return d.getEventsArray();
+			}
+			else
+			{
+				var x = from pKey in allDays.Keys
+						where pKey.ToString().Contains(dateKey)
+						select pKey.ToString();
+
+				if (x.Any())
+				{
+					parsedKey = long.Parse(x.First());
+					Day d = allDays[parsedKey];
+					return d.getEventsArray();
+				}
+				else return null;
+				
+			}
+
+			
 		}
 	}
 }
