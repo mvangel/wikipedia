@@ -31,7 +31,7 @@ import org.codehaus.stax2.XMLStreamReader2;
  * @author Matej Toma
  *
  */
-public class RunCosineSimilartyBasedOnParsedAbstracts {
+public class CosineSimilartyBasedOnParsedAbstracts {
 	
 	//Used for JUnit test as array of pages from test XML file
 	public static ArrayList<ParsedWikiArticleEntity> allPages = new ArrayList<ParsedWikiArticleEntity>();
