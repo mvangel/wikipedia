@@ -46,8 +46,8 @@ public class CosineSimilartyBasedOnParsedAbstracts {
 	private static WikiPagesAndAbstractsParser myParser;
 	
 	// Names of XMLs files which contains data, star at the end is important as regex matcher for any number
-	private static final String filterNameOfAbstractFile = "VINF_GIT_sample_input_enwiki-latest-abstract*";
-	private static final String	filterNameOfPageFile = "VINF_GIT_sample_input_enwiki-latest-pages-articles*";
+	private static final String filterNameOfAbstractFile = "sample_input_enwiki-latest-abstract*";
+	private static final String	filterNameOfPageFile = "sample_input_enwiki-latest-pages-articles*";
 	
 	// Set true if you want to create new index_ids.txt file, see createListOfCommonIDs method
 	private static Boolean fullExample = true;
