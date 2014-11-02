@@ -5,7 +5,21 @@ module Rucola
     def initialize(*)
       super
 
-      @documents = []
+      @documents = Documents.new(self)
+    end
+
+    class Documents < Array
+      def initialize(corpus)
+        @corpus = corpus
+      end
+
+      def count(*args)
+        return super unless args[0].is_a?(Hash) && (term = args[0][:include])
+        
+        return @corpus.model.select(term).size if @corpus.model.respond_to? :select
+
+        super { |document| document.terms.include? term }
+      end
     end
 
     def add(text, attrs = {})
@@ -14,6 +28,8 @@ module Rucola
       documents << document
 
       model.add self, document
+
+      document
     end
 
     def similar(text, attrs = {})
@@ -29,7 +45,7 @@ module Rucola
     def new_document(text, attrs = {})
       terms = extractor.extract text
 
-      Document.new(attrs.merge terms: terms)
+      Document.new(attrs.merge terms: Document::Terms.new(terms))
     end
   end
 end
