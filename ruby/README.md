@@ -19,20 +19,17 @@ bundle install
 ## Contents
 
 ```
-  |-- lib
-  |-- script
-  `-- spec
-      `-- fixtures
+|-- example
+|-- lib
+|-- script
+`-- spec
+    `-- fixtures
 ```
 
-lib
-  Application specific libraries. Basically, any kind of custom code.
-
-script
-  Helper scripts for automation, generation, etc.
-
-spec
-  Unit and other tests along with fixtures. 
+- `example` Examples of custom library or script usage.
+- `lib` Application specific libraries. Basically, any kind of custom code.
+- `script` Helper scripts for automation, generation, etc.
+- `spec` Unit and other tests along with fixtures. 
 
 ## Testing
 
