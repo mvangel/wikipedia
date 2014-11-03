@@ -22,6 +22,14 @@ module Rucola::Models
       compute_similarities(weights, documents, corpus)
     end
 
+    def select(term)
+      @terms_to_documents[term]
+    end
+
+    def weight(document)
+      @documents_to_term_weights[document]
+    end
+
     def to_s
       self.class.name
     end

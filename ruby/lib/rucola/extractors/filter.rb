@@ -1,7 +1,7 @@
 module Rucola::Extractors
-  Deletor = Struct.new(:regexp) do
+  Filter = Struct.new(:regexp) do
     def extract(input)
-      Array(input).flat_map { |item| item.gsub regexp, '' }
+      Array(input).flatten.select { |item| item =~ regexp }
     end
 
     def to_s

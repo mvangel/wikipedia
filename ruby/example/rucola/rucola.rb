@@ -5,6 +5,25 @@ input = ARGV[0] || '../data/sample_input_long_abstracts_sk.ttl'
 limit = ARGV[1] || 10
 marsh = ARGV[2] || false
 
+# use DebugChain instead of Rucola::Extractors::Chain to see how extractors work
+DebugChain = Struct.new(:extractors) do
+  def extract(input)
+    extractors.inject(input) do |result, extractor|
+      print "#{extractor} #{result}"
+
+      result = extractor.extract(result)
+
+      puts " -> #{result}"
+
+      result
+    end
+  end
+
+  def to_s
+    "#{extractors.map(&:to_s).join ' '}"
+  end
+end
+
 watch = Stopwatch.new
 
 if marsh != 'load'
@@ -15,8 +34,27 @@ if marsh != 'load'
 
   watch.stop
 
+  to_ascii_downcase = "lambda { |item| item.mb_chars.normalize(:kd).bytes.map { |b| (0x00..0x7F).include?(b) ? b.chr : '' }.join.downcase }"
+
+  stopwords = %w(
+    a aby aj ak ako ale alebo and ani áno asi až
+    bez bude budem budeš budeme budete budú by bol bola boli
+    bolo byť cez čo či ďalší ďalšia ďalšie dnes do ho ešte
+    i ja je jeho jej ich iba iné iný som si sme sú k kam
+    každý každá každé každí kde keď kto ktorá ktoré ktorou
+    ktorý ktorí ku lebo len ma mať má máte medzi mi mna mne
+    mnou musieť môcť môj môže my na nad nám napr náš naši nie
+    nech než nič niektorý nové nový nová nové noví o od odo
+    on ona ono oni ony po pod podľa pokiaľ potom práve pre
+    prečo preto pretože prvý prvá prvé prví pred predo pri
+    pýta s sa so si svoje svoj svojich svojím svojími ta tak
+    takže táto teda ten tento tieto tým týmto tiež tj to toto
+    toho tohoto tom tomto tomuto toto tu tú túto tvoj ty
+    tvojími už v vám váš vaše vo viac však všetok vy z za
+    zo že)
+
   model = Rucola::Models::NaiveVectorSpace.new
-  extractor = Rucola::Extractors::Chain.new [Rucola::Extractors::Splitter.new(/[[:space:]]+/), Rucola::Extractors::Deletor.new(/[^[[:alnum:]]]/)]
+  extractor = Rucola::Extractors::Chain.new [Rucola::Extractors::Splitter.new(/[[:space:]]+/), Rucola::Extractors::Trimmer.new(/[^[[:alnum:]]]/), Rucola::Extractors::Mapper.new(to_ascii_downcase), Rucola::Extractors::Remover.new(stopwords), Rucola::Extractors::Filter.new(/[[:alnum:]]{2,}/)]
   weighter = Rucola::Weighters::TfIdf
   metric = Rucola::Metrics::NaiveCosineSimilarity
 

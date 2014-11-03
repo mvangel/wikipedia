@@ -5,7 +5,7 @@ Very simple information retrieval library for explanatory purposes.
 ## Usage
 
 ```
-ruby -Ilib example/rucola.rb [path [limit [dump|load]]]
+ruby -Ilib example/rucola/rucola.rb [path [limit [dump|load]]]
 ```
 
 ## Parameters
@@ -17,9 +17,9 @@ ruby -Ilib example/rucola.rb [path [limit [dump|load]]]
 ## Samples
 
 ```
-ruby -Ilib example/rucola.rb data/long_abstracts_sk.ttl 20
-ruby -Ilib example/rucola.rb data/long_abstracts_sk.ttl 20 dump
-ruby -Ilib example/rucola.rb data/long_abstracts_sk.ttl 20 load
+ruby -Ilib example/rucola/rucola.rb data/long_abstracts_sk.ttl 20
+ruby -Ilib example/rucola/rucola.rb data/long_abstracts_sk.ttl 20 dump
+ruby -Ilib example/rucola/rucola.rb data/long_abstracts_sk.ttl 20 load
 ```
 
 ## Output
