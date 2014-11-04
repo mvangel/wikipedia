@@ -53,6 +53,8 @@ if marsh != 'load'
     tvojími už v vám váš vaše vo viac však všetok vy z za
     zo že)
 
+  stopwords.map! { |word| eval(to_ascii_downcase).call word }
+
   model = Rucola::Models::NaiveVectorSpace.new
   extractor = Rucola::Extractors::Chain.new [Rucola::Extractors::Splitter.new(/[[:space:]]+/), Rucola::Extractors::Trimmer.new(/[^[[:alnum:]]]/), Rucola::Extractors::Mapper.new(to_ascii_downcase), Rucola::Extractors::Remover.new(stopwords), Rucola::Extractors::Filter.new(/[[:alnum:]]{2,}/)]
   weighter = Rucola::Weighters::TfIdf

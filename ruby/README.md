@@ -2,6 +2,11 @@
 
 Parsing and processing of useful data from Wikipedia, DBPedia and Freebase utilizing Ruby.
 
+## Libraries, examples and scripts
+
+- [Rucola](example/rucola) - very simple information retrieval library for explanatory purposes.
+- [Stopwatch](lib/stopwatch.rb) - simple stopwatch utility.
+
 ## Requirements
 
 * Ruby 2.1
@@ -46,4 +51,3 @@ Run specs with `bundle exec rspec`.
 ## License
 
 This software is released under the [Apache 2.0 License](../LICENSE).
-
