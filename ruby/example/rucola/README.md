@@ -2,7 +2,7 @@
 
 Very simple information retrieval library for explanatory purposes.
 
-Includes one example script `example/rucola/rucola.rb` and is acompanied by a simple TTL file parser script in `scripts/parsers/long_abstracts_ttl.rb`.
+Library code is at `lib/rucola`, includes one example script at `example/rucola/rucola.rb` and is acompanied by a simple TTL file parser script at `scripts/parsers/long_abstracts_ttl.rb`.
 
 ## Structure
 
