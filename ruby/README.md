@@ -4,7 +4,7 @@ Parsing and processing of useful data from Wikipedia, DBPedia and Freebase utili
 
 ## Libraries, examples and scripts
 
-- [Rucola](examples/rucola) - very simple information retrieval library for explanatory purposes.
+- [Rucola](example/rucola) - very simple information retrieval library for explanatory purposes.
 - [Stopwatch](lib/stopwatch.rb) - simple stopwatch utility.
 
 ## Requirements
