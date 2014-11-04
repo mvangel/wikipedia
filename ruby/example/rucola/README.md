@@ -2,19 +2,55 @@
 
 Very simple information retrieval library for explanatory purposes.
 
-## Usage
+Includes one example script `examples/rucola/rucola.rb` and is acompanied by a simple TTL file parser script in `scripts/parsers/long_abstracts_ttl.rb`.
+
+## Structure
+
+- `Corpus` - collection of documents defined by model, extractor, weighter and metric. Creates documents from text, finds similar documents to specfied query.
+- `Document` - text transformed to a collection of terms by corpus utilizing specified extractors.
+- `Model` - physical representation of terms in a corpus. For example a document-to-term weight matrix.
+- `Extractor` - simple utility for converting text into terms like regexp splitter, stopword remover, word-to-word mapper etc.
+- `Weighter` - function to compute weight for specified term of document in corpus such as TF-IDF.
+- `Metric` - function to compute similarity between two documents, i.e. term-to-weight maps.
+
+### Model
+
+Each model must respond to `add(corpus, document)` and `similar(corpus, document)` where `corpus` is a `Corpus` and `document` is a `Document`, `add` returns unspecified value and `similar` returns a similarity map (a `Hash` of computed `Metric` values to `Document` instances) of documents to the specified document.
+
+### Extractor
+
+Each extractor must respond to `extract(input)` where `input` is a string or an enumerable of strings, `extract` returns a string or an enumerable of strings.
+
+### Weighter
+
+Each weighter must respond to `compute(term, document, corpus)` where `term` is a string, `document` is a `Document` and corpus is a `Corpus`, it always holds that `coprus` contains `document` contains `term`, `compute` usually returns a number.
+
+### Metric
+
+Each metric must respond to `compute(a, b)` where `a` and `b` are term-to-weight `Hash` maps, `compute` returns a number.
+
+## TODO
+
+- add real VSM matrix-based implementation
+- tune extractors, for example do not remove terms in upper case shorter than 2 characters
+
+## Example Rucola Script
+
+Simple script demonstrating Rucola capabilities.
+
+### Usage
 
 ```
 ruby -Ilib example/rucola/rucola.rb [path [limit [dump|load]]]
 ```
 
-## Parameters
+#### Parameters
 
 - `path` Path to TTL file.
 - `limit` Read lines limit.
 - `dump|load` Dumps or loads `path.corpus` (in case of load limit is ignored).
 
-## Samples
+#### Examples
 
 ```
 ruby -Ilib example/rucola/rucola.rb data/long_abstracts_sk.ttl 20
@@ -22,7 +58,13 @@ ruby -Ilib example/rucola/rucola.rb data/long_abstracts_sk.ttl 20 dump
 ruby -Ilib example/rucola/rucola.rb data/long_abstracts_sk.ttl 20 load
 ```
 
-## Output
+### Input
+
+Any TTL file with long abstracts from DBPedia in Slovak language.
+
+### Output
+
+Sample output for illustration purposes.
 
 ```
 Parsing input data ... done (0.033s)
@@ -55,3 +97,6 @@ Documents similar to http://sk.dbpedia.org/resource/Taekkyon:
   0.039163022499 http://sk.dbpedia.org/resource/Zoznam_štátov Toto je zoznam štátov.
 ```
 
+### Debug
+
+Currently only extractor chain debug output is possible. To enable it edit main `rucola.rb` script and change `extractor = Rucola::Extractors::Chain` to `extractor = DebugChain`. Otherwise use [pry](https://github.com/pry/pry).
