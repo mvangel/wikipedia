@@ -1,4 +1,4 @@
-package fiit.ir.NER_dictionary.rules;
+package ner_dictionary.rules;
 
 import java.util.ArrayList;
 

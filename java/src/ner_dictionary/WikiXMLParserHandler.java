@@ -1,4 +1,4 @@
-package fiit.ir.NER_dictionary;
+package ner_dictionary;
 
 import java.io.PrintStream;
 import java.util.regex.Matcher;
@@ -8,8 +8,8 @@ import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
 
-import fiit.ir.NER_dictionary.rules.Rule;
-import fiit.ir.NER_dictionary.rules.RuleSet;
+import ner_dictionary.rules.Rule;
+import ner_dictionary.rules.RuleSet;
 
 public class WikiXMLParserHandler extends DefaultHandler{
 

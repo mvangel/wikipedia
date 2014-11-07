@@ -1,4 +1,4 @@
-package fiit.ir.NER_dictionary;
+package ner_dictionary;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -16,7 +16,7 @@ import org.xml.sax.SAXException;
 import org.xml.sax.XMLReader;
 import org.xml.sax.helpers.XMLReaderFactory;
 
-import fiit.ir.NER_dictionary.rules.RuleSet;
+import ner_dictionary.rules.RuleSet;
 
 /**
  * Named Entity Recognition dictionary

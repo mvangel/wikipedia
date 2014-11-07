@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ruleset>
+	<rule>
+		<pattern>(?m)^\|.?birth_date</pattern>
+		<category>Person</category>
+	</rule>
+	<rule>
+		<pattern>(?m)^\|.?Capital</pattern>
+		<category>Location</category>
+	</rule>
+	<rule>
+		<pattern>(?m)^\|.?latitude</pattern>
+		<category>Location</category>
+	</rule>
+</ruleset>
