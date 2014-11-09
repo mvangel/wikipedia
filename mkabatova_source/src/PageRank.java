@@ -1,18 +1,35 @@
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
+import java.nio.charset.Charset;
+
 
 public class PageRank {
-	public String getPageRank(int total, int actuall)
+	
+	private double d;
+	PageRank()
 	{
-		return countPageRank(total,actuall);
+		d = 0.85;
 	}
-	private String countPageRank(int total, int actuall)
+	
+	public double countNext(double pr, double pl, double actualPageRank) //na spocitanie sumy vsetkych stranok 
 	{
-		if(total != 0)
-		{
-			return "" + ((actuall*10)/total);
-		}
-		else
-		{
-			return "error";
-		}
+		return (actualPageRank + (pr/pl));
+	}
+	
+	public double getPageRank(double e)
+	{
+		return countPageRank(e);
+	}
+	
+	
+	private double countPageRank(double sum)
+	{
+		return ((1-d)+(d*sum));  //sum je suma vsetkych pagerankov / poctom odchadzajucich linkov pocita sa hore
 	}
 }
