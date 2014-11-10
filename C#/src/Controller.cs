@@ -15,14 +15,14 @@ namespace WikiCalendar
 		{
 			xml = new XElement("days");
 			allEvents = new LinkedList<CalendarEvent>();
-			allDays = new Dictionary<long,Day>();
+			allDays = new SortedList<long, DayEvents>();
 		}
 		public long pagesCount { get; set; }
 		public long eventsCount { get; set; }
 
 		XElement xml { get; set; }
 		LinkedList<CalendarEvent> allEvents;
-		Dictionary<long,Day> allDays;
+		SortedList<long, DayEvents> allDays;
 
 		public void initParsing(String path)
 		{
@@ -68,11 +68,12 @@ namespace WikiCalendar
 
                        // Console.WriteLine(n.Value);
                         //dateFormat is Y|MM|DD or 'BCE'|Y 
-						String dateExtractPattern //="([0-9]{0,}\\|[0-1]{0,1}[0-9]{1}\\|[0-3]{0,1}[0-9]{1})|(BCE\\|[0-9]+)";
-							= @"([0-9]{1,4}\|[0-1]{0,1}[0-9]{1}\|[0-3]{0,1}[0-9]{1})" //Y|MM|DD
-							+ @"|((?:(BC)?|(BCE)?)\|[0-9]+(\|\d\|\d){0}})" //'BCE'|Y 
-							+ @"((?:([0-3]?[0-9]) ((?:January)?|(?:February)?|(?:March)?|(?:April)?|(?:May)?|(?:June)?|(?:July)?|(?:August)?|(?:September)?|(?:October)?|(?:November)?|(?:December)?) )((\d+(\sBCE)?|(\sBC)?)|((AD\s)?\d{1,})))" //3 July 2001
-							+ @"|(?:(?:January)?|(?:February)?|(?:March)?|(?:April)?|(?:May)?|(?:June)?|(?:July)?|(?:August)?|(?:September)?|(?:October)?|(?:November)?|(?:December)?) (?:([0-3]?[0-9])), [0-9]{0,}\s?(?:(BC)?|(BCE)?)"// July 3, 2001
+						String dateExtractPattern = ""
+							//"([0-9]{0,}\\|[0-1]{0,1}[0-9]{1}\\|[0-3]{0,1}[0-9]{1})|(BCE\\|[0-9]+)"
+							+ @"([0-9]{1,4}\|[0-1]{0,1}[0-9]{1}\|[0-3]{0,1}[0-9]{1})" //Y|MM|DD
+							+ @"|((?:(BC)?|(BCE)?)\|[0-9]+(\|\d\|\d){0})" //'BCE'|Y 
+							+ @"|((?:([0-3]?[0-9]) ((?:January)?|(?:February)?|(?:March)?|(?:April)?|(?:May)?|(?:June)?|(?:July)?|(?:August)?|(?:September)?|(?:October)?|(?:November)?|(?:December)?) )((\d+(\sBCE)?|(\sBC)?)|((AD\s)?\d{1,})))" //3 July 2001
+							+ @"|((?:(?:January)?|(?:February)?|(?:March)?|(?:April)?|(?:May)?|(?:June)?|(?:July)?|(?:August)?|(?:September)?|(?:October)?|(?:November)?|(?:December)?) (?:([0-3]?[0-9])), [0-9]{0,}\s?(?:(BC)?|(BCE)?))"// July 3, 2001
 							+ @"|((?:([0-3]?[0-9]) ((?:January)?|(?:February)?|(?:March)?|(?:April)?|(?:May)?|(?:June)?|(?:July)?|(?:August)?|(?:September)?|(?:October)?|(?:November)?|(?:December)?) )(?:(AD)?)\s[0-9]{1,})"; //3 July AD 2001
 						MatchCollection dateExtract = Regex.Matches(n.Value, dateExtractPattern);
 						//foreach (Match o in dateExtract)
@@ -110,7 +111,7 @@ namespace WikiCalendar
 							CalendarEvent extractedEvent = new CalendarEvent(page);
 							try
 							{
-								extractedEvent.setDates(o.Value, dateExtractPattern);											
+								extractedEvent.setDates(o.Value, dateExtractPattern,n.Value);											
 							}
 							catch (DataMisalignedException exc) 
 							{
@@ -128,7 +129,7 @@ namespace WikiCalendar
 							else
 							{
 
-								allDays.Add(extractedEvent.dateId,new Day(extractedEvent.date.Day,extractedEvent.date.Month,extractedEvent.date.Year));
+								allDays.Add(extractedEvent.dateId, new DayEvents(extractedEvent.date.Day, extractedEvent.date.Month, extractedEvent.date.Year, extractedEvent));
 							}
 
 
@@ -179,7 +180,8 @@ namespace WikiCalendar
 		{
 			long parsedKey;
 			if(long.TryParse(dateKey,out parsedKey) && allDays.Keys.Contains(parsedKey)){
-				Day d = allDays[parsedKey];
+
+				DayEvents d = allDays[parsedKey];
 				return d.getEventsArray();
 			}
 			else
@@ -190,15 +192,40 @@ namespace WikiCalendar
 
 				if (x.Any())
 				{
-					parsedKey = long.Parse(x.First());
-					Day d = allDays[parsedKey];
-					return d.getEventsArray();
+					HashSet<CalendarEvent> returnSet = new HashSet<CalendarEvent>();
+					foreach( var i in x)
+					{
+						parsedKey = long.Parse(i);
+						DayEvents d = allDays[parsedKey];
+						var gettedEvents = d.getEventsArray();
+						foreach (var eve in gettedEvents)
+						{
+							returnSet.Add(eve);
+						}
+						
+
+					}
+
+					return returnSet;
 				}
 				else return null;
 				
 			}
 
 			
+		}
+
+		public List<long> getAllDays()
+		{
+			List<long> keys = allDays.Keys.ToList<long>();
+			return keys;
+		}
+		public List<String> getDistinctEventTypes()
+		{
+			var types = from e in allEvents
+						select e.eventType;
+
+			return types.Distinct().ToList<String>();
 		}
 	}
 }

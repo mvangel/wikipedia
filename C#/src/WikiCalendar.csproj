@@ -63,7 +63,7 @@
     </Compile>
     <Compile Include="CalendarEvent.cs" />
     <Compile Include="Controller.cs" />
-    <Compile Include="Day.cs" />
+    <Compile Include="DayEvents.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>

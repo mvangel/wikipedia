@@ -11,16 +11,32 @@ namespace WikiCalendar
     public class CalendarEvent
     {
 		public DateTime date { get; set; } //TODO parsing dates of wiki
+		/// <summary>
+		/// BC can reach -1 - date is BC 
+		/// or +1 date is AD
+		/// </summary>
+		public int BC { get; set; }
         public long dateOffset { get; set; }
         public String description {get; set;}
         public String title {get;set;}
         public long id { get; set; }
         public String text { get; set; }
-
+		public String eventType { get; set; }
 		public long dateId { get; set; }
 
-		public void setDates(String _input, String dateExtractPattern)
+		private String extractEventType(String _dateLine)
 		{
+			String _eventType = "";
+			String[] wordsLine = _dateLine.Split(new char[] { ' ' ,'='});
+			_eventType = wordsLine[0].Replace("_"," ").Trim();
+						
+			return _eventType;
+		}
+		public void setDates(String _input, String dateExtractPattern,String eventDateLine)
+		{
+			BC = 1;
+			eventType = extractEventType(eventDateLine);
+
 			String[] delimiter = { ")|(" };
 			String[] datePaterns = dateExtractPattern.Split(delimiter,StringSplitOptions.RemoveEmptyEntries);
 			CultureInfo provider = CultureInfo.InvariantCulture;
@@ -48,22 +64,28 @@ namespace WikiCalendar
 
 			if (_input.Contains("BC") || _input.Contains("BCE"))
 			{
-				throw new DataMisalignedException("BC or BCE date");
+				BC = -1;
+
 			}
 
 			if (_input.Contains("|"))
 			{
 				String[]delimiterPipe = {"|"};
 				String[] separatedDate = _input.Split(delimiterPipe, StringSplitOptions.RemoveEmptyEntries);
-				int year = int.Parse(separatedDate[0]);
-				int month = 1, day = 1;
-				if (separatedDate.Length >= 2 && int.Parse(separatedDate[1]) != 0 )
+				int offset = 0;
+				if (BC == -1 && (separatedDate[offset].Contains("BC") || separatedDate[offset].Contains("BCE")))
 				{
-					month = int.Parse(separatedDate[1]);
+					offset++;
 				}
-				if (separatedDate.Length >= 3 && int.Parse(separatedDate[2]) != 0)
+				int year = int.Parse(separatedDate[offset++]);
+				int month = 1, day = 1;
+				if (!(separatedDate[0].Contains("BC") || separatedDate[0].Contains("BCE")) && separatedDate.Length >= 2 && int.Parse(separatedDate[offset]) != 0 )
 				{
-					day = int.Parse(separatedDate[2]);
+					month = int.Parse(separatedDate[offset++]);
+				}
+				if (!(separatedDate[0].Contains("BC") || separatedDate[0].Contains("BCE")) && separatedDate.Length >= 3 && int.Parse(separatedDate[offset]) != 0 )
+				{
+					day = int.Parse(separatedDate[offset++]);
 				}
 
 				date = new DateTime(year, month, day);
@@ -242,7 +264,7 @@ namespace WikiCalendar
 				new XElement("events",
 					new XElement("event",
 						new XElement("event_title",title),
-						new XElement("event_type","XNA"),//TODO eventType recognition
+						new XElement("event_type",eventType),
 						new XElement("page_id",id.ToString())
 					)
 				)
@@ -252,7 +274,7 @@ namespace WikiCalendar
 		}
 		public void setDateId(int _day, int _month, int _year)
 		{
-			dateId = _year * 10000 + _month * 100 + _day;
+			dateId = BC *_year * 10000 + _month * 100 + _day;
 		}
 	}
 }

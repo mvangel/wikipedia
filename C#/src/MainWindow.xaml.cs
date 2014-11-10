@@ -32,16 +32,29 @@ namespace WikiCalendar
 		private void Button_Click(object sender, RoutedEventArgs e)
 		{
 			String inputPath =
+				//@"..\..\..\..\Data\Aristotle.txt";
 				//@"D:\downNew\wiki\enwiki-latest-pages-articles1.xml-p000000010p000010000";
+			@"D:\downNew\wiki\enwiki-latest-pages-articles1.xml-p000000010p000010000";
 				//	@"..\..\..\..\Data\sample_input_enwiki-latest-pages-articles1.xml";
-					@"D:\downNew\wiki\enwiki-latest-pages-articles6.xml";
-			//@"D:\downNew\wiki\enwiki-latest-pages-articles3.xml-p000025001p000055000";
-			
+			//@"D:\downNew\wiki\enwiki-latest-pages-articles6.xml";
+				//@"D:\downNew\wiki\enwiki-latest-pages-articles3.xml-p000025001p000055000";
+			//@"D:\downNew\wiki\enwiki-latest-pages-articles10.xml-p000925001p001325000";//1gb
+			//@"D:\downNew\wiki\enwiki-latest-pages-articles22.xml-p015725013p018225000"; //privelky
 			String exportPath = @"..\..\..\..\Data\sample_output_enwiki-latest-pages-articles1_Real_output.xml";
 			
 			control.initParsing(inputPath);
 			control.exportEventsXML(exportPath);
-			TextConsole.Text = control.getXmlString();
+			List<long> days = control.getAllDays();
+			foreach (long day in days)
+			{
+				DropDownMenuDate.Items.Add(day);
+			}
+			List<String> distinctEvents = control.getDistinctEventTypes();
+			foreach (String dEvent in distinctEvents)
+			{
+				TextConsole.Text += dEvent + '\n'; 
+			}
+			
 			pagesCountTextBox.Text = control.pagesCount.ToString();
 			eventsCountTextBox.Text = control.eventsCount.ToString();
 
@@ -59,8 +72,17 @@ namespace WikiCalendar
 		private void Button_Click_1(object sender, RoutedEventArgs e)
 		{
 			TextConsole.Text = "";
-			HashSet<CalendarEvent> resultSet = control.searchDayEvents(dateSearchTextBox.Text);
-
+			HashSet<CalendarEvent> resultSet;
+			if(dateSearchTextBox.Text.Equals(""))
+			{
+				resultSet = control.searchDayEvents(DropDownMenuDate.SelectedValue.ToString());
+			}
+			else 
+			{
+				resultSet = control.searchDayEvents(dateSearchTextBox.Text);
+			
+			}
+			
 			TextConsole.Text += "\n\nDatekey:" + dateSearchTextBox.Text;
 			if (resultSet == null)
 			{
@@ -68,10 +90,16 @@ namespace WikiCalendar
 			}
 			foreach (CalendarEvent ce in resultSet)
 			{
-				TextConsole.Text += "\n\t" + ce.title + ":" + "\n";
+				TextConsole.Text += "\n\t" +ce.dateId +"->" + ce.title + ":" + ce.eventType + "\n";
 			}
 
 
+		}
+
+		private void ComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+		{
+			Button_Click_1(sender, e);
+			
 		}
 
 

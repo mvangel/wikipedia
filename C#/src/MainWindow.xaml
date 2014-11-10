@@ -16,12 +16,9 @@
         <ProgressBar x:Name="pagesProgresBar" HorizontalAlignment="Left" Height="18" Margin="0,152,0,0" VerticalAlignment="Top" Width="184" RenderTransformOrigin="0.51,3.074" Grid.Column="1"/>
         <TextBox x:Name="pagesCountTextBox" HorizontalAlignment="Left" Height="28" Margin="50,88,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="84" Grid.Column="1"/>
         <TextBox x:Name="eventsCountTextBox" HorizontalAlignment="Left" Height="26" Margin="50,121,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="84" Grid.Column="1"/>
-        <Calendar HorizontalAlignment="Left" Height="168" Margin="0,175,0,0" VerticalAlignment="Top" Width="184" Grid.Column="1"/>
         <TextBox x:Name="dateSearchTextBox" HorizontalAlignment="Left" Height="21" Margin="14,10,0,0" TextWrapping="Wrap" Text="19940101" VerticalAlignment="Top" Width="161" TextChanged="dateSearchTextBox_TextChanged"/>
-        <TextBox HorizontalAlignment="Left" Height="21" Margin="82,38,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="29" RenderTransformOrigin="0.034,0.476"/>
-        <TextBox HorizontalAlignment="Left" Height="21" Margin="116,38,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="59"/>
-        <TextBox HorizontalAlignment="Left" Height="21" Margin="14,38,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="63"/>
         <Button Content="Button" HorizontalAlignment="Left" Height="21" Margin="180,9,0,0" VerticalAlignment="Top" Width="176" RenderTransformOrigin="0.483,0.81" Click="Button_Click_1"/>
+        <ComboBox x:Name="DropDownMenuDate" HorizontalAlignment="Left" Height="23" Margin="14,41,0,0" VerticalAlignment="Top" Width="161" SelectionChanged="ComboBox_SelectionChanged"/>
 
     </Grid>
 </Window>

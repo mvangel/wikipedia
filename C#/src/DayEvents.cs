@@ -6,21 +6,24 @@ using System.Threading.Tasks;
 
 namespace WikiCalendar
 {
-	class Day:ICollection<CalendarEvent>
+	class DayEvents:ICollection<CalendarEvent>
 	{
 		DateTime date;
 		public int day {get; set; }
 		public int month { get; set; }
 		public int year { get; set; }
 
+
 		HashSet<CalendarEvent> eventList {get; set;}
 
-		public Day(int _day,int _month, int _year) 
+		public DayEvents(int _day,int _month, int _year,CalendarEvent cEvent) 
 		{
 			day = _day;
 			month = _month;
 			year = _year;
-			eventList = new HashSet<CalendarEvent>();
+			
+			
+			eventList = new HashSet<CalendarEvent>() { cEvent };
 		}
 
 		public HashSet<CalendarEvent> getEventsArray()
@@ -31,14 +34,13 @@ namespace WikiCalendar
 		public void Add(CalendarEvent item)
 		{
 			var x = from e in eventList
-					where e.id == item.id 
+					where e.id != item.id 
 					where e.dateId == item.dateId
 					select e;
 
-			if (x!=null) 
+			if (x.Any()) 
 			{
 				eventList.Add(item);
- 
 			}
 			
 		}
