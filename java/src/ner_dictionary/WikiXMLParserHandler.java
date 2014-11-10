@@ -1,6 +1,9 @@
 package ner_dictionary;
 
 import java.io.PrintStream;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -17,25 +20,28 @@ public class WikiXMLParserHandler extends DefaultHandler{
 	private String actualPageTitle;
 	private String actualPageText;
 	private boolean readText = false;
+	private boolean redirect = false;
 	private PrintStream outputFileStream;
 	private RuleSet ruleSet;
 	public static final String DEFAULT_CATEGORY = "Miscellaneous";
+	private Set<Redirect> redirectCache;
+	private HashMap<String, String> categories;
 	
 	public WikiXMLParserHandler(PrintStream outputFileStream, RuleSet ruleSet) {
 		super();
 		this.outputFileStream = outputFileStream;
 		this.ruleSet = ruleSet;
+		this.redirectCache = new HashSet<Redirect>();
+		this.categories = new HashMap<String, String>();
 	}
 	
 	@Override
 	public void startDocument() throws SAXException {
-		System.out.println("Start parsing the document." + System.lineSeparator());
 		super.startDocument();
 	}
 	
 	@Override
 	public void endDocument() throws SAXException {
-		System.out.println(System.lineSeparator() + "The document end reached.");
 		super.endDocument();
 	}
 	
@@ -46,9 +52,15 @@ public class WikiXMLParserHandler extends DefaultHandler{
 			sBuilder = new StringBuilder();
 			readText = true;
 			break;
+		case "redirect":
+			redirect = true;
+			addRedirect(actualPageTitle, attributes.getValue(0));
+			break;
 		case "text":
-			sBuilder = new StringBuilder();
-			readText = true;
+			if (!redirect) {
+				sBuilder = new StringBuilder();
+				readText = true;
+			}
 			break;
 		default:
 			break;
@@ -64,9 +76,13 @@ public class WikiXMLParserHandler extends DefaultHandler{
 			readText = false;
 			break;
 		case "text":
-			actualPageText = sBuilder.toString();
-			readText = false;
-			addEntry(actualPageTitle, actualPageText);
+			if (!redirect) {
+				actualPageText = sBuilder.toString();
+				readText = false;
+				addEntry(actualPageTitle, actualPageText);
+			} else {
+				redirect = false;
+			}
 			break;
 		default:
 			break;
@@ -84,12 +100,11 @@ public class WikiXMLParserHandler extends DefaultHandler{
 	
 	private void addEntry(String title, String text) {
 		String category = detectCategory(text);
-//		System.out.println(title + " - " + category.toString());
+		categories.put(title, category);
 		outputFileStream.println(title + "\t" + category.toString());
 	}
 	
 	private String detectCategory(String text) {
-		
 		for (Rule rule : ruleSet.getRuleList()) {
 			Pattern pattern = Pattern.compile(rule.getPattern());
 			Matcher matcher = pattern.matcher(text);
@@ -100,19 +115,32 @@ public class WikiXMLParserHandler extends DefaultHandler{
 		return DEFAULT_CATEGORY;
 	}
 	
-	private enum EntityCategory {
-		PERSON("Person"), ORGANIZATION("Organization"), LOCATION("Location"), MISCELLANEOUS("Miscellaneous");
-		
-		private final String text;
-
-	    private EntityCategory(final String text) {
-	        this.text = text;
-	    }
-
-	    @Override
-	    public String toString() {
-	        return text;
-	    }
+	private void addRedirect(String title, String redirectTitle) {
+//		outputFileStream.println(title + "\t" + "Redirect");
+		redirectCache.add(new Redirect(title, redirectTitle));
 	}
-
+	
+	public int processRedirects() {
+		int cacheSize = redirectCache.size();
+		System.out.println("Redirects: " + cacheSize);
+		for (Redirect redirect : redirectCache) {
+			String redirectCategory = categories.get(redirect.redirectPage);
+			if (redirectCategory != null) {
+				outputFileStream.println(redirect.page + "\t" + redirectCategory);
+				cacheSize--;
+			}
+		}
+		return cacheSize;
+	}
+	
+	public class Redirect
+	{
+		public String page;
+	    public String redirectPage;
+		
+	    public Redirect(String page, String redirectPage) {
+			this.page = page;
+			this.redirectPage = redirectPage;
+		}
+	}
 }

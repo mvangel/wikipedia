@@ -1,15 +1,36 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ruleset>
 	<rule>
-		<pattern>(?m)^\|.?birth_date</pattern>
+		<pattern>(?m)^\s*\|\s*birth_</pattern>
 		<category>Person</category>
 	</rule>
 	<rule>
-		<pattern>(?m)^\|.?Capital</pattern>
+		<pattern>(?m)^\s*\{\{\s*Geobox</pattern>
 		<category>Location</category>
 	</rule>
 	<rule>
-		<pattern>(?m)^\|.?latitude</pattern>
+		<pattern>(?m)^\s*\{\{\s*Infobox\s*((company)|(.*organi[sz]ation))</pattern>
+		<category>Organization</category>
+	</rule>
+	<rule>
+		<pattern>(?ms)^\s*\{\{\s*Infobox[^\{]*[Ll]ocation</pattern>
+		<category>Location</category>
+	</rule>
+	<!-- Weaker rules-->
+	<rule>
+		<pattern>(?m)^\s*\{\{\s*Persondata</pattern>
+		<category>Person</category>
+	</rule>
+	<rule>
+		<pattern>(?ms)^\s*\{\{\s*Infobox[^\{]*[Ll]atitude</pattern>
+		<category>Location</category>
+	</rule>
+	<rule>
+		<pattern>(?ms)^\s*\{\{\s*Infobox[^\{]*[Cc]oord[is]</pattern>
+		<category>Location</category>
+	</rule>
+	<rule>
+		<pattern>(?ms)^\s*\{\{\s*Infobox[^\{]*[Pp]opulation</pattern>
 		<category>Location</category>
 	</rule>
 </ruleset>
