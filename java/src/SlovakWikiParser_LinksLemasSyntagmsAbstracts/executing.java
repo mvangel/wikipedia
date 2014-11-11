@@ -21,14 +21,14 @@ public class executing {
 		try
 		{
 		//open file with articles
-		Path fileWiki = Paths.get("C:/Users/Domi/workspace/WikiParser/data/sample_skwiki-latest-pages-articles.xml");
-		//Path fileWiki = Paths.get("C:/Users/Domi/workspace/WikiParser/data/skwiki-latest-pages-articles.xml");
+		Path fileWiki = Paths.get("../../../data/sample_skwiki-latest-pages-articles.xml");
+		//Path fileWiki = Paths.get("../../../data/skwiki-latest-pages-articles.xml");
 		byte[] fileArray;
 		fileArray = Files.readAllBytes(fileWiki);
 		strPagesWikiFile = new String(fileArray, "UTF-8");
 		
 		//open file with articles
-		Path fileTypes = Paths.get("C:/Users/Domi/workspace/WikiParser/data/instance_types_sk.ttl");
+		Path fileTypes = Paths.get("../../../data/instance_types_sk.ttl");
 		fileArray = Files.readAllBytes(fileTypes);
 		strTypesFile = new String(fileArray, "UTF-8");
 
@@ -64,8 +64,8 @@ public class executing {
 		
 		
 		String output = getOutput(parsedSentences);
-		Path file = Paths.get("C:/Users/Domi/workspace/WikiParser/data/output1.xml");
-		//Path file = Paths.get("C:/Users/Domi/workspace/WikiParser/data/sample_output_parsed_sentences_and_links.xml");
+		Path file = Paths.get("../../../data/output1.xml");
+		//Path file = Paths.get("../../../data/sample_output_parsed_sentences_and_links.xml");
 		byte[] buf = output.getBytes("UTF-8");
 		Files.write(file, buf);
 
