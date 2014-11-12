@@ -3,6 +3,11 @@ package ttltoxml;
 import com.hp.hpl.jena.graph.Node;
 import com.hp.hpl.jena.graph.Triple;
 
+/**
+ * @author Skrisa Július
+ *
+ * RecordModel represents ttl record. When the file is parsed records are saving into this data strucutre.
+ */
 public class RecordModel {
 	private String resource;
 	private String property;
@@ -12,7 +17,7 @@ public class RecordModel {
 	    Node   object    = stmt.getObject();    
 	    Node r = stmt.getSubject();
 	    Node p = stmt.getPredicate();
-	    if(!Settings.Predicates.contains(p.getLocalName()))
+	    if(!SettingsOfTtlFiles.Predicates.contains(p.getLocalName()))
 	    		return false;
 	    if (!object.isLiteral()) {
 	    	if(object.toString().contains("resource"))

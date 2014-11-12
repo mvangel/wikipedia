@@ -1,22 +1,22 @@
 package test;
 import java.util.List;
 
-import ttltoxml.DataParser;
+import ttltoxml.DataParserOfTtlDumps;
 import ttltoxml.RecordModel;
-import ttltoxml.Settings;
+import ttltoxml.SettingsOfTtlFiles;
 import junit.framework.Assert;
 import junit.framework.TestCase;
 
 
 @SuppressWarnings("deprecation")
-public class TestInputValidity extends TestCase {
+public class TestInputPresenceOfTestEntitiesInDumps extends TestCase {
 	
 	public void testValidity() throws Exception {
 	   
-	   for(int j = 0; j < Settings.Files.size() ; j++){
-			DataParser File = new DataParser(Settings.Files.get(j),"test"); // real ttl dump files - defined in ttltoxml.settings
+	   for(int j = 0; j < SettingsOfTtlFiles.Files.size() ; j++){
+		   DataParserOfTtlDumps File = new DataParserOfTtlDumps(SettingsOfTtlFiles.Files.get(j),"test"); // real ttl dump files - defined in ttltoxml.settings
 			List<RecordModel> listP = File.ParseTest();
-			DataParser TestFile = new DataParser(Settings.TestFiles.get(j),"test"); // test input files - defined in ttltoxml.settings
+			DataParserOfTtlDumps TestFile = new DataParserOfTtlDumps(SettingsOfTtlFiles.TestFiles.get(j),"test"); // test input files - defined in ttltoxml.settings
 			List<RecordModel> listTF = TestFile.ParseTest();
 		   
 			boolean flag = true;

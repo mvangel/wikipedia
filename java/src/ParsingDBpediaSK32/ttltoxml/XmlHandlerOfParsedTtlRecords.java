@@ -17,14 +17,24 @@ import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.NodeList;
 
 
-public class XmlHandler {
+/**
+ * @author Skrisa Július
+ * 
+ * This class is handling the creation of xml document. It is handling the records one by one.
+ * During handling of one records there is several operations to be done:
+ * 	1. method will check if the record contains predicate that is supported
+ *  2. then the program will search in existing xml document (created during handling previous records) and its looking for an article where the record belongs
+ *     if it is not found the article element will be created.
+ *  3 recoprd is saved in xml document on its place and element with data content is created.
+ */
+public class XmlHandlerOfParsedTtlRecords {
 	
 	private static DocumentBuilderFactory documentFactory;
 	private static DocumentBuilder documentBuilder;
 	private static Document document;
 	private static Element rootElement;
 	
-	public XmlHandler(){
+	public XmlHandlerOfParsedTtlRecords(){
 		try {
 			documentFactory = DocumentBuilderFactory.newInstance();  
 			documentBuilder = documentFactory.newDocumentBuilder();
@@ -189,9 +199,9 @@ public class XmlHandler {
 			serializer.serialize(document);
 			
 			String formattedXML = out.toString();
-			File outFile = new File(Settings.OutputFile);
+			File outFile = new File(SettingsOfTtlFiles.OutputFile);
 			outFile.getParentFile().mkdirs();
-			PrintWriter writer = new PrintWriter(Settings.OutputFile, "UTF-8");
+			PrintWriter writer = new PrintWriter(SettingsOfTtlFiles.OutputFile, "UTF-8");
 			writer.print(formattedXML);
 			writer.close();
 		} catch (Exception e) {

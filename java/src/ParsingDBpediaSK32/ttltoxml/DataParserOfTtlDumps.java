@@ -12,18 +12,18 @@ import org.apache.jena.riot.lang.PipedTriplesStream;
 
 import com.hp.hpl.jena.graph.Triple;
 
-public class DataParser {
+public class DataParserOfTtlDumps {
 	private String fileToParse;
 	PipedRDFStream<Triple> inputStream;
 	String file;
 	PipedRDFIterator<Triple> iter;
 	ExecutorService executor;
 	
-	public DataParser(String files, String test){
+	public DataParserOfTtlDumps(String files, String test){
 		fileToParse = files;
 	}
 	
-	public DataParser(String files){ //creating input stream to parse by records in ttl file
+	public DataParserOfTtlDumps(String files){ //creating input stream to parse by records in ttl file
 		iter = new PipedRDFIterator<Triple>();
 		inputStream = new PipedTriplesStream(iter);
 		file = System.getProperty("user.dir")+ "/data/" + files;

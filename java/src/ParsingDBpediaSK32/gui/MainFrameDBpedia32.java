@@ -1,6 +1,6 @@
 package gui;
 
-import indexing.Index;
+import indexing.IndexGeneratedArtcileXmlFile;
 
 import java.awt.EventQueue;
 
@@ -32,11 +32,15 @@ import java.util.List;
 
 import javax.swing.JList;
 
-public class MainFrame extends JFrame {
+/**
+ * @author Skrisa Július
+ *
+ */
+public class MainFrameDBpedia32 extends JFrame {
 
 	private JPanel contentPane;
 	private JTextField textField;
-	private Index ind;
+	private IndexGeneratedArtcileXmlFile ind;
 
 	/**
 	 * Launch the application.
@@ -45,7 +49,7 @@ public class MainFrame extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					MainFrame frame = new MainFrame();
+					MainFrameDBpedia32 frame = new MainFrameDBpedia32();
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -57,7 +61,7 @@ public class MainFrame extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public MainFrame() {
+	public MainFrameDBpedia32() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 910, 573);
 		contentPane = new JPanel();
@@ -128,7 +132,7 @@ public class MainFrame extends JFrame {
 		final JButton btnNewButton = new JButton("Index loaded file");
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				ind = new Index(); // createing index for genereted xml file
+				ind = new IndexGeneratedArtcileXmlFile(); // createing index for genereted xml file
 				ind.indexLoadedXml();
 				try {
 					ind.w.close();

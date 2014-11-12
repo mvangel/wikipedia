@@ -4,14 +4,18 @@ import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 
 import org.w3c.dom.Document;
+import ttltoxml.SettingsOfTtlFiles;
 
-import ttltoxml.Settings;
 
-public class LoadXml {
+/**
+ * @author Skrisa Július
+ * Parsing and saving xml file data to memory
+ */
+public class LoadGeneretedArticleXmlFile {
 	Document doc;
-	String file = Settings.OutputFile;
+	String file = SettingsOfTtlFiles.OutputFile;
 	
-	public LoadXml(){ //loading xml file to memory
+	public LoadGeneretedArticleXmlFile(){ //loading xml file to memory
 		DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
 		DocumentBuilder db;
 		try {
