@@ -2,7 +2,7 @@ package ttltoxml;
 
 
 /**
- * @author Skrisa Július
+ * @author Skrisa  JÃºlius
  * 
  * This is the main class of ttltoxml package. It manages the parsing and saving records into xml file.
  * For each ttl file there is data parser class which parsing the file record by record and pushing it to xml handler class

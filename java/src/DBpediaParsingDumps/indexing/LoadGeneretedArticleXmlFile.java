@@ -8,7 +8,7 @@ import ttltoxml.SettingsOfTtlFiles;
 
 
 /**
- * @author Skrisa Július
+ * @author Skrisa JÃºlius
  * Parsing and saving xml file data to memory
  */
 public class LoadGeneretedArticleXmlFile {

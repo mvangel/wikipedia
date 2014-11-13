@@ -8,6 +8,16 @@ import junit.framework.Assert;
 import junit.framework.TestCase;
 
 
+/**
+ * @author Skrisa Július
+ * 
+ * This junit test is testing availability of test data in dump files.
+ * Test will be searching for sample data in whole specified dumps to ensure the validity of these dumps.
+ * Test data and dump files needs to be specified in ttltoxml.SettingsOfTtlFiles 
+ * 			-  Files - real dump files - test will be looking for the sample data in these files
+ * 			-  TestFiles - sample test files with data to be looked for 
+ *
+ */
 @SuppressWarnings("deprecation")
 public class TestInputPresenceOfTestEntitiesInDumps extends TestCase {
 	
@@ -27,7 +37,8 @@ public class TestInputPresenceOfTestEntitiesInDumps extends TestCase {
 				  	  break;
 				  }
 			  }
-			 System.out.println(flag);
+			 if(flag)
+				 System.out.println("Each entity in file " + SettingsOfTtlFiles.TestFiles.get(j) + " was found in dump files");
 			 Assert.assertEquals(true, flag);
 
 	   }

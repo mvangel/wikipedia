@@ -12,6 +12,11 @@ import org.apache.jena.riot.lang.PipedTriplesStream;
 
 import com.hp.hpl.jena.graph.Triple;
 
+/**
+ * @author Skrisa Július
+ *
+ *	This class uses Jena library to parse data from specified ttl files. 
+ */
 public class DataParserOfTtlDumps {
 	private String fileToParse;
 	PipedRDFStream<Triple> inputStream;
@@ -23,10 +28,10 @@ public class DataParserOfTtlDumps {
 		fileToParse = files;
 	}
 	
-	public DataParserOfTtlDumps(String files){ //creating input stream to parse by records in ttl file
+	public DataParserOfTtlDumps(String file1){ //creating input stream to parse by records in ttl file
 		iter = new PipedRDFIterator<Triple>();
 		inputStream = new PipedTriplesStream(iter);
-		file = System.getProperty("user.dir")+ "/data/" + files;
+		file = System.getProperty("user.dir")+ "\\data\\" + file1;
 		
 		Runnable parser = new Runnable() {
 			@Override
@@ -56,7 +61,7 @@ public class DataParserOfTtlDumps {
 		return iter.hasNext();
 	}
 	
-	public List<RecordModel> ParseTest(){
+	public List<RecordModel> ParseTest(){ //parser used for test same function but different return value to sipmlify test.
 		
 		
 		final String file = System.getProperty("user.dir")+ "/data/" + fileToParse;

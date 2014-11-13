@@ -33,7 +33,7 @@ import java.util.List;
 import javax.swing.JList;
 
 /**
- * @author Skrisa Július
+ * @author Skrisa  JÃºlius
  *
  */
 public class MainFrameDBpedia32 extends JFrame {
@@ -105,6 +105,8 @@ public class MainFrameDBpedia32 extends JFrame {
 		btnSearch.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				textArea.setText("");
+				listDoc.clear();
+				listA.clear();
 				ScoreDoc[] results = ind.search(textField.getText()); // searching in index
 				Document doc = null;
 				for(int i = 0; i<results.length; i++){ // adding data to gui for each record

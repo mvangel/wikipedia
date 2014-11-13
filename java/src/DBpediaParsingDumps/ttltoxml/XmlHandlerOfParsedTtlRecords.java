@@ -11,6 +11,7 @@ import javax.xml.parsers.DocumentBuilderFactory;
 
 import org.apache.xml.serialize.OutputFormat;
 import org.apache.xml.serialize.XMLSerializer;
+
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NamedNodeMap;
@@ -18,14 +19,14 @@ import org.w3c.dom.NodeList;
 
 
 /**
- * @author Skrisa Július
+ * @author Skrisa JÃºlius
  * 
  * This class is handling the creation of xml document. It is handling the records one by one.
  * During handling of one records there is several operations to be done:
  * 	1. method will check if the record contains predicate that is supported
  *  2. then the program will search in existing xml document (created during handling previous records) and its looking for an article where the record belongs
  *     if it is not found the article element will be created.
- *  3 recoprd is saved in xml document on its place and element with data content is created.
+ *  3 record is saved in xml document on its place and element with data content is created.
  */
 public class XmlHandlerOfParsedTtlRecords {
 	
