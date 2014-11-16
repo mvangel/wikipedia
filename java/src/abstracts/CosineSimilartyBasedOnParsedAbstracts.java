@@ -5,10 +5,13 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileFilter;
 import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStreamWriter;
+import java.io.Writer;
 import java.sql.Timestamp;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
@@ -40,14 +43,14 @@ public class CosineSimilartyBasedOnParsedAbstracts {
 	public static LinkedHashSet<String> intersection;
 	
 	//Number of lines from index_ids.txt file to compute cosine similarity
-	private static int numbOfRecordsToProccessFromList = 100;
+	private static int numbOfRecordsToProccessFromList = 1000;
 	
 	//Instance of my parser
 	private static WikiPagesAndAbstractsParser myParser;
 	
 	// Names of XMLs files which contains data, star at the end is important as regex matcher for any number
-	private static final String filterNameOfAbstractFile = "sample_input_enwiki-latest-abstract*";
-	private static final String	filterNameOfPageFile = "sample_input_enwiki-latest-pages-articles*";
+	private static final String filterNameOfAbstractFile = "sample_input_enwiki-latest-abstract1";
+	private static final String	filterNameOfPageFile = "sample_input_enwiki-latest-pages-articles9";
 	
 	// Set true if you want to create new index_ids.txt file, see createListOfCommonIDs method
 	private static Boolean fullExample = true;
@@ -78,7 +81,7 @@ public class CosineSimilartyBasedOnParsedAbstracts {
 			if(fullExample)
 				createListOfCommonIDs();
 			
-			readListOfCommonIDs(numbOfRecordsToProccessFromList);
+			readListOfCommonIDs(numbOfRecordsToProccessFromList, false);
 			
 			System.out.println("Number of processed records is set to: "+numbOfRecordsToProccessFromList);
 			System.out.println("Number of common titles are: "+intersection.size());
@@ -101,6 +104,15 @@ public class CosineSimilartyBasedOnParsedAbstracts {
 			System.out.println("Uncompared articles: "+myParser.unComparedArticles);
 			System.out.println("Compared but abstracts are corrupted: "+myParser.badAbstracts);
 			
+			Integer totalRecs = myParser.totalComparedRecords;
+
+			Double median = 0.0;
+			if((totalRecs % 2)==0)
+				median = (myParser.getValuesForMedians().get((totalRecs/2)-1) + myParser.getValuesForMedians().get((totalRecs/2)))/2;
+			else 
+				median = myParser.getValuesForMedians().get((totalRecs/2));
+			
+			System.out.println("Median of values: "+ df.format(median*100)+"%");
 			//Used to capture time complexity
 			java.util.Date date2 = new java.util.Date();
 			System.out.println("End: "+new Timestamp(date2.getTime()));
@@ -132,8 +144,10 @@ public class CosineSimilartyBasedOnParsedAbstracts {
 	 * This method read common IDs list and added to class variable intersection
 	 * @param numbOfRecordsToRead Default number is set by class, this number specific how
 	 * many lines from file we want to read
+	 * @param all Set to true if you want to process all abstracts from intersection set. If
+	 * this option is set to false then variable numbOfRecordsToProccessFromList is used.
 	 */
-	public static void readListOfCommonIDs(int numbOfRecordsToRead){
+	public static void readListOfCommonIDs(int numbOfRecordsToRead, boolean all){
 		try {
 			String path = new File(pathToResource+"\\index_ids.txt").getCanonicalPath();
 			File file = new File(path);
@@ -147,7 +161,8 @@ public class CosineSimilartyBasedOnParsedAbstracts {
 	        	String line = br.readLine();
 	        	if(line != null){
 		            intersection.add(line);
-		            counter--;
+		            if(!all)
+		            	counter--;
 	        	} else
 	        		break;
 	        }
@@ -270,6 +285,12 @@ public class CosineSimilartyBasedOnParsedAbstracts {
 	 */
 	public static void iterateOverFiles(String path, Boolean isAbstractFile, String filterString) throws XMLStreamException, IOException{
 		XMLInputFactory2 inputFactory = (XMLInputFactory2)XMLInputFactory.newInstance();
+		
+		if(!isAbstractFile){
+			Writer writer = new BufferedWriter(new OutputStreamWriter(
+			          new FileOutputStream("filename.csv"), "utf-8"));
+			myParser.setDevelFile(writer);
+		}
 		
 		File dir = new File(path);
 		FileFilter fileFilter = new WildcardFileFilter(filterString+"*.xml");

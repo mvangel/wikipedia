@@ -1,13 +1,18 @@
 package abstracts;
 
 import java.io.IOException;
+import java.io.Writer;
+import java.text.BreakIterator;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.LinkedHashSet;
 
 import javax.xml.stream.*;
 import javax.xml.stream.events.XMLEvent;
+
+
 
 /**
  * 
@@ -54,7 +59,17 @@ public class WikiPagesAndAbstractsParser {
 	
 	//Setted from outer when JUnit is processing.
 	private Boolean testEnviroment = false;
+	
+	//Number of parsed sentences from text
+	private final int numberOfParsedSentencesFromText = 3;
 		
+	//Devel enviroment
+	private Boolean develEnviroment = true;
+	
+	private Writer develFileWithSimilarity;
+	
+	private ArrayList<Double> valueForMedianStats = new ArrayList<Double>();
+	
 	/**
 	 * Reading XML files from input
 	 * @param stream Stream
@@ -194,6 +209,7 @@ public class WikiPagesAndAbstractsParser {
 										if(!Double.isNaN(similarity)){
 											totalPercentage += similarity;
 											totalComparedRecords++;
+											valueForMedianStats.add(similarity); 
 										} else
 											badAbstracts++;
 										
@@ -204,8 +220,19 @@ public class WikiPagesAndAbstractsParser {
 											System.out.println("Abstract from article: "+articleText);
 											System.out.println("Cosine similarity: "+ df.format(similarity*100)+" %");
 											queryFinished = true;
-										} else
-											System.out.println(totalComparedRecords+".) Comparing: "+ allAbstracts.get(title).getTitleTag() + " and "+newPage.getTitleTag()+", Similarity: "+df.format(similarity*100)+" %");
+										} else {
+											if(develEnviroment)
+												System.out.println(totalComparedRecords+".) Comparing: "+ allAbstracts.get(title).getTitleTag() + " and "+newPage.getTitleTag()+", Similarity: "+df.format(similarity*100)+" %");
+											else{
+												if(!Double.isNaN(similarity)){
+													System.out.println(similarity+";"+totalComparedRecords+";");
+													develFileWithSimilarity.write(similarity+";"+totalComparedRecords+";"+"\n");
+													valueForMedianStats.add(similarity); 
+												}
+											}
+												
+										}
+											
 									} 
 								} catch (IOException e) {
 									System.out.println(e.getLocalizedMessage());
@@ -271,25 +298,41 @@ public class WikiPagesAndAbstractsParser {
 		//Remove new lines
 		result = result.replaceAll("\\n", "");
 		
-		/*result = result.replaceAll("\\|(.+?)\\]\\]", "#@#$1");
-		result = result.replaceAll("\\[{2}(.+?)\\]\\]", "$1");
-		result = result.replaceAll("\\[{2}.+?#@#", "");*/
-		//System.out.println(result);
 		//result = result.replaceAll("\\[{2}(.+)?\\|(.+)?\\]{2}","$2");
 		//result = result.replaceAll("\\[(.*?)\\]|\\[(.*?)\\|(.*?)\\]","$2");
-			
+		
+		result = result.replaceAll("\\[{2}([^\\]^\\|]+)\\]{2}", "$1");
+		result = result.replaceAll("\\[{2}(.*?)\\|(.*?)\\]{2}", "$2");
+		
 		//Number of lines in output string of article text comment code bellow to obtain fulltext.
 		
-		String[] sentences = result.split("(\\. )|[!?] {0,1}", 3);
+		//System.out.println(result);
+		
+		//String[] sentences = result.split("(\\. )|[!?] {0,1}", 3);
+		/*String[] sentences = result.split("(?i)(?<=[.?!])\\S+(?=[a-z])",3);
+		
 		
 		StringBuilder sb = new StringBuilder();
 		for (int i = 0; i < sentences.length; i++) {
 			sb.append(sentences[i]+". ");
 		}
-		result = sb.toString();
+		result = sb.toString();*/
 		
+		//System.out.println(result);
 		
-		return result.trim();
+		BreakIterator bi = BreakIterator.getSentenceInstance();
+		bi.setText(result);
+		int index = 0;
+		int i = 0;
+		
+		StringBuilder sb = new StringBuilder();
+		while (bi.next() != BreakIterator.DONE && i < numberOfParsedSentencesFromText) {
+			sb.append(result.substring(index, bi.current()).trim());
+		    index = bi.current();
+		    i++;
+		}
+
+		return result = sb.toString();
 	}
 	
 	
@@ -324,5 +367,14 @@ public class WikiPagesAndAbstractsParser {
 	
 	public void setTestEnvireoment(Boolean testEnviroment){
 		this.testEnviroment = testEnviroment;
+	}
+	
+	public void setDevelFile(Writer develFile){
+		this.develFileWithSimilarity = develFile;
+	}
+	
+	public ArrayList<Double> getValuesForMedians(){
+		Collections.sort(valueForMedianStats);
+		return valueForMedianStats;
 	}
 }
