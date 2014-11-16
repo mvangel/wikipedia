@@ -5,13 +5,10 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileFilter;
 import java.io.FileInputStream;
-import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.OutputStreamWriter;
-import java.io.Writer;
 import java.sql.Timestamp;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
@@ -286,11 +283,7 @@ public class CosineSimilartyBasedOnParsedAbstracts {
 	public static void iterateOverFiles(String path, Boolean isAbstractFile, String filterString) throws XMLStreamException, IOException{
 		XMLInputFactory2 inputFactory = (XMLInputFactory2)XMLInputFactory.newInstance();
 		
-		if(!isAbstractFile){
-			Writer writer = new BufferedWriter(new OutputStreamWriter(
-			          new FileOutputStream("filename.csv"), "utf-8"));
-			myParser.setDevelFile(writer);
-		}
+		
 		
 		File dir = new File(path);
 		FileFilter fileFilter = new WildcardFileFilter(filterString+"*.xml");
