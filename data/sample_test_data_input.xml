@@ -2,32 +2,23 @@
 	<page>
 		<title>Hound</title>
 		<redirect title="Dog" />
-		<revision>
-			<text></text>
-		</revision>
+	</page>
+	<page>
+		<title>Bark Machine</title>
+		<redirect title="Dog" />
 	</page>
 	<page>
 		<title>Puppy</title>
-		<revision>
-			<text>Puppy is just young [[Dog|dog animal]].</text>
-		</revision>
+		<redirect title="Dog" />
 	</page>
 	<page>
 		<title>Dog</title>
-		<revision>
-			<text>Dog is an [[Animals|animal]] but is not one of the [[Category:Aliens|extraterrestrial beings]].</text>
-		</revision>
 	</page>
 	<page>
-		<title>Animals</title>
-		<revision>
-			<text>Animals are OK.</text>
-		</revision>
+		<title>Football</title>
 	</page>
 	<page>
-		<title>Aliens</title>
-		<revision>
-			<text>Aliens would be OK.</text>
-		</revision>
+		<title>Soccer</title>
+		<redirect title="Football" />
 	</page>
 </mediawiki>
