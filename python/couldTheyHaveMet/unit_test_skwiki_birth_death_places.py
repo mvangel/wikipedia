@@ -1,8 +1,5 @@
  #!/usr/bin/python3 
 
- # Copyright (C) 2013 Timotej Tkac.
-
-
 #python3 unit_test_skwiki_birth_death_places.py 
 #Expected output:
 #Steve Jobs;24.2.1955;5.10.2011;Spojené štáty|San Francisco|Kalifornia|USA|Palo Alto
@@ -11,8 +8,6 @@
 #Parsing successfull
 
 import xml.etree.ElementTree as etree
-import io
-import struct
 import re
 
 def check_path(value):
