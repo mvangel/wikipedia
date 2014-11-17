@@ -1,8 +1,20 @@
  #!/usr/bin/python3 
 
+ # Copyright (C) 2013 Timotej Tkac.
+
+
+#python3 unit_test_skwiki_birth_death_places.py 
+#Expected output:
+#Steve Jobs;24.2.1955;5.10.2011;Spojené štáty|San Francisco|Kalifornia|USA|Palo Alto
+#Parsed output: 
+#Steve Jobs;24.2.1955;5.10.2011;Spojené štáty|San Francisco|Kalifornia|USA|Palo Alto
+#Parsing successfull
+
 import xml.etree.ElementTree as etree
+import io
+import struct
 import re
-import unicodedata
+
 def check_path(value):
     svalue = value.strip()
     if not os.path.isfile(svalue):
@@ -12,10 +24,9 @@ def check_path(value):
 
 if __name__ == '__main__':     
             from argparse import ArgumentParser,ArgumentTypeError
-            import string	
             import datetime
             import os
-            import socket
+            import unicodedata
             parser = ArgumentParser()
             parser.add_argument("-f", "--file", dest="input_filename",required=True,
                                help="read input from FILE", metavar="FILE", type=check_path)
@@ -66,6 +77,10 @@ if __name__ == '__main__':
 'nezname': '',
 '<br >': '',
 ' a ': ' '}
+            print("Expected output:")
+            correct="Steve Jobs;24.2.1955;5.10.2011;Spojené štáty|San Francisco|Kalifornia|USA|Palo Alto"
+            print(correct)
+            print("Parsed output: ")
             for event, elem in etree.iterparse(open(args.input_filename, "rb"), events=('start', 'end')):
               if event == 'end':
                 if 'title' in elem.tag:
@@ -164,16 +179,23 @@ if __name__ == '__main__':
                     if "miesto" in stripped.lower().split('=')[0] and '=' in stripped:
                        #print(stripped)
                           word= stripped.split('=')[1]
-                       	  #print(word)
-                       	  chars = ['{','}','[',']','|','(',')',';']
-                       	  for char in chars:
-                       	  	if char in word:
-                       	  		word=word.replace(char,';')
-                       	  for place in word.split(';'):
-                       	     if place and place[0].isupper() and "Súbor:" not in place:
-                       	         places.add(place.strip())                       	       
+                          #print(word)
+                          chars = ['{','}','[',']','|','(',')',';']
+                          for char in chars:
+                            if char in word:
+                              word=word.replace(char,';')
+                          for place in word.split(';'):
+                             if place and place[0].isupper() and "Súbor:" not in place:
+                                 places.add(place.strip())                               
                   if birth or death:
                      if not name:
                         name=title
-                     print(name + ';' + birth + ';' + death + ';' + '|'.join(list(places)))
-                elem.clear()  
+                     out=(name + ';' + birth + ';' + death + ';' + '|'.join(list(places)))
+                     print(out)
+                     if out == correct:
+                       print("Parsing successfull")
+                       break
+                  print("Parsing failed")
+                  break
+                elem.clear()   
+      
