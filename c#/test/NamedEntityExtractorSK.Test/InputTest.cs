@@ -14,6 +14,9 @@ namespace NamedEntityExtractorSK.Test
 	[TestClass]
 	public class InputTest
 	{
+		/// <summary>
+		/// Check if Input file has some infobox
+		/// </summary>
 		[TestMethod]
 		public void HasAnyInfoboxes()
 		{
@@ -22,6 +25,9 @@ namespace NamedEntityExtractorSK.Test
 			Assert.AreEqual(page.Infoboxes.Any(), true);
 		}
 
+		/// <summary>
+		/// Check if first infobox has 2 items
+		/// </summary>
 		[TestMethod]
 		public void HasTwoItems()
 		{
@@ -32,6 +38,9 @@ namespace NamedEntityExtractorSK.Test
 			Assert.AreEqual(item.Items.Values.Count(), 2);
 		}
 
+		/// <summary>
+		/// Check if input file contains infobox 'Isaac Newton' and it is person
+		/// </summary>
 		[TestMethod]
 		public void ContainsPersonIsaacNewton()
 		{
@@ -45,6 +54,9 @@ namespace NamedEntityExtractorSK.Test
 			Assert.AreEqual(item.Items[key][0], value);
 		}
 
+		/// <summary>
+		/// Check if input file contains location 'Woolsthorpe-by-Colsterworth'
+		/// </summary>
 		[TestMethod]
 		public void ContainsLocationWoolsthorpeByColsterworth()
 		{
@@ -58,6 +70,10 @@ namespace NamedEntityExtractorSK.Test
 			Assert.AreEqual(item.Items[key][0], value);
 		}
 
+		/// <summary>
+		/// Get issac newton page
+		/// </summary>
+		/// <returns></returns>
 		private Page GetPage()
 		{
 			var inputFilePath = GetDataPath();
@@ -93,6 +109,9 @@ namespace NamedEntityExtractorSK.Test
 			return page;
 		}
 
+		/// <summary>
+		/// Check if input file exist
+		/// </summary>
 		[TestMethod]
 		public void InputFileExists()
 		{
@@ -103,6 +122,9 @@ namespace NamedEntityExtractorSK.Test
 			Assert.IsTrue(result);
 		}
 
+		/// <summary>
+		/// Check if input file contains sections (infobox/geobox/citation)
+		/// </summary>
 		[TestMethod]
 		public void ContainsSections()
 		{
@@ -136,6 +158,9 @@ namespace NamedEntityExtractorSK.Test
 			Assert.IsTrue(data.Any());
 		}
 
+		/// <summary>
+		/// Check if input file contains some page
+		/// </summary>
 		[TestMethod]
 		public void ContainsPages()
 		{

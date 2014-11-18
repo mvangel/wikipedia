@@ -1,5 +1,8 @@
 ﻿namespace NamedEntityExtractorSK.Data
 {
+	/// <summary>
+	/// NamedEntity Type Enum
+	/// </summary>
 	public enum NamedEntityType
 	{
 		#region Literals

@@ -3,12 +3,12 @@ using System.Linq;
 
 namespace NamedEntityExtractorSK.Data
 {
+	/// <summary>
+	/// Data class for citation
+	/// </summary>
 	[DebuggerDisplay("Content = {Content}")]
 	public class Citation : KnowlegeData
 	{
-		#region Properties
-		#endregion
-
 		#region Methods
 
 		public override void SetRegexAttributes()

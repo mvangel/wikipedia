@@ -5,6 +5,9 @@ using NamedEntityExtractorSK.Data.RegexStaticClasses;
 
 namespace NamedEntityExtractorSK.Data
 {
+	/// <summary>
+	/// Data class for infobox
+	/// </summary>
 	[DebuggerDisplay("Content = {Content}")]
 	public class Infobox : KnowlegeData
 	{

@@ -3,6 +3,9 @@ using System.Threading.Tasks;
 
 namespace NamedEntityExtractorSK.Data
 {
+	/// <summary>
+	/// Data class for Page
+	/// </summary>
 	public class Page
 	{
 		#region Properties
@@ -17,11 +20,6 @@ namespace NamedEntityExtractorSK.Data
 		{
 			Infoboxes = data;
 		}
-
-		#endregion
-
-		#region Methods
-
 
 		#endregion
 	}

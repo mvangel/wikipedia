@@ -2,6 +2,9 @@
 
 namespace NamedEntityExtractorSK.Data
 {
+	/// <summary>
+	/// Data class for geobox
+	/// </summary>
 	[DebuggerDisplay("Content = {Content}")]
 	public class Geobox : KnowlegeData
 	{

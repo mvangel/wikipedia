@@ -1,11 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 
 namespace NamedEntityExtractorSK.Data.RegexStaticClasses
 {
+	/// <summary>
+	/// Processed Infoboxes - contains regex patterns for different types of infoboxes
+	/// </summary>
 	public static class InfoboxRegex
 	{
 		public static string[] Types = new string[] {	@"^[\s]*(.*[oO]sobnos[tť].*)*([oO]soba.*)*([sS]v[aä]tec.*)*([sS]pisovate[lľ].*)*([dD]uchovn[yý].*)*([aA]tl[eé]t.*)*([hH]erec.*)*([kK]ozmonaut.*)*(.*[uU]melec.*)*[\s]*", 

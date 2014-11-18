@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Linq;
-using System.Data.Linq;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using NamedEntityExtractorSK.Utilities;
@@ -41,6 +40,10 @@ namespace NamedEntityExtractorSK.Data
 			this._Items = new Lazy<Dictionary<RegexKeyType, string[]>>(LoadItems);
 		}
 
+		/// <summary>
+		/// Load items from KnowledgeData part - split by '|' and decoding type of item
+		/// </summary>
+		/// <returns></returns>
 		private Dictionary<RegexKeyType, string[]> LoadItems()
 		{
 			var items = new Dictionary<RegexKeyType, string[]>();

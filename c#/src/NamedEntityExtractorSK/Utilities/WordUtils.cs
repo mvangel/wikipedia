@@ -27,6 +27,12 @@ namespace NamedEntityExtractorSK.Utilities
 			return text.TrimEnd(WhiteSpaces);
 		}
 
+		/// <summary>
+		/// Trim end chars from infobox/geobox/citation
+		/// </summary>
+		/// <typeparam name="T"></typeparam>
+		/// <param name="splited"></param>
+		/// <param name="data"></param>
 		public static void TrimBoxes<T>(IEnumerable<string> splited, ref List<KnowlegeData> data)
 			where T : KnowlegeData
 		{
@@ -44,6 +50,12 @@ namespace NamedEntityExtractorSK.Utilities
 			}
 		}
 
+		/// <summary>
+		/// Trim defined characters from input word
+		/// </summary>
+		/// <param name="word">Input word</param>
+		/// <param name="deleteNumbers">Remove numbers from the word</param>
+		/// <returns>Trimmed word</returns>
 		public static string TrimNonLetterCharacters(string word, bool deleteNumbers = false)
 		{
 			word = Regex.Replace(word, @"&[a-z]*;", "");

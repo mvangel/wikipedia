@@ -1,9 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 using NamedEntityExtractorSK.Data;
 using NamedEntityExtractorSK.Readers_writers;
 using NamedEntityExtractorSK.Utilities;
@@ -54,6 +51,9 @@ namespace NamedEntityExtractorSK
 			}
 		}
 
+		/// <summary>
+		/// Load named entities from input XML
+		/// </summary>
 		private static void LoadNamedEntitiesFromXML()
 		{
 			//string filePath = GetDataPath(@"input_skwiki-latest-pages-articles.xml")
@@ -63,28 +63,36 @@ namespace NamedEntityExtractorSK
 			reader.SetPagesFromInputFile(filePath);
 			var pages = reader.Pages;
 
+			//init arrays
 			Infoboxes = new List<Infobox>();
 			Geoboxes = new List<Geobox>();
 			Citations = new List<Citation>();
 
+			//init arrays for output
 			Persons = new List<string>();
 			Organizations = new List<string>();
 			Locations = new List<string>();
 
 			CategorizeProperties(pages);
 
+			//get entities
 			Persons = Persons.Select(x => WordUtils.TrimNonLetterCharacters(x, true)).OrderBy(x => x).Distinct(StringComparer.CurrentCultureIgnoreCase).ToList();
 			Organizations = Organizations.Select(x => WordUtils.TrimNonLetterCharacters(x)).OrderBy(x => x).Distinct(StringComparer.CurrentCultureIgnoreCase).ToList();
 			Locations = Locations.Select(x => WordUtils.TrimNonLetterCharacters(x, false)).OrderBy(x => x).Distinct(StringComparer.CurrentCultureIgnoreCase).ToList();
 
+			//write data into output files
 			NamedEntityWriter.WriteData(Persons, PersonsFileName);
 			NamedEntityWriter.WriteData(Organizations, OrganizationsFileName);
 			NamedEntityWriter.WriteData(Locations, LocationsFileName);
 
+			//start finder
 			var finder = new Finder(Persons, Organizations, Locations);
 			finder.Find();
 		}
 
+		/// <summary>
+		/// Load named entities from output files 
+		/// </summary>
 		private static void LoadNamedEntitiesFromFiles()
 		{
 			if (NamedEntityReader.FilesExist(PersonsFileName, OrganizationsFileName, LocationsFileName))
@@ -106,6 +114,10 @@ namespace NamedEntityExtractorSK
 			}
 		}
 
+		/// <summary>
+		/// Categorize properties of page to Infobox, Citation, Geobox
+		/// </summary>
+		/// <param name="pages">List of pages</param>
 		private static void CategorizeProperties(List<Page> pages)
 		{
 			foreach(var page in pages)

@@ -11,6 +11,11 @@ namespace NamedEntityExtractorSK.Readers_writers
 	{
 		#region Methods
 
+		/// <summary>
+		/// Write data into output file
+		/// </summary>
+		/// <param name="data">Data to write</param>
+		/// <param name="fileName">Full file path</param>
 		public static void WriteData(List<string> data, string fileName)
 		{
 			File.WriteAllLines(fileName, data.Where(x => !string.IsNullOrWhiteSpace(x)));
@@ -23,6 +28,11 @@ namespace NamedEntityExtractorSK.Readers_writers
 	{
 		#region Methods
 
+		/// <summary>
+		/// Read data from input file
+		/// </summary>
+		/// <param name="fileName">Full file path</param>
+		/// <returns></returns>
 		public static List<string> ReadData(string fileName)
 		{
 			var data = File.ReadAllLines(fileName, Encoding.UTF8).ToList();

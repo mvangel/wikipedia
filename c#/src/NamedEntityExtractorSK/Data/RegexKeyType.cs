@@ -1,5 +1,8 @@
 ﻿namespace NamedEntityExtractorSK.Data
 {
+	/// <summary>
+	/// Struct for define RegexType
+	/// </summary>
 	public struct RegexKeyType
 	{
 		public string Value;

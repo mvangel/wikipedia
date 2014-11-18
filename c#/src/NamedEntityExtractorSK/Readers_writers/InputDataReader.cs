@@ -27,6 +27,10 @@ namespace NamedEntityExtractorSK.Readers_writers
 			this.Pages = new List<Page>();
 		}
 
+		/// <summary>
+		/// Read XML - get pages structure
+		/// </summary>
+		/// <param name="inputFilePath"></param>
 		public void SetPagesFromInputFile(string inputFilePath)
 		{
 			using (var reader = XmlReader.Create(inputFilePath))
@@ -37,10 +41,14 @@ namespace NamedEntityExtractorSK.Readers_writers
 					{
 						var outerXml = reader.ReadOuterXml();
 
+						//paralel work
 						Parallel.Invoke(() =>
 							{
+								//get all infoboxes from page
 								var infoboxes = outerXml.Split(WordUtils.Infobox, System.StringSplitOptions.RemoveEmptyEntries).Skip(1);
+								//get all geoboxes from page
 								var geoboxes = outerXml.Split(WordUtils.Geobox, System.StringSplitOptions.RemoveEmptyEntries).Skip(1);
+								//get all citations from page
 								var citations = outerXml.Split(WordUtils.Citacia, System.StringSplitOptions.RemoveEmptyEntries).Skip(1);
 
 								if (infoboxes.Any() || geoboxes.Any() || citations.Any())
