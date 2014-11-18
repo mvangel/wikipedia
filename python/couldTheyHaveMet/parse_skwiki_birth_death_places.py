@@ -170,15 +170,14 @@ if __name__ == '__main__':
                              death=(str(struct_time.day) +'.'+ str(struct_time.month) +'.'+ str(struct_time.year))
                              
                     elif stripped.startswith('}}'):
-                      break #end of Infobox reached
+                      break #end of Infobox reachde
                     if "miesto" in stripped.lower().split('=')[0] and '=' in stripped:
-                       #print(stripped)
                           word= stripped.split('=')[1]
-                       	  #print(word)
+                       	  #split string to substrings using special characters 
                        	  chars = ['{','}','[',']','|','(',')',';']
                        	  for char in chars:
                        	  	if char in word:
-                       	  		word=word.replace(char,';')
+                       	  		word=word.replace(char,';')  #replace chars by semicolon
                        	  for place in word.split(';'):
                        	     if place and place[0].isupper() and "Súbor:" not in place: #string that starts with uppercase is treated as location
                        	         places.add(place.strip())                       	       
