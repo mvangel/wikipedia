@@ -42,7 +42,7 @@ def print_menu(scr, res1, sel):
                 line=line.replace('|',', ') #delimit places by comma
                 line=line.split(';')
                 line[0]=line[0].ljust(35)
-                line[1]=line[1].rjust(11)``#justify printed text
+                line[1]=line[1].rjust(11)  #justify printed text
                 line[1]+=' - '
                 if i == sel:
                    scr.addstr('->>\t'+' '.join(line) + '\n', curses.A_BOLD)  ##highlight curret selection
