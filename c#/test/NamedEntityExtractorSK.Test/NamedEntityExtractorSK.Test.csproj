@@ -56,7 +56,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\NamedEntityExtractorSK\NamedEntityExtractorSK.csproj">
+    <ProjectReference Include="..\..\src\NamedEntityExtractorSK\NamedEntityExtractorSK.csproj">
       <Project>{1cf7f0d1-21e7-4045-8eb2-1c02e4cfa5c9}</Project>
       <Name>NamedEntityExtractorSK</Name>
     </ProjectReference>
