@@ -14,9 +14,9 @@ namespace NamedEntityExtractorSK
 	{
 		#region Fields
 
-		const string PersonsFileName = "persons.txt";
-		const string OrganizationsFileName = "organizations.txt";
-		const string LocationsFileName = "locations.txt";
+		static string PersonsFileName = "persons.txt";
+		static string OrganizationsFileName = "organizations.txt";
+		static string LocationsFileName = "locations.txt";
 
 		#endregion
 
@@ -37,6 +37,10 @@ namespace NamedEntityExtractorSK
 		static void Main(string[] args)
 		{
 			Console.WriteLine("Choose mode: \n'X' - for load from XML,\n'F' - load from existing parsered text files  (persons.txt, organizations.txt, locations.txt ) //if exists..\nMode: ");
+
+			PersonsFileName = GetDataPath(@"sample_output_persons_skwiki-latest-pages-articles.txt");
+			OrganizationsFileName = GetDataPath(@"sample_output_organizations_skwiki-latest-pages-articles.txt");
+			LocationsFileName = GetDataPath(@"sample_output_locations_skwiki-latest-pages-articles.txt");
 
 			//load xml
 			if (Console.ReadLine().ToLower().Equals("x"))
