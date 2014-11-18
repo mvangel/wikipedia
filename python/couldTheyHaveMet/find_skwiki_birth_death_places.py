@@ -66,7 +66,7 @@ def getPerson(num, file):
             if full_match and input_normalized.strip() and birth and '?' not in birth:
             	res1.append(line.strip())
           os.system('clear')   
-          if len(res1)>SEARCH_LIMIT:
+          if len(res1)>SEARCH_LIMIT:  #limit number of found entries for easier item selection
              res1=list()
              print('Please enter more specific keyword')
           elif len(res1)==0:
@@ -75,14 +75,16 @@ def getPerson(num, file):
 
         sel=0
         while len(res1)>1:
-           c=getsel(res1, sel)
-           if c==curses.KEY_DOWN and sel<(len(res1)-1):
+           c=getsel(res1, sel) #get user action - selection or cursor move
+           if c==curses.KEY_DOWN and sel<(len(res1)-1):  
                   sel+=1
            elif c ==curses.KEY_UP and sel>0:
                   sel-=1
            elif c == curses.KEY_ENTER or c == 13:
            	break
-        return res1[sel]
+        return res1[sel]       #return selected item
+        
+##store dates from item to date range 
 def getDates(res1):
         Range = namedtuple('Range', ['start', 'end'])
         firstB=res1.split(';')[1]
@@ -94,10 +96,9 @@ def getDates(res1):
            firstD=datetime.datetime.now()
         return Range(start=firstB, end=firstD)
      
-SEARCH_LIMIT = 24
+SEARCH_LIMIT = 24  #configurable - #limit number of found items fot easier selection
 if __name__ == '__main__':
         from argparse import ArgumentParser,ArgumentTypeError
-        import termios
         parser = ArgumentParser()
         parser.add_argument("-f", "--file", dest="input_filename", required=True,
                                help="read parsed FILE", metavar="FILE", type=check_path)
