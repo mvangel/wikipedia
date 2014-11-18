@@ -60,9 +60,7 @@ namespace NamedEntityExtractorSK.Test
 
 		private Page GetPage()
 		{
-			var baseDirectory = AppDomain.CurrentDomain.BaseDirectory.Split('\\');
-			var directory = baseDirectory.Take(baseDirectory.Length - 3).Aggregate((a, b) => a + '\\' + b);
-			var inputFilePath = directory + @"\NamedEntityExtractorSK\InputData\sample_skwiki-latest-pages-articles.xml";
+			var inputFilePath = GetDataPath();
 
 			Page page = null;
 
@@ -98,9 +96,7 @@ namespace NamedEntityExtractorSK.Test
 		[TestMethod]
 		public void InputFileExists()
 		{
-			var baseDirectory = AppDomain.CurrentDomain.BaseDirectory.Split('\\');
-			var directory = baseDirectory.Take(baseDirectory.Length - 3).Aggregate((a, b) => a + '\\' + b);
-			var inputFilePath = directory + @"\NamedEntityExtractorSK\InputData\skwiki-latest-pages-articles.xml";
+			var inputFilePath = GetDataPath();
 
 			var result = File.Exists(inputFilePath);
 
@@ -111,9 +107,7 @@ namespace NamedEntityExtractorSK.Test
 		public void ContainsSections()
 		{
 			var data = new List<KnowlegeData>();
-			var baseDirectory = AppDomain.CurrentDomain.BaseDirectory.Split('\\');
-			var directory = baseDirectory.Take(baseDirectory.Length - 3).Aggregate((a, b) => a + '\\' + b);
-			var inputFilePath = directory + @"\NamedEntityExtractorSK\InputData\skwiki-latest-pages-articles.xml";
+			var inputFilePath = GetDataPath();
 
 			using (var reader = XmlReader.Create(inputFilePath))
 			{
@@ -146,9 +140,7 @@ namespace NamedEntityExtractorSK.Test
 		public void ContainsPages()
 		{
 			var somePages = false;
-			var baseDirectory = AppDomain.CurrentDomain.BaseDirectory.Split('\\');
-			var directory = baseDirectory.Take(baseDirectory.Length - 3).Aggregate((a, b) => a + '\\' + b);
-			var inputFilePath = directory + @"\NamedEntityExtractorSK\InputData\skwiki-latest-pages-articles.xml";
+			var inputFilePath = GetDataPath();
 
 			using (var reader = XmlReader.Create(inputFilePath))
 			{
@@ -163,6 +155,13 @@ namespace NamedEntityExtractorSK.Test
 			}
 
 			Assert.IsTrue(somePages);
+		}
+
+		public string GetDataPath()
+		{
+			var baseDirectory = AppDomain.CurrentDomain.BaseDirectory.Split('\\');
+			var directory = baseDirectory.Take(baseDirectory.Length - 5).Aggregate((a, b) => a + '\\' + b);
+			return directory + @"\data\sample_input_skwiki-latest-pages-articles.xml";
 		}
 	}
 }

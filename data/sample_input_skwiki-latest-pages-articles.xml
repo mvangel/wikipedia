@@ -190,7 +190,21 @@ Ak pokladáte Wikipédiu alebo sesterské projekty za užitočné, prosím zvá�
         <username>Andre Engels</username>
         <id>2</id>
       </contributor>
-      <text xml:space="preserve">#REDIRECT [[Hlavná stránka]]</text>
+      <text xml:space="preserve">#REDIRECT [[Hlavná stránka]]
+	  == Zdroje ==
+* {{Citácia Harvard
+|Priezvisko1 = Dragúň
+|Meno1 = Emil
+|Priezvisko2 = Dříza
+|Meno2 = Jan
+|Titul = Dejiny filozofie
+|Diel = 1
+|Rok = 1998
+|Vydavateľ = Univerzita Konštantína Filozofa
+|Miesto = Nitra
+|ISBN = 8080501785
+}}
+	  </text>
       <sha1>gj4ij44roeqj42e06ryb2oj86hae6f8</sha1>
       <model>wikitext</model>
       <format>text/x-wiki</format>

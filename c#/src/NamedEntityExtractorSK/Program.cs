@@ -52,10 +52,8 @@ namespace NamedEntityExtractorSK
 
 		private static void LoadNamedEntitiesFromXML()
 		{
-			var baseDirectory = AppDomain.CurrentDomain.BaseDirectory.Split('\\');
-			var directory = baseDirectory.Take(baseDirectory.Length - 3).Aggregate((a, b) => a + '\\' + b);
-			//string filePath = directory + @"\InputData\skwiki-latest-pages-articles.xml";
-			string filePath = directory + @"\InputData\sample_skwiki-latest-pages-articles.xml";
+			//string filePath = GetDataPath(@"input_skwiki-latest-pages-articles.xml")
+			string filePath = GetDataPath();
 			var reader = new InputDataReader();
 
 			reader.SetPagesFromInputFile(filePath);
@@ -152,6 +150,13 @@ namespace NamedEntityExtractorSK
 			}
 
 			return items.ToArray();
+		}
+
+		public static string GetDataPath(string file = @"sample_input_skwiki-latest-pages-articles.xml")
+		{
+			var baseDirectory = AppDomain.CurrentDomain.BaseDirectory.Split('\\');
+			var directory = baseDirectory.Take(baseDirectory.Length - 6).Aggregate((a, b) => a + '\\' + b);
+			return string.Format("{0}\\data\\{1}", directory, file);
 		}
 
 		#endregion
