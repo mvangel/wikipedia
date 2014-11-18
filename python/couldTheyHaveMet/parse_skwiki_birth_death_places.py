@@ -170,7 +170,7 @@ if __name__ == '__main__':
                              death=(str(struct_time.day) +'.'+ str(struct_time.month) +'.'+ str(struct_time.year))
                              
                     elif stripped.startswith('}}'):
-                      break #end of Infobox reachde
+                      break #end of Infobox reached
                     if "miesto" in stripped.lower().split('=')[0] and '=' in stripped:
                           word= stripped.split('=')[1]
                        	  #split string to substrings using special characters 
