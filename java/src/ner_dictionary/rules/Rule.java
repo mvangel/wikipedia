@@ -1,5 +1,6 @@
 package ner_dictionary.rules;
 
+import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
@@ -7,7 +8,13 @@ import javax.xml.bind.annotation.XmlRootElement;
 public class Rule {
 	
 	private String pattern;
-	private String category;
+	private String categoryName;
+	private Integer categoryId;
+	private RuleType type;
+	
+	public Rule(){
+		this.type = RuleType.NONE;
+	}
 	
 	@XmlElement(name="pattern")
 	public String getPattern() {
@@ -18,10 +25,34 @@ public class Rule {
 	}
 	
 	@XmlElement(name="category")
-	public String getCategory() {
-		return category;
+	public String getCategoryName() {
+		return categoryName;
 	}
-	public void setCategory(String category) {
-		this.category = category;
+	public void setCategoryName(String category) {
+		this.categoryName = category;
+	}
+	
+	public Integer getCategoryId() {
+		return categoryId;
+	}
+	public void setCategoryId(Integer categoryId) {
+		this.categoryId = categoryId;
+	}
+	
+	@XmlAttribute(name="type")
+	public String getTypeAsString() {
+		return type.toString().toLowerCase();
+	}
+	public void setType(String type) {
+		try {	
+			this.type = RuleType.valueOf(type.toUpperCase());
+		} catch (IllegalArgumentException e) {
+			System.err.println("Type of rule " + this.type + " is undefined.");
+			e.printStackTrace();
+			System.exit(1);
+		}
+	}
+	public boolean verifyTypeById(RuleType type) {
+		return (type == this.type);
 	}
 }

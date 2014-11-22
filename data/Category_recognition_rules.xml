@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ruleset>
+	<!-- Rules of type="info" are applied only in text of Infoboxes.-->
 	<rule>
 		<pattern>(?m)^\s*\|\s*birth_</pattern>
 		<category>Person</category>
@@ -12,8 +13,8 @@
 		<pattern>(?m)^\s*\{\{\s*Infobox\s*((company)|(.*organi[sz]ation))</pattern>
 		<category>Organization</category>
 	</rule>
-	<rule>
-		<pattern>(?ms)^\s*\{\{\s*Infobox[^\{]*[Ll]ocation</pattern>
+	<rule type="info">
+		<pattern>(?m)^\s*\|\s*[Ll]ocation</pattern>
 		<category>Location</category>
 	</rule>
 	<!-- Weaker rules-->
@@ -21,16 +22,16 @@
 		<pattern>(?m)^\s*\{\{\s*Persondata</pattern>
 		<category>Person</category>
 	</rule>
-	<rule>
-		<pattern>(?ms)^\s*\{\{\s*Infobox[^\{]*[Ll]atitude</pattern>
+	<rule type="info">
+		<pattern>(?m)^\s*\|\s*[Ll]atitude</pattern>
 		<category>Location</category>
 	</rule>
-	<rule>
-		<pattern>(?ms)^\s*\{\{\s*Infobox[^\{]*[Cc]oord[is]</pattern>
+	<rule type="info">
+		<pattern>(?m)^\s*\|\s*[Cc]oord[is]</pattern>
 		<category>Location</category>
 	</rule>
-	<rule>
-		<pattern>(?ms)^\s*\{\{\s*Infobox[^\{]*[Pp]opulation</pattern>
+	<rule type="info">
+		<pattern>(?m)^\s*\|\s*[Pp]opulation</pattern>
 		<category>Location</category>
 	</rule>
 </ruleset>

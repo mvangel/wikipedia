@@ -6,6 +6,10 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.PrintStream;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Unmarshaller;
@@ -15,6 +19,7 @@ import org.xml.sax.SAXException;
 import org.xml.sax.XMLReader;
 import org.xml.sax.helpers.XMLReaderFactory;
 
+import ner_dictionary.rules.CategorySet;
 import ner_dictionary.rules.RuleSet;
 import net.sourceforge.argparse4j.ArgumentParsers;
 import net.sourceforge.argparse4j.inf.ArgumentParser;
@@ -35,6 +40,9 @@ public class NERDictionary
     	
     	RuleSet ruleSet = app.parseRules(ns.getString("rules"));
     	
+    	CategorySet categorySet = new CategorySet(ruleSet);
+    	categorySet.saveSetToFile(ns.getString("categories"));
+    	
     	PrintStream outputFileStream = null;
     	try {
     		outputFileStream = new PrintStream(new FileOutputStream(ns.getString("output")));
@@ -45,24 +53,33 @@ public class NERDictionary
     			WikiXMLParserHandler parserHandler = new WikiXMLParserHandler(outputFileStream, ruleSet);
     			reader.setContentHandler(parserHandler);
     			
-    			for (String filePath : ns.<String> getList("source")) {
+    			for (String path : ns.<String> getList("source")) {
+    				File fileOrDir = new File(path);
+    				List<File> files = new ArrayList<File>();
+    				if (fileOrDir.isDirectory()) {
+    					files = Arrays.asList(fileOrDir.listFiles());
+					} else {
+						files.add(fileOrDir);
+					}
     				InputSource inputSource = null;
-    				try {
-    					inputSource = new InputSource(new FileInputStream(new File(filePath)));
-    					try {
-    						System.out.println("Parsing file " + filePath + " ...");
-    						reader.parse(inputSource);
-    						System.out.println("Parsing of file " + filePath + " finished");
-    					} catch (SAXException e1) {
-    						System.err.println("An error occured during parsing the file " + filePath);
-    						e1.printStackTrace();
-    					} catch (IOException e2) {
-    						System.err.println("An error occured during parsing the file " + filePath);
-    						e2.printStackTrace();
-    					}
-    				} catch (FileNotFoundException e) {
-    					System.err.println("Can not open the file " + filePath);
-    					e.printStackTrace();
+    				for (File f : files) {
+	    				try {
+	    					inputSource = new InputSource(new FileInputStream(f));
+	    					try {
+	    						System.out.println("Parsing file " + f.getPath() + " ...");
+	    						reader.parse(inputSource);
+	    						System.out.println("Parsing of file " + f.getPath() + " finished");
+	    					} catch (SAXException e1) {
+	    						System.err.println("An error occured during parsing the file " + f.getPath());
+	    						e1.printStackTrace();
+	    					} catch (IOException e2) {
+	    						System.err.println("An error occured during parsing the file " + f.getPath());
+	    						e2.printStackTrace();
+	    					}
+	    				} catch (FileNotFoundException e) {
+	    					System.err.println("Can not open the file " + f.getPath());
+	    					e.printStackTrace();
+	    				}
     				}
     			}
     			System.out.println("Resolving redirects ...");
@@ -94,9 +111,13 @@ public class NERDictionary
     		.setDefault("NER_dictionary.tsv")
     		.help("Specify file in which the dictionary will be created.");
     	
+    	parser.addArgument("-c", "--categories")
+			.setDefault("NER_categories.txt")
+			.help("Specify file in which the category mapping will be stored.");
+    	
     	parser.addArgument("source")
     		.nargs("+")
-    		.help("Source files to parse.");
+    		.help("Source files to parse. If the path specifies a directory, each file in the directory will be parsed.");
     	
     	Namespace ns = null;
         try {

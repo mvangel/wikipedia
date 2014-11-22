@@ -11,8 +11,10 @@ import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
 
+import ner_dictionary.rules.CategorySet;
 import ner_dictionary.rules.Rule;
 import ner_dictionary.rules.RuleSet;
+import ner_dictionary.rules.RuleType;
 
 public class WikiXMLParserHandler extends DefaultHandler{
 
@@ -23,16 +25,18 @@ public class WikiXMLParserHandler extends DefaultHandler{
 	private boolean redirect = false;
 	private PrintStream outputFileStream;
 	private RuleSet ruleSet;
-	public static final String DEFAULT_CATEGORY = "Miscellaneous";
+	private static final String SEPARATOR = "\t";
+	private static final String INFOBOX_STR = "{{Infobox";
+	private static final int INFOBOX_STR_LGTH = INFOBOX_STR.length();
 	private Set<Redirect> redirectCache;
-	private HashMap<String, String> categories;
+	private HashMap<String, Integer> resolvedPages;
 	
 	public WikiXMLParserHandler(PrintStream outputFileStream, RuleSet ruleSet) {
 		super();
 		this.outputFileStream = outputFileStream;
 		this.ruleSet = ruleSet;
 		this.redirectCache = new HashSet<Redirect>();
-		this.categories = new HashMap<String, String>();
+		this.resolvedPages = new HashMap<String, Integer>();
 	}
 	
 	@Override
@@ -99,24 +103,34 @@ public class WikiXMLParserHandler extends DefaultHandler{
 	}
 	
 	private void addEntry(String title, String text) {
-		String category = detectCategory(text);
-		categories.put(title, category);
-		outputFileStream.println(title + "\t" + category.toString());
+		Integer categoryId = detectCategoryId(text);
+		resolvedPages.put(title, categoryId);
+		outputFileStream.println(title + SEPARATOR + categoryId);
 	}
 	
-	private String detectCategory(String text) {
+	private Integer detectCategoryId(String text) {
 		for (Rule rule : ruleSet.getRuleList()) {
 			Pattern pattern = Pattern.compile(rule.getPattern());
-			Matcher matcher = pattern.matcher(text);
-			if (matcher.find()) {
-				return rule.getCategory();
+			// Determine if the type of the rule is Infobox type (if yes search only in Infobox)
+			if (rule.verifyTypeById(RuleType.INFO)) {
+				String infoboxText = parseInfobox(text);
+				if(infoboxText == null) continue;	// No Infobox, continue with next rule
+				Matcher matcher = pattern.matcher(infoboxText);
+				if (matcher.find()) {
+					return rule.getCategoryId();
+				}
+			} else {
+				Matcher matcher = pattern.matcher(text);
+				if (matcher.find()) {
+					return rule.getCategoryId();
+				}
 			}
 		}
-		return DEFAULT_CATEGORY;
+		return CategorySet.DEFAULT_CATEGORY_ID;
 	}
 	
 	private void addRedirect(String title, String redirectTitle) {
-//		outputFileStream.println(title + "\t" + "Redirect");
+//		outputFileStream.println(title + SEPARATOR + "Redirect");
 		redirectCache.add(new Redirect(title, redirectTitle));
 	}
 	
@@ -124,9 +138,9 @@ public class WikiXMLParserHandler extends DefaultHandler{
 		int cacheSize = redirectCache.size();
 		System.out.println("Redirects: " + cacheSize);
 		for (Redirect redirect : redirectCache) {
-			String redirectCategory = categories.get(redirect.redirectPage);
-			if (redirectCategory != null) {
-				outputFileStream.println(redirect.page + "\t" + redirectCategory);
+			Integer redirectCategoryId = resolvedPages.get(redirect.redirectPage);
+			if (redirectCategoryId != null) {
+				outputFileStream.println(redirect.page + SEPARATOR + redirectCategoryId.toString());
 				cacheSize--;
 			}
 		}
@@ -142,5 +156,26 @@ public class WikiXMLParserHandler extends DefaultHandler{
 			this.page = page;
 			this.redirectPage = redirectPage;
 		}
+	}
+	
+	private String parseInfobox(String text) {
+		// This is part of wikixmlj project
+		int startPos = text.indexOf(INFOBOX_STR);
+		if(startPos < 0) return null;
+		int bracketCount = 2;
+	    int endPos = startPos + INFOBOX_STR_LGTH;
+	    for(; endPos < text.length(); endPos++) {
+	      switch(text.charAt(endPos)) {
+	        case '}':
+	          bracketCount--;
+	          break;
+	        case '{':
+	          bracketCount++;
+	          break;
+	        default:
+	      }
+	      if(bracketCount == 0) break;
+	    }
+		return text.substring(startPos, endPos+1);
 	}
 }
