@@ -1,23 +1,9 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 package langlinksfromsql;
 
 import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
 import java.io.UnsupportedEncodingException;
-import java.io.Writer;
-import java.util.HashMap;
 
 /**
  *
@@ -30,88 +16,42 @@ public class LangLinksFromSQL {
      * @throws java.io.FileNotFoundException
      * @throws java.io.UnsupportedEncodingException
      */
-    public static void main(String args[]) throws FileNotFoundException, UnsupportedEncodingException, IOException  {
-        String line,lineOfskTitle;
-        String language;
-        String name;
+    public static void main(String args[]) throws UnsupportedEncodingException, IOException  {
+        // some info to be printed about the program
+        System.out.println("This program checks English and Hungarian language links for Slovak matches");
+        System.out.println("then does the same inversely - program output is the list of all matches in both ways saved into a");
+        System.out.println("text file, plus statistics about the no. of matches aved into another text file;");
+        System.out.println("this file also contains the list of those matches that were not matched back inversely in the same way for some reason");
+        System.out.println("e.g., the language link on the page doest not link back, or missing element from the sql dump etc.");
+        System.out.println();
+        /// determine whether run on sample or whole data set
+        System.out.printf("For running the program on the whole data set PRESS 1 (ALSO DEFAULT), otherwise PRESS 0 and the code will run on sample data: ");
+        char c;
+        boolean realSample = true;
+        BufferedReader inStr = new BufferedReader(new InputStreamReader(System.in));
+        c = inStr.readLine().charAt(0);
+        if(c=='0') realSample = false;
         
-        Writer writer;                                                          /// file output
-
-        HashMap<String, String> Titles = new HashMap<String, String>();         /// ID and title in the hash
+        /// determine languages
+        System.out.printf("Type in the language you want to match with SK language links (only EN or HU is valid - case insensitive): ");
+        String line,lang1,lang2;
+        line = inStr.readLine();
+        lang2 = line.substring(0,2).toLowerCase();
+        lang1 = "sk";
         
-        String sk_idFromPage;
-        String sk_TitleFromPage;
-        String huTitleFromPage;
+        String fileFirstLang, fileSecondLang, fileFirstLangTitles, fileSecondLangTitles;
         
-        int idLastIndex, nameLastIndex;
-        int sk_idLastIndexFromPage, sk_titleFirstIndex, sk_titleLastIndex;
-                
-        File skLanglinks = new File("../data/sample_input_skwiki-latest-langlinks.sql");       /// input files
-        File skTitleID = new File("../data/sample_input_skwiki-latest-page.sql");
+        // get path and filename
+        fileFirstLang = FileManager.constructFilePath(lang1, true, realSample);
+        fileSecondLang = FileManager.constructFilePath(lang2, true, realSample);
+        fileFirstLangTitles = FileManager.constructFilePath(lang1, false, realSample);
+        fileSecondLangTitles = FileManager.constructFilePath(lang2, false, realSample);
         
-        FileInputStream fis = new FileInputStream (skLanglinks);
-        FileInputStream fis3 = new FileInputStream (skTitleID);
+        TitleMatchingLangHashMaps titlematchusinghashmaps = 
+                new TitleMatchingLangHashMaps(fileFirstLang,fileSecondLang,fileFirstLangTitles,fileSecondLangTitles);
         
-        BufferedReader skLang = new BufferedReader(new InputStreamReader(fis, "UTF-8"));    /// readers for files
-        BufferedReader skTitle = new BufferedReader(new InputStreamReader(fis3, "UTF-8"));        
+        ProvideStats.provideStats(lang2);
+        ProvideStats.getDifferences(lang2);
         
-        writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream("../data/sample_output.txt"), "utf-8"));
-        
-        while((line = skLang.readLine()) != null){             
-            idLastIndex = line.indexOf(',');            
-            language = line.substring(idLastIndex+2,idLastIndex+4);             /// get language
-            
-            if(language.contentEquals("hu")){                                   /// this class is for HU - SK links
-                nameLastIndex = line.lastIndexOf(')')-1;
-                
-                name = line.substring(idLastIndex+7,nameLastIndex);             /// name means the title of wiki article
-                Titles.put(line.substring(1, idLastIndex), name);   /// key - getID, value - title in 'language'
-            }
-        }
-        
-        while((lineOfskTitle = skTitle.readLine()) != null){                    /// get slovak title as well for found IDs
-            sk_idLastIndexFromPage = lineOfskTitle.indexOf(',');
-            sk_idFromPage = lineOfskTitle.substring(1, sk_idLastIndexFromPage);
-                if(Titles.containsKey(sk_idFromPage)){              /// ID contained both in langlinks and titles.sql
-                    sk_titleFirstIndex = lineOfskTitle.indexOf('\'')+1;
-                    sk_titleLastIndex = lineOfskTitle.indexOf('\'',sk_titleFirstIndex+1);
-                    sk_TitleFromPage = lineOfskTitle.substring(sk_titleFirstIndex, sk_titleLastIndex);
-                    sk_TitleFromPage = sk_TitleFromPage.replace("_"," ");       /// convert name to suit format
-                    huTitleFromPage = Titles.get(sk_idFromPage);                /// id that matches the slovak version
-                    writer.write("'"+sk_TitleFromPage+"' (SK) "+" matches "+"'"+huTitleFromPage+"' (HU)");
-                    writer.append('\n');
-                }
-        }
-        
-        writer.close();
-        
-//        while((lineOfhuPage = huLang.readLine()) != null){
-//            
-//            
-//            idLastIndex = lineOfhuPage.indexOf(',');
-//            nameLastIndex = lineOfhuPage.lastIndexOf(')')-1;
-//            
-//            id = lineOfhuPage.substring(1,idLastIndex);
-//            language = lineOfhuPage.substring(idLastIndex+2,idLastIndex+4);
-//            name = lineOfhuPage.substring(idLastIndex+7,nameLastIndex);
-            //System.out.println(id+" "+language+" "+name);
-            
-            //if(language.contentEquals("sk")){
-                //while((lineOfhuTitle = huTitle.readLine()) != null){
-                    //hu_idLastIndexFromPage = lineOfhuTitle.indexOf(',');
-                    
-                    //hu_idFromPage = lineOfhuTitle.substring(1, hu_idLastIndexFromPage);
-                    //if(hu_idFromPage.contentEquals(id)){
-//                        hu_titleFirstIndex = lineOfhuTitle.indexOf('\'')+1;
-//                        hu_titleLastIndex = lineOfhuTitle.indexOf('\'',hu_titleFirstIndex+1);
-//                        hu_TitleFromPage = lineOfhuTitle.substring(hu_titleFirstIndex, hu_titleLastIndex);
-                        //if(convertedNames.contains(hu_TitleFromPage)){
-                            //System.out.println("HU titles s SK linkom: "+hu_TitleFromPage);
-                        //}
-                    //}                    
-                //}
-            //}
-        //}
     }
-    
 }
