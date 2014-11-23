@@ -44,6 +44,9 @@ public class LuceneEnhancedDictionary extends LuceneDbpediaDictionary
 {
     private static final String WIKI = "Wiki";
 
+    private static final String PATH_DICTIONARY_ENHANCED = "data"
+            + File.separator + "dictionary_enhanced.csv";
+
     @Override
     public List<String> translate(Language from, Language to, String searchText)
             throws IOException, ParseException
@@ -93,8 +96,7 @@ public class LuceneEnhancedDictionary extends LuceneDbpediaDictionary
                     analyzer);
             IndexWriter iwriter = new IndexWriter(directory, config);
 
-            File dictionary = new File("data" + File.separator
-                    + "dictionary.csv");
+            File dictionary = new File(PATH_DICTIONARY_ENHANCED);
             br = new BufferedReader(new FileReader(dictionary));
 
             String line = null;

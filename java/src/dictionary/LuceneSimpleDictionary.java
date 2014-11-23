@@ -41,6 +41,10 @@ import org.apache.lucene.util.Version;
  */
 public class LuceneSimpleDictionary extends LuceneDbpediaDictionary
 {
+    // path to full simple dictionary, change if necessary
+    private static final String PATH_DICTIONARY = "data" + File.separator
+            + "dictionary.csv";
+
     @Override
     public List<String> translate(Language from, Language to, String searchText)
             throws IOException, ParseException
@@ -59,21 +63,14 @@ public class LuceneSimpleDictionary extends LuceneDbpediaDictionary
             StringBuilder resultLine = new StringBuilder();
             resultLine.append(hitDoc.get(from.toString()));
             resultLine.append(" -> ");
-
-            String id = hitDoc.get(from.toString() + "id");
-            QueryParser parser = new QueryParser(to.toString() + "id", analyzer);
-            Query query2 = parser.parse(id);
-            TopDocs another = isearcher.search(query2, 1);
-            ScoreDoc[] hits2 = another.scoreDocs;
-            if(hits2.length > 0)
+            String translation = hitDoc.get(to.toString());
+            if(translation == null || translation.isEmpty())
             {
-                Document hitDoc2 = isearcher.doc(hits2[0].doc);
-                String word = hitDoc2.get(to.toString());
-                resultLine.append(word);
+                resultLine.append("Neexistuje preklad");
             }
             else
             {
-                resultLine.append("Neexistuje preklad");
+                resultLine.append(translation);
             }
             result.add(resultLine.toString());
         }
@@ -85,10 +82,7 @@ public class LuceneSimpleDictionary extends LuceneDbpediaDictionary
     @Override
     protected void initializeDictionaryData()
     {
-        BufferedReader brEn = null;
-        BufferedReader brDe = null;
-        BufferedReader brSk = null;
-        BufferedReader brFr = null;
+        BufferedReader br = null;
         try
         {
             analyzer = new StandardAnalyzer();
@@ -97,85 +91,25 @@ public class LuceneSimpleDictionary extends LuceneDbpediaDictionary
                     analyzer);
             IndexWriter iwriter = new IndexWriter(directory, config);
 
-            // TODO
-            // File en = new File("temp\\en.csv");
-            // File de = new File("temp\\de.csv");
-            // File sk = new File("temp\\sk.csv");
-            // File fr = new File("temp\\fr.csv");
-            File en = new File("data" + File.separator
-                    + "sample_output_interlanguage_links_en.csv");
-            File de = new File("data" + File.separator
-                    + "sample_output_interlanguage_links_de.csv");
-            File sk = new File("data" + File.separator
-                    + "sample_output_interlanguage_links_sk.csv");
-            File fr = new File("data" + File.separator
-                    + "sample_output_interlanguage_links_fr.csv");
-
-            brEn = new BufferedReader(new FileReader(en));
+            br = new BufferedReader(new FileReader(new File(PATH_DICTIONARY)));
             String line = null;
-            while ((line = brEn.readLine()) != null)
+            while ((line = br.readLine()) != null)
             {
                 Document doc = new Document();
-                String[] words = line.split(",");
-                if(words.length >= 2)
+                String[] words = line.replaceAll(",", " , ").split(",");
+                if(words.length == 4)
                 {
-                    doc.add(new Field(Language.EN.toString() + "id", words[0],
+                    doc.add(new Field(Language.EN.toString(), words[0].trim(),
                             TextField.TYPE_STORED));
-                    doc.add(new Field(Language.EN.toString(), LinksUtil
-                            .makeWords(LinksUtil.parseWord(words[1])),
+                    doc.add(new Field(Language.FR.toString(), words[1].trim(),
+                            TextField.TYPE_STORED));
+                    doc.add(new Field(Language.DE.toString(), words[2].trim(),
+                            TextField.TYPE_STORED));
+                    doc.add(new Field(Language.SK.toString(), words[3].trim(),
                             TextField.TYPE_STORED));
                     iwriter.addDocument(doc);
                 }
             }
-
-            brFr = new BufferedReader(new FileReader(fr));
-            while ((line = brFr.readLine()) != null)
-            {
-                Document doc = new Document();
-                String[] words = line.split(",");
-                if(words.length >= 2)
-                {
-                    doc.add(new Field(Language.FR.toString() + "id", words[0],
-                            TextField.TYPE_STORED));
-                    doc.add(new Field(Language.FR.toString(), LinksUtil
-                            .makeWords(LinksUtil.parseWord(words[1])),
-                            TextField.TYPE_STORED));
-                    iwriter.addDocument(doc);
-                }
-            }
-
-            brDe = new BufferedReader(new FileReader(de));
-            while ((line = brDe.readLine()) != null)
-            {
-                Document doc = new Document();
-                String[] words = line.split(",");
-                if(words.length >= 2)
-                {
-                    doc.add(new Field(Language.DE.toString() + "id", words[0],
-                            TextField.TYPE_STORED));
-                    doc.add(new Field(Language.DE.toString(), LinksUtil
-                            .makeWords(LinksUtil.parseWord(words[1])),
-                            TextField.TYPE_STORED));
-                    iwriter.addDocument(doc);
-                }
-            }
-
-            brSk = new BufferedReader(new FileReader(sk));
-            while ((line = brSk.readLine()) != null)
-            {
-                Document doc = new Document();
-                String[] words = line.split(",");
-                if(words.length >= 2)
-                {
-                    doc.add(new Field(Language.SK.toString() + "id", words[0],
-                            TextField.TYPE_STORED));
-                    doc.add(new Field(Language.SK.toString(), LinksUtil
-                            .makeWords(LinksUtil.parseWord(words[1])),
-                            TextField.TYPE_STORED));
-                    iwriter.addDocument(doc);
-                }
-            }
-
             iwriter.close();
         }
         catch (FileNotFoundException fnf)
@@ -190,21 +124,9 @@ public class LuceneSimpleDictionary extends LuceneDbpediaDictionary
         {
             try
             {
-                if(brEn != null)
+                if(br != null)
                 {
-                    brEn.close();
-                }
-                if(brDe != null)
-                {
-                    brDe.close();
-                }
-                if(brFr != null)
-                {
-                    brFr.close();
-                }
-                if(brSk != null)
-                {
-                    brSk.close();
+                    br.close();
                 }
             }
             catch (IOException e)
