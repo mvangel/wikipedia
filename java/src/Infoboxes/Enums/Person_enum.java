@@ -1,9 +1,6 @@
 package Enums;
 
-/**
- * @author Dokonaly
- *
- */
+//enum osoba, pouzivajuci sa na vypisovanie pri vyhladavani.
 public enum Person_enum {
 	name,
 	image,

@@ -5,19 +5,11 @@ import java.io.PrintWriter;
 import java.util.List;
 
 
-//Kompletne vypocitanie statistik
-/**
- * @author Dokonaly
- *
- */
+//Vypocitanie statistik o pocte vyskytov atributov
 public class Stats {
 
-	/**
-	 * @param InfoboxbookList
-	 * @param out_stats
-	 */
 	public void stats_book (List<Infobox_book> InfoboxbookList, PrintWriter out_stats){
-		
+		//inicializacia
 		int velkost = InfoboxbookList.size();
 		int pocet_mien = 0;
 		int pocet_translator = 0;
@@ -29,12 +21,12 @@ public class Stats {
 		int pocet_subject = 0;
 		int pocet_genre = 0;
 		int pocet_published = 0;
-		
 		int pocet_pages = 0;
 		int pocet_isbn = 0;
 		int pocet_followed_by = 0;
 		int pocet_precessed_by = 0;
-			
+		
+		//zistim si pocetnost atributov v oparsovanych datach
 		for(Infobox_book book : InfoboxbookList){
 
 			if (book.getName() != null) {
@@ -91,7 +83,8 @@ public class Stats {
 				pocet_precessed_by++;
 			}		
 		}
-
+		
+		//vypis
 		out_stats.println("Statistiky book: ");
 		out_stats.println("Percento nevyparsovanych mien knih: " + prepocet(velkost, pocet_mien));
 		out_stats.println("Percento nevyparsovanych translatorov: " + prepocet(velkost, pocet_translator));
@@ -110,12 +103,9 @@ public class Stats {
 		out_stats.println("********************************************************************");
 		
 	}
-	
-	/**
-	 * @param InfoboxList
-	 * @param out_stats
-	 */
+
 	public void stats_country ( List<Infobox_country> InfoboxList, PrintWriter out_stats){
+		//inicializacia
 		int velkost = InfoboxList.size();
 		int pocet_mien = 0;
 		int pocet_common_name = 0;
@@ -132,6 +122,7 @@ public class Stats {
 		int pocet_Population_estimate = 0;
 		int pocet_Population_estimate_rank = 0;
 	
+		//zistim si pocetnost atributov v oparsovanych datach
 		for(Infobox_country country : InfoboxList){
 
 			if (country.getTitle() != null) {
@@ -186,7 +177,8 @@ public class Stats {
 				pocet_Population_estimate_rank++;
 			}		
 		}
-
+		
+		//vypis
 		out_stats.println("Statistiky country: ");
 		out_stats.println("Percento nevyparsovanych mien: " + prepocet(velkost, pocet_mien));
 		out_stats.println("Percento nevyparsovanych common_name: " + prepocet(velkost, pocet_common_name));
@@ -205,11 +197,8 @@ public class Stats {
 		out_stats.println("********************************************************************");
 	}
 	
-	/**
-	 * @param InfoboxPersonList
-	 * @param out_stats
-	 */
 	public void stats_person ( List<Infobox_person> InfoboxPersonList, PrintWriter out_stats){
+		//inicializacia
 		int velkost = InfoboxPersonList.size();
 		int pocet_mien = 0;
 		int pocet_obrazkov = 0;
@@ -220,6 +209,7 @@ public class Stats {
 		int pocet_datumov_smrti_mesto = 0;
 		int pocet_occupation = 0;
 		
+		//zistim si pocetnost atributov v oparsovanych datach
 		for(Infobox_person person : InfoboxPersonList){
         	if (person.getName() != null) {
         		pocet_mien++;
@@ -252,6 +242,7 @@ public class Stats {
 				
         }
 		
+		//vypis
 		out_stats.println("Statistiky person: ");
 		out_stats.println("Percento nevyparsovanych mien: " + prepocet(velkost, pocet_mien));
 		out_stats.println("Percento nevyparsovanych obrazkov: " + prepocet(velkost, pocet_obrazkov));
@@ -263,12 +254,10 @@ public class Stats {
 		
 		out_stats.println("********************************************************************");
 	}
-	
-	/**
-	 * @param InfoboxSettlementList
-	 * @param out_stats
-	 */
+
 	public void stats_settlement (List<Infobox_settlement> InfoboxSettlementList, PrintWriter out_stats){
+		
+		//inicializacia
 		int velkost = InfoboxSettlementList.size();
 		int pocet_mien = 0;
 		int pocet_nickname = 0;
@@ -285,6 +274,7 @@ public class Stats {
 		int pocet_website = 0;
 		int pocet_postal_code = 0;
 		
+		//zistim si pocetnost atributov v oparsovanych datach
 		for(Infobox_settlement sett : InfoboxSettlementList){
 
 			if (sett.getOfficial_name() != null) {
@@ -335,6 +325,7 @@ public class Stats {
 			}
         }
 		
+		//vypis
 		out_stats.println("Statistiky settlement: ");
 		out_stats.println("Percento nevyparsovanych mien: " + prepocet(velkost, pocet_mien));
 		out_stats.println("Percento nevyparsovanych nickname: " + prepocet(velkost, pocet_nickname));
@@ -353,25 +344,13 @@ public class Stats {
 		
 	}
 	
-	/**
-	 * @param velkost
-	 * @param pocet
-	 * @return
-	 */
 	public double prepocet(int velkost, int pocet){
-		//vypocitanie statistik
+		//vypocet na zaklade spocitanych hodnot
 		double rozdiel = velkost - pocet;
 		double a = 100.0/velkost;
 		return a*rozdiel;
 	}
 	
-	/**
-	 * @param InfoboxbookList
-	 * @param InfoboxList
-	 * @param InfoboxSettlementList
-	 * @param InfoboxPersonList
-	 * @throws FileNotFoundException
-	 */
 	public void vypocitaj_statistiky(List<Infobox_book> InfoboxbookList, List<Infobox_country> InfoboxList, List<Infobox_settlement> InfoboxSettlementList, List<Infobox_person> InfoboxPersonList) throws FileNotFoundException{
 		//Zapisanie do suboru
 		PrintWriter out_stats = new PrintWriter("Stats.txt");

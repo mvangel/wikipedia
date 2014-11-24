@@ -1,9 +1,6 @@
 package Enums;
 
-/**
- * @author Dokonaly
- *
- */
+//enum kniha, pouzivajuci sa na vypisovanie pri vyhladavani.
 public enum Book_enum {
 	name, 
 	translator,

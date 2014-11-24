@@ -1,9 +1,6 @@
 package Enums;
 
-/**
- * @author Dokonaly
- *
- */
+//enum krajina, pouzivajuci sa na vypisovanie pri vyhladavani.
 public enum Country_enum {
 	title,
 	common_name,

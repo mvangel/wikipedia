@@ -1,9 +1,6 @@
 package Enums;
 
-/**
- * @author Dokonaly
- *
- */
+//enum mesto, pouzivajuci sa na vypisovanie pri vyhladavani.
 public enum Settlement_enum {
 	official_name,
 	nickname,

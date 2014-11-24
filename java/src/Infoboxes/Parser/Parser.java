@@ -1,7 +1,7 @@
 package Parser;
 import Enums.*;
 
-import org.apache.commons.compress.compressors.bzip2.BZip2CompressorInputStream;
+
 import org.apache.lucene.analysis.standard.StandardAnalyzer;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.document.Field;
@@ -35,26 +35,14 @@ import java.net.URL;
 import java.net.URLConnection;
 import java.util.ArrayList;
 import java.util.List;
- 
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
- 
 import org.xml.sax.SAXException;
-
-
 import java.util.Scanner;
-/**
- * @author Dokonaly
- *
- */
+
 public class Parser {
 	
-	/**
-	 * @param args
-	 * @throws FileNotFoundException
-	 * @throws ParseException
-	 */
 	public static void main(String[] args) throws FileNotFoundException, ParseException {
 	    SAXParserFactory saxParserFactory = SAXParserFactory.newInstance();
 	    
@@ -100,9 +88,7 @@ public class Parser {
 			//vypocitanie statistik
 	        Stats statisky = new Stats();
 	        statisky.vypocitaj_statistiky(InfoboxbookList, InfoboxList, InfoboxSettlementList, InfoboxPersonList);
-  
-	         
-	        
+
 	    } catch (ParserConfigurationException | SAXException | IOException e) {
 	        e.printStackTrace();
 	    }

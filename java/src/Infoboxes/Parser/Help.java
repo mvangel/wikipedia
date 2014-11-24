@@ -4,17 +4,10 @@ import java.util.Arrays;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-/**
- * @author Dokonaly
- *
- */
+//trieda obsahuje funkcie ktore sa casto pouzivaju pri parsovani zdrojoveho xml suboru
+
 public class Help {
 	//odstranenie prvej casti retazca
-	/**
-	 * @param ret
-	 * @param Atribut
-	 * @return
-	 */
 	public String ocisti_retazec(String ret, String Atribut){
 		ret = ret.replace("|"+Atribut+" = ", "");
 		ret = ret.replace("| "+Atribut+" = ", "");
@@ -23,12 +16,7 @@ public class Help {
 		return ret;
 	}
 	
-	 //Pouzitie regexu
-	 /**
-	 * @param regex
-	 * @param vstup
-	 * @return
-	 */
+	 //Aplikacia regexu
 	public String PouziRegex(String regex, String vstup){
 	    	Pattern pattern = Pattern.compile(regex);
 	    	Matcher matcher = pattern.matcher(vstup);
@@ -38,11 +26,8 @@ public class Help {
 	    	}
 	    	return null;
 	 }
+	
 	//odstranenie poslednej medzery    
-    /**
-     * @param ret
-     * @return
-     */
     public String posledna_medzera(String ret){
     	if (ret!=null && ret.length()>2){
     		String medzera= ret.substring(ret.length() - 1);
@@ -55,6 +40,7 @@ public class Help {
     	
     }
     
+    //rozdelenie stringu do pola na zaklade mnoziny rozdelovacov
     public String[] rozdel_do_pola(String ret, String[] rozdelovac){
     	String[] vysledok = new String[1];
     	String[] parts;
@@ -71,6 +57,7 @@ public class Help {
     		return vysledok;
     }
     
+    //funkcia na ocistenie retazca a pripravenie retazca na rozdelenie do pola
     public String priprav_pole(String ret){
     	int zatvorky = 0;
     	String pole = "";
