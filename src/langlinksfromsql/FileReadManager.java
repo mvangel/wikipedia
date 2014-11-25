@@ -17,7 +17,7 @@ public class FileReadManager {
      *
      * @param filepath
      * @param br
-     * @return
+     * @return buffered reader
      */
     public static BufferedReader initReader(String filepath, BufferedReader br) throws FileNotFoundException, UnsupportedEncodingException{
         

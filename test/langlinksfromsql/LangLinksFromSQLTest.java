@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package langlinksfromsql;
 
 import java.io.BufferedReader;
@@ -22,6 +17,7 @@ import static org.junit.Assert.*;
 /**
  *
  * @author Daniel
+ * test class - each test method has its own 1 line documentation at runtime
  */
 public class LangLinksFromSQLTest {
     
@@ -34,7 +30,7 @@ public class LangLinksFromSQLTest {
     @BeforeClass
     public static void setUpClass() throws Exception {
         
-        File OutputFile = new File("data/sample_output.txt");
+        File OutputFile = new File("../data/output_data_sk-hu-matches.txt");
         FileInputStream fis = new FileInputStream(OutputFile);
         
         br = new BufferedReader(new InputStreamReader(fis, "UTF-8"));
@@ -96,11 +92,11 @@ public class LangLinksFromSQLTest {
             List<String> ArrayOfLines = new ArrayList<String>();
             String lines;
             int linecounter = 0;
-            File TestMatches = new File("data/unit_test.txt");
+            File TestMatches = new File("../data/unit_test.txt");
             FileInputStream fis2 = new FileInputStream(TestMatches);
             br2 = new BufferedReader(new InputStreamReader(fis2, "UTF-8"));
 
-            File OutputFile2 = new File("data/sample_output.txt");
+            File OutputFile2 = new File("../data/output_data_sk-hu-matches.txt");
             FileInputStream fis3 = new FileInputStream(OutputFile2);
             br3 = new BufferedReader(new InputStreamReader(fis3, "UTF-8"));
 

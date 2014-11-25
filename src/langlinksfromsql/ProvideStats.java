@@ -11,17 +11,31 @@ import java.io.Writer;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * ProvideStats class provides two methods where each method has a newly written file output
+ *
+ * @author Daniel
+ */
 public class ProvideStats {
     
     private static BufferedReader br;
     private static Writer writer;
 
-    public static void provideStats(String secondLang) throws FileNotFoundException, UnsupportedEncodingException, IOException{
+    /**
+     * Counts the number of matches from lang1->lang2 and vice versa
+     *
+     * @param secondLang
+     * @param filepath
+     * @throws FileNotFoundException
+     * @throws UnsupportedEncodingException
+     * @throws IOException
+     */
+    public static void provideStats(String secondLang, String filepath) throws FileNotFoundException, UnsupportedEncodingException, IOException{
         // method outputs no. of sk->lang2 and lang2->sk matches
-        String fileToBeOpened = ("../data/output_data_sk-");
+        String fileToBeOpened = filepath.concat("/data/output_data_sk-");
         fileToBeOpened = fileToBeOpened.concat(secondLang).concat("-matches.txt");
-        String fileToWrite = ("../data/output_stats_sk-");
-        fileToWrite = fileToWrite.concat(secondLang).concat(".txt");
+        String fileToWrite = filepath.concat("/data/output_stats_sk-");
+        fileToWrite = fileToWrite.concat(secondLang).concat("-differences.txt");
         br = FileReadManager.initReader(fileToBeOpened, br);
         writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(fileToWrite), "utf-8"));
         String line;
@@ -43,9 +57,22 @@ public class ProvideStats {
         
     }
 
-    public static void getDifferences(String secondLang) throws FileNotFoundException, UnsupportedEncodingException, IOException{
+    /**
+     * Writes into file the unpaired matches and into a separate one the paired matches
+     *
+     * @param secondLang
+     * @throws FileNotFoundException
+     * @throws UnsupportedEncodingException
+     * @throws IOException
+     */
+    public static void getDifferences(String secondLang, String filepath) throws FileNotFoundException, UnsupportedEncodingException, IOException{
         // method outputs (writes into the output file) matches that do not match reversely
-        String fileToBeOpened = ("../data/output_data_sk-");
+        // also to another file writes the matches that are backed by a reverse link
+        String anotherFileToWrite = filepath.concat("/data/output_stats_sk-");
+        anotherFileToWrite = anotherFileToWrite.concat(secondLang).concat("-paired-matches.txt");
+        Writer writePairedMatches;
+        writePairedMatches = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(anotherFileToWrite), "utf-8"));
+        String fileToBeOpened = filepath.concat("/data/output_data_sk-");
         fileToBeOpened = fileToBeOpened.concat(secondLang).concat("-matches.txt");
         br = FileReadManager.initReader(fileToBeOpened, br);
         List<String> Matches = new ArrayList<String>();                         // an arraylist to be checked with the other
@@ -76,7 +103,11 @@ public class ProvideStats {
             // checking if the lang2->sk match is contained in the array sk->lang2... if not, write into file
             NewLine = line.substring(line.indexOf(" matches ")+9, line.lastIndexOf(')')+1);
             NewLine = NewLine.concat(" matches ").concat(line.substring(0, line.indexOf(" matches ")));
-            if(Matches.contains(NewLine)) Matches.remove(NewLine);
+            if(Matches.contains(NewLine)) {
+                writePairedMatches.write(NewLine);
+                writePairedMatches.append('\n');
+                Matches.remove(NewLine);
+            }
             else if(!(NewLine.contains("Wikipédia:") || NewLine.contains("Pomoc:") || NewLine.contains("Šablóna:") 
                     || NewLine.contains("Redaktor:") || NewLine.contains("Kategória:") || NewLine.contains("user:")
                     || NewLine.contains("User:") || NewLine.contains("Portál:") || NewLine.contains("Modul:")
@@ -91,6 +122,7 @@ public class ProvideStats {
         }
         
         writer.close();
+        writePairedMatches.close();
         br.close();
     }
 }

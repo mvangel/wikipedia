@@ -11,6 +11,7 @@ import java.io.Writer;
 import java.util.HashMap;
 
 /**
+ * Contains only the constructor - main application logic
  *
  * @author Daniel
  */
@@ -18,16 +19,18 @@ import java.util.HashMap;
 public class TitleMatchingLangHashMaps   {
         
     /**
+     * Writes into a file the sk->defined language matches and vice versa
      *
      * @param fileFirstLangLinks
      * @param fileSecondLangLinks
      * @param fileFirstLangTitles
      * @param fileSecondLangTitles
+     * @param filepath
      * @throws FileNotFoundException
      * @throws UnsupportedEncodingException
      * @throws IOException
      */
-    public TitleMatchingLangHashMaps(String fileFirstLangLinks, String fileSecondLangLinks, String fileFirstLangTitles, String fileSecondLangTitles) 
+    public TitleMatchingLangHashMaps(String fileFirstLangLinks, String fileSecondLangLinks, String fileFirstLangTitles, String fileSecondLangTitles, String filepath) 
             throws FileNotFoundException, UnsupportedEncodingException, IOException {
         
 /**
@@ -66,7 +69,8 @@ public class TitleMatchingLangHashMaps   {
         huTitle = FileReadManager.initReader(fileSecondLangTitles, huTitle);     
         /// open + init reader for all 4 files
         
-        String filepathWriter = "../data/output_data_sk-";
+        String filepathWriter = filepath;
+        filepathWriter = filepathWriter.concat("/data/output_data_sk-");
         filepathWriter = filepathWriter.concat(lang2).concat("-matches.txt");
         writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(filepathWriter), "utf-8"));
 
