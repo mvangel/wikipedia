@@ -14,6 +14,7 @@ import javax.xml.parsers.DocumentBuilderFactory;
 import org.apache.lucene.analysis.standard.StandardAnalyzer;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.document.Field;
+import org.apache.lucene.document.StringField;
 import org.apache.lucene.document.TextField;
 import org.apache.lucene.index.CorruptIndexException;
 import org.apache.lucene.index.IndexReader;
@@ -186,7 +187,8 @@ public class Search implements ActionListener {
 					 }
 					 else
 					 {
-						 
+						 doc.add(new TextField("akaTextAka",akaList.item(i).getTextContent().trim() + " ", Field.Store.YES));
+						 doc.add(new TextField("akaTextTitle",titleList.item(j).getTextContent().trim() + " ", Field.Store.YES));
 						 akaText += "Title : " + titleList.item(j).getTextContent().trim() + "\t";
 						 akaText += "Aka : "+ akaList.item(i).getTextContent().trim() + "\n";
 						 j++;
@@ -194,7 +196,7 @@ public class Search implements ActionListener {
 					 }
 				 }	
 		 }
-			 doc.add(new TextField("akaText",akaText, Field.Store.YES));	
+			 doc.add(new StringField("akaText",akaText, Field.Store.YES));	
 		 
 		 
 		 w.addDocument(doc);
