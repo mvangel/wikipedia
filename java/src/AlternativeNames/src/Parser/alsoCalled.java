@@ -2,7 +2,7 @@ package Parser;
 
 /**
  * Objekt ktorý sa vytvára v triede Parse pre AkaText
- * @author Spred
+ * @author Samuel Benkovic
  *
  */
 public class alsoCalled {

@@ -24,7 +24,7 @@ import javax.swing.JTextArea;
 
 /**
  * Trieda ktorá parsuje jeden vybratý dokument
- * @author Spred
+ * @author Samuel Benkovic
  *
  */
 public class Parse implements ActionListener{

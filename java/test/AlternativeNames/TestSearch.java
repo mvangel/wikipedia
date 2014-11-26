@@ -10,7 +10,7 @@ import org.junit.Test;
 
 /**
  * Unit Test na hladanie vyrazov vo vyparsovanom subore.
- * @author Spred
+ * @author Samuel Benkovic
  *
  */
 public class TestSearch {
@@ -29,6 +29,9 @@ public class TestSearch {
 		ResultData= mainclass.getGu().ResultData;
 		TagCombo = mainclass.getGu().TagCombo;
 	}
+	/**
+	 * Otestovanie že sa niè nenájde
+	 */
 	@Test
 	public void TestNoneresult() {
 		searchExpression.setText("peknydenprajem");
@@ -37,6 +40,9 @@ public class TestSearch {
 		String ExpectedResult = "Found 0 hits.";
 		Assert.assertTrue(result.contains(ExpectedResult));
 	}
+	/**
+	 * Test hladania title:blindness z dumbu enwiki-latest-pages-articles1.xml-p000000010p000010000
+	 */
 	@Test
 	public void Test1result() {
 		searchExpression.setText("blindness");
@@ -45,6 +51,9 @@ public class TestSearch {
 		String ExpectedResult = "Found 1 hits.";
 		Assert.assertTrue(result.contains(ExpectedResult));
 	}
+	/**
+	 * Test hladania title:Ford z dumbu enwiki-latest-pages-articles10.xml-p000925001p001325000
+	 */
 	@Test
 	public void TestMoreresult() {
 		searchExpression.setText("ford");
@@ -55,6 +64,10 @@ public class TestSearch {
 		Assert.assertTrue(!result.contains(ExpectedResult) && !result.contains(ExpectedResult2));
 	}
 
+	/**
+	 * Test hladania konkrétneho title:"Ford Model N" 
+	 * z dumbu enwiki-latest-pages-articles10.xml-p000925001p001325000
+	 */
 	@Test
 	public void TestAkaresult() {
 		searchExpression.setText("\"Ford Model N\"");
@@ -63,6 +76,10 @@ public class TestSearch {
 		String ExpectedResult = "aka: Ford Model R Ford Model S";
 		Assert.assertTrue(result.contains(ExpectedResult));
 	}
+	/**
+	 * Test hladania konkrétneho nájdeného akaTextu pri Title:blindness 
+	 * z dumbu enwiki-latest-pages-articles1.xml-p000000010p000010000
+	 */
 	@Test
 	public void TestMoreAkaTextresult() {
 		searchExpression.setText("blindness");
@@ -71,6 +88,10 @@ public class TestSearch {
 		String [] resultSubstring = result.split("Title");
 		Assert.assertTrue(resultSubstring.length==3);
 	}
+	/**
+	 * Test hladania konkrétneho nájdeného akaTextTitle pri hladaní akaTextTitle:Docklands 
+	 * z dumbu enwiki-latest-pages-articles1.xml-p000000010p000010000
+	 */
 	@Test
 	public void TestSearchAkaText() {
 		searchExpression.setText("Docklands");

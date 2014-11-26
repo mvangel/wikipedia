@@ -36,7 +36,7 @@ import org.w3c.dom.NodeList;
 
 /**
  * Celá funkcionalita ktorá prebieha pri hladaný výrazu.
- * @author Spred
+ * @author Samuel Benkovic
  *
  */
 public class Search implements ActionListener {

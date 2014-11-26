@@ -20,7 +20,7 @@ import org.junit.Test;
 
 /**
  * Unit Test na hladanie vyrazov vo vyparsovanom subore.
- * @author Spred
+ * @author Samuel Benkovic
  *
  */
 public class TestParser {
@@ -34,6 +34,10 @@ public class TestParser {
 		btnParse = mainclass.getGu().btnParse;
 		InputCombo = mainclass.getGu().InputCombo;
 	}
+	/**
+	 * Test Parsovania súboru, ci bol vytvorený a prepísaný.
+	 * jedná sa dumb enwiki-latest-pages-articles1.xml-p000000010p000010000
+	 */
 	@Test
 	public void TestNoneresult() throws IOException {
 		InputCombo.setSelectedItem("enwiki-latest-pages-articles1.xml-p000000010p000010000");
@@ -51,7 +55,7 @@ public class TestParser {
             int currentMonth = localCalendar.get(Calendar.MONTH) + 1;
             int currentYear = localCalendar.get(Calendar.YEAR);
 
-    
+            //test dna mesiaca a roku
             Assert.assertTrue(currentDay == creationDate.getDate());
             Assert.assertTrue(currentMonth == creationDate.getMonth() + 1);
             Assert.assertTrue(currentYear == creationDate.getYear() + 1900);

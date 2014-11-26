@@ -6,7 +6,7 @@ import javax.swing.JFrame;
 
 /**
  * Spuscacia trieda
- * @author Spred
+ * @author Samuel Benkovic
  *
  */
 public class main {
