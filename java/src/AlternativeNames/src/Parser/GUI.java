@@ -17,7 +17,7 @@ import javax.swing.JTextField;
 
 /**
  * Trieda venujúca sa hlavne GUI Vytvoreniu elementov a podobne
- * @author Spred
+ * @author Samuel Benkovic
  *
  */
 public class GUI extends JFrame {
