@@ -17,19 +17,19 @@ public class DictionaryApplication
 {
     public static void main(String[] args) throws IOException, ParseException
     {
-        DictionaryCorpusCreator dict = new DictionaryCorpusCreator();
-        dict.createEnhancedDictionary();
-
         LuceneDbpediaDictionary dictionarySearch;
         System.out.println("Vitajte v aplikácii slovník\n");
         Scanner scanner = new Scanner(System.in);
         while (true)
         {
-            System.out.println("-> Pre Obohatený slovník zadajte 1");
-            System.out.println("-> Pre Jednoduchý slovník zadajte 2");
+            System.out.println("-> Pre Obohatený slovník zadajte \"1\"");
+            System.out.println("-> Pre Jednoduchý slovník zadajte \"2\"");
             System.out.println("-> Pre rozšírené informácie zadajte \"h\"");
             System.out
                     .println("-> Pre koniec zadajte \"q\" (funguje aj pri výbere jazyka)");
+            System.out
+                    .println("-> Pre vygenerovanie korpusov slovníkov zadajte \"0\" \n  "
+                            + "(Upozornenie: Môže trvať veľmi dlhú dobu. Záleží od veľkosti použitých vstupných súborov v priečinku \"data\")");
             System.out.print(">");
             String option = scanner.nextLine();
             if("1".equals(option))
@@ -37,6 +37,7 @@ public class DictionaryApplication
                 System.out.println("Slovník sa inicializuje, prosím čakajte");
                 System.out.println();
                 dictionarySearch = new LuceneEnhancedDictionary();
+                System.out.println("Inicializovanie ukončené");
                 break;
             }
             else if("2".equals(option))
@@ -44,6 +45,7 @@ public class DictionaryApplication
                 System.out.println("Slovník sa inicializuje, prosím čakajte");
                 System.out.println();
                 dictionarySearch = new LuceneSimpleDictionary();
+                System.out.println("Inicializovanie ukončené");
                 break;
             }
             else if("q".equalsIgnoreCase(option))
@@ -55,9 +57,17 @@ public class DictionaryApplication
             {
                 showHelp();
             }
+            else if("0".equalsIgnoreCase(option))
+            {
+                DictionaryCorpusCreator dict = new DictionaryCorpusCreator();
+                System.out.println("Generujem korpusy slovníkov");
+                dict.createEnhancedDictionary();
+                dict.createSimpleDictionary();
+                System.out.println("Generovanie ukončené");
+            }
             else
             {
-                System.out.println("Neznáma voľba");
+                System.out.println("Neznáma voľba. Opakujte výber");
             }
         }
 
