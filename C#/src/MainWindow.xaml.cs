@@ -34,14 +34,37 @@ namespace WikiCalendar
 			String inputPath =
 				//@"..\..\..\..\Data\Aristotle.txt";
 				//@"D:\downNew\wiki\enwiki-latest-pages-articles1.xml-p000000010p000010000";
-			@"D:\downNew\wiki\enwiki-latest-pages-articles1.xml-p000000010p000010000";
-				//	@"..\..\..\..\Data\sample_input_enwiki-latest-pages-articles1.xml";
+			//@"D:\downNew\wiki\enwiki-latest-pages-articles1.xml-p000000010p000010000";
+			//		@"..\..\..\..\Data\sample_input_enwiki-latest-pages-articles1.xml";
 			//@"D:\downNew\wiki\enwiki-latest-pages-articles6.xml";
-				//@"D:\downNew\wiki\enwiki-latest-pages-articles3.xml-p000025001p000055000";
+			@"D:\downNew\wiki\enwiki-latest-pages-articles3.xml-p000025001p000055000";
 			//@"D:\downNew\wiki\enwiki-latest-pages-articles10.xml-p000925001p001325000";//1gb
 			//@"D:\downNew\wiki\enwiki-latest-pages-articles22.xml-p015725013p018225000"; //privelky
 			String exportPath = @"..\..\..\..\Data\sample_output_enwiki-latest-pages-articles1_Real_output.xml";
-			
+
+			//Thread backgroundThread = new Thread(
+			//	new ThreadStart(() =>
+			//	{
+			//		for (int n = 0; n < 1000; n++)
+			//		{
+			//			if (control.pagesCount != 0)
+			//			{
+			//				Thread.Sleep(50);
+			//				pagesProgresBar.Value = control.pageCounter / control.pagesCount;
+			//				pagesCountTextBox.Text = control.pagesCount.ToString();
+			//				eventsCountTextBox.Text = control.eventsCount.ToString();
+			//			}
+						
+			//		}
+
+			//		MessageBox.Show("Thread completed!");
+			//		pagesProgresBar. Value = 100;
+			//	}
+			//));
+
+
+			//backgroundThread.Start();
+
 			control.initParsing(inputPath);
 			control.exportEventsXML(exportPath);
 			List<long> days = control.getAllDays();
@@ -58,6 +81,10 @@ namespace WikiCalendar
 			pagesCountTextBox.Text = control.pagesCount.ToString();
 			eventsCountTextBox.Text = control.eventsCount.ToString();
 
+			statistics.Text = control.getEventStatistics();
+
+
+
 		}
 
 		private void dateSearchTextBox_TextChanged(object sender, TextChangedEventArgs e)
@@ -73,6 +100,7 @@ namespace WikiCalendar
 		{
 			TextConsole.Text = "";
 			HashSet<CalendarEvent> resultSet;
+
 			if(dateSearchTextBox.Text.Equals(""))
 			{
 				resultSet = control.searchDayEvents(DropDownMenuDate.SelectedValue.ToString());
@@ -100,6 +128,25 @@ namespace WikiCalendar
 		{
 			Button_Click_1(sender, e);
 			
+		}
+
+		private void calendarSelection_SelectedDatesChanged(object sender, SelectionChangedEventArgs e)
+		{
+			TextConsole.Text = "";
+			HashSet<CalendarEvent> resultSet;
+
+			var date = calendarSelection.SelectedDate.Value;
+			resultSet= control.searchDayEvents((date.Year * 10000 + date.Month * 100 + date.Day).ToString());
+
+			TextConsole.Text += "\n\nDatekey:" + dateSearchTextBox.Text;
+			if (resultSet == null)
+			{
+				return;
+			}
+			foreach (CalendarEvent ce in resultSet)
+			{
+				TextConsole.Text += "\n\t" + ce.dateId + "->" + ce.title + ":" + ce.eventType + "\n";
+			}
 		}
 
 

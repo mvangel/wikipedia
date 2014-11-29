@@ -16,13 +16,16 @@ namespace WikiCalendar
 			xml = new XElement("days");
 			allEvents = new LinkedList<CalendarEvent>();
 			allDays = new SortedList<long, DayEvents>();
+			index = new IndexMaker("LuceneIndex","date");
+			pageCounter = 0;
 		}
 		public long pagesCount { get; set; }
 		public long eventsCount { get; set; }
-
+		public int pageCounter{get;set;}
 		XElement xml { get; set; }
 		LinkedList<CalendarEvent> allEvents;
 		SortedList<long, DayEvents> allDays;
+		IndexMaker index;
 
 		public void initParsing(String path)
 		{
@@ -47,27 +50,27 @@ namespace WikiCalendar
 			// matching infobox from page text
 			
 			
-			int pageCounter = 0;
-            foreach(XElement page in pages)
-            {
+			pageCounter = 0;
+			foreach(XElement page in pages)
+			{
 				String infoboxPattern = "{{Infobox (.+\n)+}}";
 				MatchCollection infoboxes = System.Text.RegularExpressions.Regex.Matches(page.Element("revision").Element("text").Value, infoboxPattern, System.Text.RegularExpressions.RegexOptions.Multiline);
 
 				//99% just one iteration
-                foreach (Match infobox in infoboxes)
-                {
-                    String datePattern = "[A-Za-z_]+date\\s+=.+";//TODO optimize!
-                    MatchCollection dateLine = Regex.Matches(infobox.Value,datePattern);
+				foreach (Match infobox in infoboxes)
+				{
+					String datePattern = "[A-Za-z_]+date\\s+=.+";//TODO optimize!
+					MatchCollection dateLine = Regex.Matches(infobox.Value,datePattern);
 					
 					//statisticaly 2 iterations
-                    foreach( Match n in dateLine)
-                    {
+					foreach( Match n in dateLine)
+					{
 						//TODO check release_date - just year 
 						//pub_date
 
 
-                       // Console.WriteLine(n.Value);
-                        //dateFormat is Y|MM|DD or 'BCE'|Y 
+					   // Console.WriteLine(n.Value);
+						//dateFormat is Y|MM|DD or 'BCE'|Y 
 						String dateExtractPattern = ""
 							//"([0-9]{0,}\\|[0-1]{0,1}[0-9]{1}\\|[0-3]{0,1}[0-9]{1})|(BCE\\|[0-9]+)"
 							+ @"([0-9]{1,4}\|[0-1]{0,1}[0-9]{1}\|[0-3]{0,1}[0-9]{1})" //Y|MM|DD
@@ -121,10 +124,16 @@ namespace WikiCalendar
 							}
 
 							allEvents.AddLast(extractedEvent);
-							
+
+							Dictionary<long, string> indexing = new Dictionary<long, string>();
+							indexing.Add(extractedEvent.dateId, extractedEvent.title + ";" + extractedEvent.eventType );
+							index.Index(indexing);
+
 							if(allDays.Keys.Contains(extractedEvent.dateId))
 							{
 								allDays[extractedEvent.dateId].Add(extractedEvent);
+
+
 							}
 							else
 							{
@@ -136,23 +145,23 @@ namespace WikiCalendar
 							//Console.WriteLine(o.Value);
 							eventsCount = allEvents.Count;
 						}
-                        /*
-                         * |birth_date={{birth date|1809|2|12}} 
-                         * | birth_date = {{birth date|mf=yes|1905|2|2}}
-                         * birth_date  = {{birth date and age|1947|04|01|df=y}} 
-                         * | birth_date = {{Birth date|df=yes|1885|4|3}}
-                         * | birth_date = {{birth date and age|1970|04|29}}
-                         * | birth_date = {{birth date|df=yes|1894|7|26}}
-                         * |birth_date= {{Birth date|1803|2|2}}
-                         */
-                    }
-                
-                }
+						/*
+						 * |birth_date={{birth date|1809|2|12}} 
+						 * | birth_date = {{birth date|mf=yes|1905|2|2}}
+						 * birth_date  = {{birth date and age|1947|04|01|df=y}} 
+						 * | birth_date = {{Birth date|df=yes|1885|4|3}}
+						 * | birth_date = {{birth date and age|1970|04|29}}
+						 * | birth_date = {{birth date|df=yes|1894|7|26}}
+						 * |birth_date= {{Birth date|1803|2|2}}
+						 */
+					}
+				
+				}
 				pageCounter++;
 				//this.pagesProgresBar.Value = (int)((100 * pageCounter) / pages.Count());
 				
 				
-            }
+			}
 			Console.WriteLine(allEvents.Count);
 
 		}
@@ -178,39 +187,52 @@ namespace WikiCalendar
 
 		internal HashSet<CalendarEvent> searchDayEvents(String dateKey)
 		{
-			long parsedKey;
-			if(long.TryParse(dateKey,out parsedKey) && allDays.Keys.Contains(parsedKey)){
+			long[] ids;
+			string[] results;
 
-				DayEvents d = allDays[parsedKey];
-				return d.getEventsArray();
-			}
-			else
+			index.Search(dateKey, out ids, out results);
+
+			HashSet<CalendarEvent> returnSet = new HashSet<CalendarEvent>();
+			
+			for (int k = 0;k<ids.Length;k++)
 			{
-				var x = from pKey in allDays.Keys
-						where pKey.ToString().Contains(dateKey)
-						select pKey.ToString();
+				returnSet.Add(new CalendarEvent() { dateId = ids[k], title = results[k] });
 
-				if (x.Any())
-				{
-					HashSet<CalendarEvent> returnSet = new HashSet<CalendarEvent>();
-					foreach( var i in x)
-					{
-						parsedKey = long.Parse(i);
-						DayEvents d = allDays[parsedKey];
-						var gettedEvents = d.getEventsArray();
-						foreach (var eve in gettedEvents)
-						{
-							returnSet.Add(eve);
-						}
+			}
+			return returnSet;
+			//long parsedKey;
+			//if(long.TryParse(dateKey,out parsedKey) && allDays.Keys.Contains(parsedKey)){
+
+			//	DayEvents d = allDays[parsedKey];
+			//	return d.getEventsArray();
+			//}
+			//else
+			//{
+			//	var x = from pKey in allDays.Keys
+			//			where pKey.ToString().Contains(dateKey)
+			//			select pKey.ToString();
+
+			//	if (x.Any())
+			//	{
+			//		HashSet<CalendarEvent> returnSet = new HashSet<CalendarEvent>();
+			//		foreach( var i in x)
+			//		{
+			//			parsedKey = long.Parse(i);
+			//			DayEvents d = allDays[parsedKey];
+			//			var gettedEvents = d.getEventsArray();
+			//			foreach (var eve in gettedEvents)
+			//			{
+			//				returnSet.Add(eve);
+			//			}
 						
 
-					}
+			//		}
 
-					return returnSet;
-				}
-				else return null;
+			//		return returnSet;
+			//	}
+			//	else return null;
 				
-			}
+			//}
 
 			
 		}
@@ -226,6 +248,21 @@ namespace WikiCalendar
 						select e.eventType;
 
 			return types.Distinct().ToList<String>();
+		}
+
+		public string getEventStatistics()
+		{
+			var statisticLines = allEvents
+					.GroupBy(ce => ce.eventType)
+					.Select(group => new {eventType = group.Key, typeCount = group.Count()})
+					.OrderBy(x => x.typeCount);
+
+			string returnString = "";
+			foreach(var statisticLine in statisticLines)
+			{
+				returnString += statisticLine.eventType +":"+ statisticLine.typeCount.ToString() + "\n";
+			}
+			return returnString;
 		}
 	}
 }

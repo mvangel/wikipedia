@@ -8,21 +8,23 @@ using System.Xml.Linq;
 
 namespace WikiCalendar
 {
-    public class CalendarEvent
-    {
+	public class CalendarEvent
+	{
 		public DateTime date { get; set; } //TODO parsing dates of wiki
 		/// <summary>
 		/// BC can reach -1 - date is BC 
 		/// or +1 date is AD
 		/// </summary>
 		public int BC { get; set; }
-        public long dateOffset { get; set; }
-        public String description {get; set;}
-        public String title {get;set;}
-        public long id { get; set; }
-        public String text { get; set; }
+		public long dateOffset { get; set; }
+		public String description {get; set;}
+		public String title {get;set;}
+		public long id { get; set; }
+		public String text { get; set; }
 		public String eventType { get; set; }
 		public long dateId { get; set; }
+
+		public CalendarEvent(){}
 
 		private String extractEventType(String _dateLine)
 		{
@@ -65,7 +67,7 @@ namespace WikiCalendar
 			if (_input.Contains("BC") || _input.Contains("BCE"))
 			{
 				BC = -1;
-
+				throw new DataMisalignedException();
 			}
 
 			if (_input.Contains("|"))
@@ -73,17 +75,17 @@ namespace WikiCalendar
 				String[]delimiterPipe = {"|"};
 				String[] separatedDate = _input.Split(delimiterPipe, StringSplitOptions.RemoveEmptyEntries);
 				int offset = 0;
-				if (BC == -1 && (separatedDate[offset].Contains("BC") || separatedDate[offset].Contains("BCE")))
+				if (BC == -1/* && (separatedDate[offset].Contains("BC") || separatedDate[offset].Contains("BCE"))*/)
 				{
 					offset++;
 				}
 				int year = int.Parse(separatedDate[offset++]);
 				int month = 1, day = 1;
-				if (!(separatedDate[0].Contains("BC") || separatedDate[0].Contains("BCE")) && separatedDate.Length >= 2 && int.Parse(separatedDate[offset]) != 0 )
+				if (/*!(separatedDate[0].Contains("BC") || separatedDate[0].Contains("BCE")) && */separatedDate.Length >= 2 && int.Parse(separatedDate[offset]) != 0 )
 				{
 					month = int.Parse(separatedDate[offset++]);
 				}
-				if (!(separatedDate[0].Contains("BC") || separatedDate[0].Contains("BCE")) && separatedDate.Length >= 3 && int.Parse(separatedDate[offset]) != 0 )
+				if (/*!(separatedDate[0].Contains("BC") || separatedDate[0].Contains("BCE")) &&*/ separatedDate.Length >= 3 && int.Parse(separatedDate[offset]) != 0 )
 				{
 					day = int.Parse(separatedDate[offset++]);
 				}
@@ -204,25 +206,25 @@ namespace WikiCalendar
 
 			//Console.WriteLine(date.ToString());
 			/*
-                       "([0-9]{0,4}\\|[0-1]{0,1}[0-9]{1}\\|[0-3]{0,1}[0-9]{1})" //Y|MM|DD
-                        + "|((?:(BC)?|(BCE)?)\\|[0-9]+)" //'BCE'|Y 
-                        //+ "|([0-3]{0,1}[0-9]{1} \b(?:(January)?|(February)?|(March)?|(April)?|(May)?|(June)?|(July)?|(August)?|(September)?|(October)?|(November)?|(December)?) [0-9]{0,}\\s?(?:(BC)?|(BCE)?))" 
-                        //+ "(?:([0-3]{0,1}[0-9]{1}) (\b(?:January)?|(?:February)?|(?:March)?|(?:April)?|(?:May)?|(?:June)?|(?:July)?|(?:August)?|(?:September)?|(?:October)?|(?:November)?|(?:December)?) ([0-9]{0,})(\s?(?:BC)?|(?:BCE)?))";
-                        + "|((?:([0-3]?[0-9]) ((?:January)?|(?:February)?|(?:March)?|(?:April)?|(?:May)?|(?:June)?|(?:July)?|(?:August)?|(?:September)?|(?:October)?|(?:November)?|(?:December)?) )[0-9]{0,}\\s?(?:(BC)?|(BCE)?))" //3 July 2001
-                        + "|(?:(?:January)?|(?:February)?|(?:March)?|(?:April)?|(?:May)?|(?:June)?|(?:July)?|(?:August)?|(?:September)?|(?:October)?|(?:November)?|(?:December)?) (?:([0-3]?[0-9])), [0-9]{0,}\\s?(?:(BC)?|(BCE)?)"; // July 3, 2001
+					   "([0-9]{0,4}\\|[0-1]{0,1}[0-9]{1}\\|[0-3]{0,1}[0-9]{1})" //Y|MM|DD
+						+ "|((?:(BC)?|(BCE)?)\\|[0-9]+)" //'BCE'|Y 
+						//+ "|([0-3]{0,1}[0-9]{1} \b(?:(January)?|(February)?|(March)?|(April)?|(May)?|(June)?|(July)?|(August)?|(September)?|(October)?|(November)?|(December)?) [0-9]{0,}\\s?(?:(BC)?|(BCE)?))" 
+						//+ "(?:([0-3]{0,1}[0-9]{1}) (\b(?:January)?|(?:February)?|(?:March)?|(?:April)?|(?:May)?|(?:June)?|(?:July)?|(?:August)?|(?:September)?|(?:October)?|(?:November)?|(?:December)?) ([0-9]{0,})(\s?(?:BC)?|(?:BCE)?))";
+						+ "|((?:([0-3]?[0-9]) ((?:January)?|(?:February)?|(?:March)?|(?:April)?|(?:May)?|(?:June)?|(?:July)?|(?:August)?|(?:September)?|(?:October)?|(?:November)?|(?:December)?) )[0-9]{0,}\\s?(?:(BC)?|(BCE)?))" //3 July 2001
+						+ "|(?:(?:January)?|(?:February)?|(?:March)?|(?:April)?|(?:May)?|(?:June)?|(?:July)?|(?:August)?|(?:September)?|(?:October)?|(?:November)?|(?:December)?) (?:([0-3]?[0-9])), [0-9]{0,}\\s?(?:(BC)?|(BCE)?)"; // July 3, 2001
  */
 			//if(_input==)
 		}
-        public CalendarEvent(XElement page)
-        {
-            //XElement page = input.Element("page");
-            title = page.Element("title").Value;
-            id = long.Parse(page.Element("id").Value);
-            text = page.Element("revision").Element("text").Value;
+		public CalendarEvent(XElement page)
+		{
+			//XElement page = input.Element("page");
+			title = page.Element("title").Value;
+			id = long.Parse(page.Element("id").Value);
+			text = page.Element("revision").Element("text").Value;
 
-            //describeEvent();
+			//describeEvent();
 
-        }
+		}
 		private short getMonthFromText(String text)
 		{
 			switch (text){
@@ -246,16 +248,16 @@ namespace WikiCalendar
 			 
 		}
 	
-        void describeEvent()
-        {
-            StringBuilder sb = new StringBuilder();
+		void describeEvent()
+		{
+			StringBuilder sb = new StringBuilder();
 
-            sb.AppendLine("Title:" + title);
-            sb.AppendLine("ID: " + id);
-            sb.AppendLine("Text:" + text);
+			sb.AppendLine("Title:" + title);
+			sb.AppendLine("ID: " + id);
+			sb.AppendLine("Text:" + text);
 
-            Console.WriteLine(sb.ToString());
-        }
+			Console.WriteLine(sb.ToString());
+		}
 
 		public XElement exportXML()
 		{
