@@ -3,6 +3,7 @@ package ner_dictionary;
 import java.io.PrintStream;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -11,6 +12,7 @@ import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
 
+import ner_dictionary.indexing.Indexer;
 import ner_dictionary.rules.CategorySet;
 import ner_dictionary.rules.Rule;
 import ner_dictionary.rules.RuleSet;
@@ -25,16 +27,18 @@ public class WikiXMLParserHandler extends DefaultHandler{
 	private boolean redirect = false;
 	private PrintStream outputFileStream;
 	private RuleSet ruleSet;
+	private Indexer indexer;
 	private static final String SEPARATOR = "\t";
 	private static final String INFOBOX_STR = "{{Infobox";
 	private static final int INFOBOX_STR_LGTH = INFOBOX_STR.length();
 	private Set<Redirect> redirectCache;
-	private HashMap<String, Integer> resolvedPages;
+	private Map<String, Integer> resolvedPages;
 	
-	public WikiXMLParserHandler(PrintStream outputFileStream, RuleSet ruleSet) {
+	public WikiXMLParserHandler(PrintStream outputFileStream, RuleSet ruleSet, Indexer indexer) {
 		super();
 		this.outputFileStream = outputFileStream;
 		this.ruleSet = ruleSet;
+		this.indexer = indexer;
 		this.redirectCache = new HashSet<Redirect>();
 		this.resolvedPages = new HashMap<String, Integer>();
 	}
@@ -104,6 +108,7 @@ public class WikiXMLParserHandler extends DefaultHandler{
 	
 	private void addEntry(String title, String text) {
 		Integer categoryId = detectCategoryId(text);
+		indexer.indexPage(title, categoryId);
 		resolvedPages.put(title, categoryId);
 		outputFileStream.println(title + SEPARATOR + categoryId);
 	}
@@ -140,7 +145,8 @@ public class WikiXMLParserHandler extends DefaultHandler{
 		for (Redirect redirect : redirectCache) {
 			Integer redirectCategoryId = resolvedPages.get(redirect.redirectPage);
 			if (redirectCategoryId != null) {
-				outputFileStream.println(redirect.page + SEPARATOR + redirectCategoryId.toString());
+				indexer.indexPage(redirect.page, redirectCategoryId);
+				outputFileStream.println(redirect.page + SEPARATOR + redirectCategoryId);
 				cacheSize--;
 			}
 		}
