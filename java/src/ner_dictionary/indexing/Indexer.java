@@ -58,4 +58,8 @@ public class Indexer {
 			e.printStackTrace();
 		}
 	}
+	
+	public IndexWriter getIndexWriter() {
+		return this.indexWriter;
+	}
 }

@@ -28,7 +28,7 @@ public class WikiXMLParserHandler extends DefaultHandler{
 	private PrintStream outputFileStream;
 	private RuleSet ruleSet;
 	private Indexer indexer;
-	private static final String SEPARATOR = "\t";
+	public static final String SEPARATOR = "\t";
 	private static final String INFOBOX_STR = "{{Infobox";
 	private static final int INFOBOX_STR_LGTH = INFOBOX_STR.length();
 	private Set<Redirect> redirectCache;

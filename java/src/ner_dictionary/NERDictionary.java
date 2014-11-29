@@ -58,68 +58,11 @@ public class NERDictionary
 				}
 			});
 		} else {
-			RuleSet ruleSet = app.parseRules(ns.getString("rules"));
-			
-			CategorySet categorySet = new CategorySet(ruleSet);
-			categorySet.saveSetToFile(ns.getString("categories"));
+			RuleSet ruleSet = app.parseRules(ns.getString("rules"), ns.getString("categories"));
 			
 			Indexer indexer = new Indexer(ns.getString("index"));
 			
-			PrintStream outputFileStream = null;
-			try {
-				outputFileStream = new PrintStream(new FileOutputStream(ns.getString("output")));
-				
-				XMLReader reader = null;
-				try {
-					reader = XMLReaderFactory.createXMLReader();
-					WikiXMLParserHandler parserHandler = new WikiXMLParserHandler(outputFileStream, ruleSet, indexer);
-					reader.setContentHandler(parserHandler);
-					
-					for (String path : ns.<String> getList("source")) {
-						File fileOrDir = new File(path);
-						List<File> files = new ArrayList<File>();
-						if (fileOrDir.isDirectory()) {
-							files = Arrays.asList(fileOrDir.listFiles());
-						} else {
-							files.add(fileOrDir);
-						}
-						InputSource inputSource = null;
-						for (File f : files) {
-							try {
-								inputSource = new InputSource(new FileInputStream(f));
-								try {
-									System.out.println("Parsing file " + f.getPath() + " ...");
-									reader.parse(inputSource);
-									System.out.println("Parsing of file " + f.getPath() + " finished");
-								} catch (SAXException e1) {
-									System.err.println("An error occured during parsing the file " + f.getPath());
-									e1.printStackTrace();
-								} catch (IOException e2) {
-									System.err.println("An error occured during parsing the file " + f.getPath());
-									e2.printStackTrace();
-								}
-							} catch (FileNotFoundException e) {
-								System.err.println("Can not open the file " + f.getPath());
-								e.printStackTrace();
-							}
-						}
-					}
-					System.out.println("Resolving redirects ...");
-					int redirectsRemained = parserHandler.processRedirects();
-					System.out.println("Redirects remained unresolved: " + redirectsRemained);
-				} catch (SAXException e) {
-					System.err.println("An error occured during inicialization of XML reader");
-					e.printStackTrace();
-					System.exit(1);
-				}
-				
-				outputFileStream.close();
-			} catch (FileNotFoundException e) {
-				System.err.println("Can not open or create the output file.");
-				e.printStackTrace();
-				System.exit(1);
-			}
-			indexer.close();
+			app.parseAndIndexWikipedia(ns.<String> getList("source"), ns.getString("output"), ruleSet, indexer);
 		}
     }
     
@@ -171,16 +114,77 @@ public class NERDictionary
         return ns;
     }
     
-    private RuleSet parseRules(String rulesFilePath) {
+    public RuleSet parseRules(String rulesFilePath, String categoryMappingFileName) {
     	try {
 			JAXBContext jaxbContext = JAXBContext.newInstance(RuleSet.class);
 			Unmarshaller jaxbUnmarshaller = jaxbContext.createUnmarshaller();
-			return (RuleSet) jaxbUnmarshaller.unmarshal(new File(rulesFilePath));
+			RuleSet ruleSet = (RuleSet) jaxbUnmarshaller.unmarshal(new File(rulesFilePath));
+			CategorySet categorySet = new CategorySet(ruleSet);
+			categorySet.saveSetToFile(categoryMappingFileName);
+			return ruleSet;
 		} catch (JAXBException e) {
 			System.err.println("An error occured during parsing the rules file " + rulesFilePath);
 			e.printStackTrace();
 			System.exit(1);
 			return null;
 		}
+    }
+    
+    public void parseAndIndexWikipedia(List<String> sources, String outputFileName, RuleSet ruleSet, Indexer indexer) {
+    	PrintStream outputFileStream = null;
+		try {
+			outputFileStream = new PrintStream(new FileOutputStream(outputFileName));
+			
+			XMLReader reader = null;
+			try {
+				reader = XMLReaderFactory.createXMLReader();
+				WikiXMLParserHandler parserHandler = new WikiXMLParserHandler(outputFileStream, ruleSet, indexer);
+				reader.setContentHandler(parserHandler);
+				
+				for (String path : sources) {
+					File fileOrDir = new File(path);
+					List<File> files = new ArrayList<File>();
+					if (fileOrDir.isDirectory()) {
+						files = Arrays.asList(fileOrDir.listFiles());
+					} else {
+						files.add(fileOrDir);
+					}
+					InputSource inputSource = null;
+					for (File f : files) {
+						try {
+							inputSource = new InputSource(new FileInputStream(f));
+							try {
+								System.out.println("Parsing file " + f.getPath() + " ...");
+								reader.parse(inputSource);
+								System.out.println("Parsing of file " + f.getPath() + " finished");
+							} catch (SAXException e1) {
+								System.err.println("An error occured during parsing the file " + f.getPath());
+								e1.printStackTrace();
+							} catch (IOException e2) {
+								System.err.println("An error occured during parsing the file " + f.getPath());
+								e2.printStackTrace();
+							}
+						} catch (FileNotFoundException e) {
+							System.err.println("Can not open the file " + f.getPath());
+							e.printStackTrace();
+						}
+					}
+				}
+				System.out.println("Resolving redirects ...");
+				int redirectsRemained = parserHandler.processRedirects();
+				System.out.println("Redirects remained unresolved: " + redirectsRemained);
+			} catch (SAXException e) {
+				System.err.println("An error occured during inicialization of XML reader");
+				e.printStackTrace();
+				System.exit(1);
+			}
+			
+			outputFileStream.close();
+		} catch (FileNotFoundException e) {
+			System.err.println("Can not open or create the output file.");
+			e.printStackTrace();
+			System.exit(1);
+		}
+		indexer.close();
     }
 }
