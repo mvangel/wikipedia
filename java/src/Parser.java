@@ -20,7 +20,17 @@ public class Parser {
 	private ArrayList<Zaznam> zaznam_list = null;
 	private ArrayList<Odkaz> odkaz_list = null;
 	private String path;
+	private double maxKonvergPrem;
 	
+	Parser()
+	{
+		maxKonvergPrem = 0.01;
+	}
+	
+	public void setMaxKonvergPrem (double _value)
+	{
+		maxKonvergPrem = _value;
+	}
 	public void readFile(String _path) 
 	{
 		zaznam_list = new ArrayList<Zaznam>();
@@ -150,7 +160,7 @@ public class Parser {
 		String file1 = path + "\\output-links-help.txt";
 		String file2 = path + "\\output-links.txt";
 		String pom = "";
-		while(rankChange > 0.01)
+		while(rankChange > maxKonvergPrem)
 		{
 				rankChange = 0;
 				bufw = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(file1),Charset.forName("UTF-8").newEncoder()));

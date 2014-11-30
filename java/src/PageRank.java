@@ -27,7 +27,10 @@ public class PageRank {
 		return countPageRank(e);
 	}
 	
-	
+	public void setDampingFactor (double _d)
+	{
+		d = _d;
+	}
 	private double countPageRank(double sum)
 	{
 		return ((1-d)+(d*sum));  //sum je suma vsetkych pagerankov / poctom odchadzajucich linkov pocita sa hore
