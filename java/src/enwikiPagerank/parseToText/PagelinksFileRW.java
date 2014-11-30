@@ -198,13 +198,6 @@ public class PagelinksFileRW {
 
 	public static void writeFile(String fileName, List<String> lines) {
 
-		/*
-		 * if(new File(outputFile).exists()){
-		 * 
-		 * }else { File f = new File(outputFile); try { f.createNewFile(); }
-		 * catch (IOException e) { e.printStackTrace(); } }
-		 */
-
 		try {
 			String filename = fileName;
 			FileWriter fw = new FileWriter(filename, true); // the true will
@@ -217,8 +210,7 @@ public class PagelinksFileRW {
 				counter++;
 			}
 			fw.close();
-			// fw.flush();
-			// fw = null;
+			
 			if (counter % 10000 == 0) {
 				System.out.println("Added lines:" + i + "  all lines>"
 						+ counter);
@@ -257,14 +249,6 @@ public class PagelinksFileRW {
 				corrupted = title;
 			}
 
-			/*
-			 * String[] arr = pom[1].split("\\((.*?)\\),"); for (int i = 0; i <
-			 * arr.length; i++) { System.out.println("entyty" +arr[i]); //arr[i]
-			 * = arr[i].replace("(", ""); //arr[i] = arr[i].replace(")", "");
-			 * entities.add(arr[i]);
-			 * 
-			 * }
-			 */
 			// System.out.println(arr[0]);
 		}
 		// entities.remove(0);
@@ -326,7 +310,6 @@ public class PagelinksFileRW {
 
 				String st = null;
 
-				// p.setPageIsRedirect(Integer.parseInt(split[5]));
 				st = p.getPlFrom() + " " + p.getPlNamespace() + " "
 						+ p.getPlTitle();
 				listP.add(st);
@@ -340,7 +323,6 @@ public class PagelinksFileRW {
 				// System.exit(1);
 
 				// System.out.println(split.length);
-				// System.exit(1);
 				continue;
 
 			} finally {

@@ -200,18 +200,6 @@ public class FileRW {
 
     public static void writeFile(String fileName, List<String> lines) {
 
-
-       /*if(new File(outputFile).exists()){
-
-       }else {
-           File f = new File(outputFile);
-           try {
-               f.createNewFile();
-           } catch (IOException e) {
-               e.printStackTrace();
-           }
-       }*/
-
         try {
             String filename = fileName;
             FileWriter fw = new FileWriter(filename, true); //the true will append the new data
@@ -222,8 +210,7 @@ public class FileRW {
                 counter++;
             }
               fw.close();
-              //fw.flush();
-            // fw = null;
+            
               if(counter % 10000 == 0){
             	  System.out.println("Added lines:" + i + "  all lines>" + counter);
               }
