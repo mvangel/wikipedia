@@ -408,6 +408,7 @@ public class PagelinksAndPagesJoiner {
 	}
 
 	public static void consume() {
+			//benchmark of RAM comsuption 
 		List<DataObject> a = new ArrayList<DataObject>();
 		String title = null;
 		String ids = null;
@@ -416,7 +417,7 @@ public class PagelinksAndPagesJoiner {
 
 		for (int i = 0; i < 600000; i++) {
 			dob = new DataObject();
-			title = "4#Alfa_omega_hereto_sexual_yesterday_died_in_inimaginable_pain_of_his_balls";
+			title = "4#Alfa_omega";
 			ids = "8445" + "44444" + "8445" + "44444" + "8445" + "44444"
 					+ "8445" + "44444" + "8445" + "44444" + "8445" + "44444"
 					+ "8445" + "44444" + "8445" + "44444";
