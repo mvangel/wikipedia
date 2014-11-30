@@ -14,7 +14,7 @@ public class PageRank {
 	private double d;
 	PageRank()
 	{
-		d = 0.85;
+		d = 0.85; //tlmiaci faktor - moze byt akakolvek hodnota, nastavene na 0.85 podla strany 45 v skriptach
 	}
 	
 	public double countNext(double pr, double pl, double actualPageRank) //na spocitanie sumy vsetkych stranok 
