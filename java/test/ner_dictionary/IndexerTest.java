@@ -11,6 +11,10 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.TemporaryFolder;
 
+/**
+ * Tests if the indexer can be instantiated correctly.
+ *
+ */
 public class IndexerTest {
 
 	@Rule

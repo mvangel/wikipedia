@@ -40,6 +40,7 @@ public class Indexer {
 
 	public void indexPage(String pageName, Integer categoryId) {
 		Document doc = new Document();
+		// Create two fields: one for wikipedia page title and one for its category id, store content of both, index only the title
 		doc.add(new TextField(FIELD_TITLE, pageName, Store.YES));
 		doc.add(new StoredField(FIELD_CATEGORY_ID, categoryId));
 		try {

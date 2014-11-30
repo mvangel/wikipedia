@@ -39,7 +39,9 @@ public class WikiXMLParserHandler extends DefaultHandler{
 		this.outputFileStream = outputFileStream;
 		this.ruleSet = ruleSet;
 		this.indexer = indexer;
+		// Redirects which are not resolved yet, are stored here
 		this.redirectCache = new HashSet<Redirect>();
+		// The wikipedia pages which categories are already resolved are stored here
 		this.resolvedPages = new HashMap<String, Integer>();
 	}
 	
@@ -55,12 +57,14 @@ public class WikiXMLParserHandler extends DefaultHandler{
 	
 	@Override
 	public void startElement(String uri, String localName, String qName, Attributes attributes) throws SAXException {
+		// React only to following wikipedia XML tags
 		switch (qName) {
 		case "title":
 			sBuilder = new StringBuilder();
 			readText = true;
 			break;
 		case "redirect":
+			// Redirect found add to chace and set flag to not parse this pages text
 			redirect = true;
 			addRedirect(actualPageTitle, attributes.getValue(0));
 			break;
@@ -107,14 +111,19 @@ public class WikiXMLParserHandler extends DefaultHandler{
 	}
 	
 	private void addEntry(String title, String text) {
+		// detect page category depending on its text content
 		Integer categoryId = detectCategoryId(text);
+		// There are three possible storage places for resolved pages: index(with stored fields), output file(this is not necessary) and temporary cache(resolvedPages)
+		// Storage in the index directory is the most important, because future querying is performed on it
 		indexer.indexPage(title, categoryId);
 		resolvedPages.put(title, categoryId);
 		outputFileStream.println(title + SEPARATOR + categoryId);
 	}
 	
 	private Integer detectCategoryId(String text) {
+		// Apply each rule sequentially until a sufficient one is found
 		for (Rule rule : ruleSet.getRuleList()) {
+			// Regular expression
 			Pattern pattern = Pattern.compile(rule.getPattern());
 			// Determine if the type of the rule is Infobox type (if yes search only in Infobox)
 			if (rule.verifyTypeById(RuleType.INFO)) {
@@ -135,7 +144,6 @@ public class WikiXMLParserHandler extends DefaultHandler{
 	}
 	
 	private void addRedirect(String title, String redirectTitle) {
-//		outputFileStream.println(title + SEPARATOR + "Redirect");
 		redirectCache.add(new Redirect(title, redirectTitle));
 	}
 	
@@ -145,6 +153,7 @@ public class WikiXMLParserHandler extends DefaultHandler{
 		for (Redirect redirect : redirectCache) {
 			Integer redirectCategoryId = resolvedPages.get(redirect.redirectPage);
 			if (redirectCategoryId != null) {
+				// Index and save to output file (and to the index directory)
 				indexer.indexPage(redirect.page, redirectCategoryId);
 				outputFileStream.println(redirect.page + SEPARATOR + redirectCategoryId);
 				cacheSize--;

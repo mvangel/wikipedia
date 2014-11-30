@@ -33,7 +33,7 @@ import net.sourceforge.argparse4j.inf.ArgumentParserException;
 import net.sourceforge.argparse4j.inf.Namespace;
 
 /**
- * Application for creating a Named Entity Recognition dictionary
+ * Application for creating a Named Entity Recognition dictionary and querying it.
  *
  */
 public class NERDictionary 
@@ -42,12 +42,17 @@ public class NERDictionary
     {
     	NERDictionary app = new NERDictionary();
     	
+    	// To see possible options see function parseArguments(args)
     	Namespace ns = app.parseArguments(args);
     	
+    	// Determine which mode to start (parse or query)
     	if (ns.getBoolean("query")) {
+    		// Load category set used to map category id to their names
     		CategorySet categorySet = new CategorySet(ns.getString("categories"));
+    		// Searcher is initialized with directory of previously created index
     		final Searcher searcher = new Searcher(ns.getString("index"), categorySet.getCategoryMapping());
-			EventQueue.invokeLater(new Runnable() {
+			// To ease query, a simple qui is started
+    		EventQueue.invokeLater(new Runnable() {
 				public void run() {
 					try {
 						QueryFrame frame = new QueryFrame(searcher);
@@ -58,10 +63,13 @@ public class NERDictionary
 				}
 			});
 		} else {
+			// Set of rules used to parse source Wikipedia files are loaded. File to store found category mappings is specified
 			RuleSet ruleSet = app.parseRules(ns.getString("rules"), ns.getString("categories"));
 			
+			// Indexer used during parsing is initialized
 			Indexer indexer = new Indexer(ns.getString("index"));
 			
+			// Main work
 			app.parseAndIndexWikipedia(ns.<String> getList("source"), ns.getString("output"), ruleSet, indexer);
 		}
     }
@@ -113,13 +121,16 @@ public class NERDictionary
         }
         return ns;
     }
-    
+ 
     public RuleSet parseRules(String rulesFilePath, String categoryMappingFileName) {
     	try {
 			JAXBContext jaxbContext = JAXBContext.newInstance(RuleSet.class);
 			Unmarshaller jaxbUnmarshaller = jaxbContext.createUnmarshaller();
 			RuleSet ruleSet = (RuleSet) jaxbUnmarshaller.unmarshal(new File(rulesFilePath));
+			
+			// Process found categories in rule set and assign an id to each category
 			CategorySet categorySet = new CategorySet(ruleSet);
+			// Save to file for future querying
 			categorySet.saveSetToFile(categoryMappingFileName);
 			return ruleSet;
 		} catch (JAXBException e) {
@@ -137,16 +148,20 @@ public class NERDictionary
 			
 			XMLReader reader = null;
 			try {
+				// Create SAX reader and its parser handler to parse files sequentially 
 				reader = XMLReaderFactory.createXMLReader();
 				WikiXMLParserHandler parserHandler = new WikiXMLParserHandler(outputFileStream, ruleSet, indexer);
 				reader.setContentHandler(parserHandler);
 				
+				// Process all source files specified as an arguments of this application
 				for (String path : sources) {
+					// If the path specifies a directory process each file in this directory
 					File fileOrDir = new File(path);
 					List<File> files = new ArrayList<File>();
 					if (fileOrDir.isDirectory()) {
 						files = Arrays.asList(fileOrDir.listFiles());
 					} else {
+						// If the path specifies only one file and not a directory, only this file will be added to files array
 						files.add(fileOrDir);
 					}
 					InputSource inputSource = null;
@@ -171,7 +186,10 @@ public class NERDictionary
 					}
 				}
 				System.out.println("Resolving redirects ...");
+				
+				// Redirects found during parsing are resolved finally
 				int redirectsRemained = parserHandler.processRedirects();
+				// Not all redirects can be resolved from already parsed dumps
 				System.out.println("Redirects remained unresolved: " + redirectsRemained);
 			} catch (SAXException e) {
 				System.err.println("An error occured during inicialization of XML reader");

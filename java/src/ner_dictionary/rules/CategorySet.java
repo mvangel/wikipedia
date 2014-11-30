@@ -34,6 +34,7 @@ public class CategorySet {
 	}
 	
 	public CategorySet(String filePath) {
+		// Create category set from file
 		invertedCategories = new HashMap<Integer, String>();
 		Properties prop = new Properties();
 		InputStream input = null;

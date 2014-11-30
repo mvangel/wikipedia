@@ -38,12 +38,14 @@ public class Searcher {
 			e.printStackTrace();
 			System.exit(1);
 		}
+		// The same analyzer is used as for indexing
 		queryParser = new QueryParser(Indexer.FIELD_TITLE, new StandardAnalyzer());
 	}
 
 	public Map<String, String> search(String queryString) {
 		try {
 			Query query = queryParser.parse(queryString);
+			// Take only MAX_HITS of best results into account
 			TopScoreDocCollector docCollector = TopScoreDocCollector.create(MAX_HITS, true);
 			indexSearcher.search(query, docCollector);
 			ScoreDoc[] hits = docCollector.topDocs().scoreDocs;
