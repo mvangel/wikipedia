@@ -1,4 +1,6 @@
-
+/*
+ * Trieda popisujuca jednotlive zaznamy, pre ktore sa pocita pagerank.
+ */
 public class Zaznam {
 	private String meno;
 	private String id;

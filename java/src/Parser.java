@@ -19,10 +19,13 @@ public class Parser {
 	private BufferedReader brlp = null;
 	private ArrayList<Zaznam> zaznam_list = null;
 	private ArrayList<Odkaz> odkaz_list = null;
-	public void readFile() 
+	private String path;
+	
+	public void readFile(String _path) 
 	{
 		zaznam_list = new ArrayList<Zaznam>();
 		odkaz_list = new ArrayList<Odkaz>();
+		path = _path;
 		p_readFile();
 	}
 	
@@ -32,50 +35,59 @@ public class Parser {
 		String insert;
 		String[] inserts;
 		String[] ones;
+		int countLines = 0;
 		BufferedReader br = null;
 		try {
 			Charset.forName("UTF-8").newEncoder();
-			bw = new BufferedWriter(new OutputStreamWriter(new FileOutputStream("C:\\martinka\\VI\\output-links-sample-test.txt"),Charset.forName("UTF-8").newEncoder()));
-			br = new BufferedReader(new InputStreamReader(new FileInputStream("C:\\martinka\\VI\\sample-skwiki-latest-pagelinks.sql"),Charset.forName("UTF-8").newDecoder()));
+			bw = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(path + "\\output-links.txt"),Charset.forName("UTF-8").newEncoder()));
+			br = new BufferedReader(new InputStreamReader(new FileInputStream(path + "\\skwiki-latest-pagelinks.sql"),Charset.forName("UTF-8").newDecoder()));
 			
 			while ((sCurrentLine = br.readLine()) != null) {
-				if(sCurrentLine.matches(".*(\\([0-9]+,.*\\))+.*")) {
-					insert = sCurrentLine.replaceAll("\\).?,.?\\(", "\\),\\(");
-					inserts = insert.split(" ");
-					for(int i = 0; i<inserts.length;i++)
-					{
-						parseInserts(inserts[i]);
+				countLines++;
+				System.out.println(countLines);
+				if(countLines < 80)
+				{
+					if(sCurrentLine.matches(".*(\\([0-9]+,.*\\))+.*")) {
+						insert = sCurrentLine.replaceAll("\\).?,.?\\(", "\\),\\(");
+						inserts = insert.split(" ");
+						for(int i = 0; i<inserts.length;i++)
+						{
+							parseInserts(inserts[i]);
+						}
 					}
 				}
+				
 				
 			}
 				
 			System.out.println("Zaznamy sparsovane, caka sa na id.");
-			brlp = new BufferedReader(new InputStreamReader(new FileInputStream("C:\\martinka\\VI\\old\\output_test-pages.txt"),Charset.forName("UTF-8").newDecoder()));				
+			brlp = new BufferedReader(new InputStreamReader(new FileInputStream(path + "\\output-skwiki-latest-page.txt"),Charset.forName("UTF-8").newDecoder()));				
 			findId();
 			brlp.close();
 			System.out.println("Id pridelene, ideme dalej.");
 			br.close();
-			
-			br = new BufferedReader(new InputStreamReader(new FileInputStream("C:\\martinka\\VI\\sample-skwiki-latest-pagelinks.sql"),Charset.forName("UTF-8").newDecoder()));
+			countLines = 0;
+			br = new BufferedReader(new InputStreamReader(new FileInputStream(path + "\\skwiki-latest-pagelinks.sql"),Charset.forName("UTF-8").newDecoder()));
 			while ((sCurrentLine = br.readLine()) != null) {
-				if(sCurrentLine.matches(".*(\\([0-9]+,.*\\))+.*")) {
-					insert = sCurrentLine.replaceAll("\\).?,.?\\(", "\\),\\(");
-					inserts = insert.split(" ");
-					for(int i = 0; i<inserts.length;i++)
-					{
-						writeInserts(inserts[i]);
+				countLines++;
+				if(countLines<80)
+				{
+					if(sCurrentLine.matches(".*(\\([0-9]+,.*\\))+.*")) {
+						insert = sCurrentLine.replaceAll("\\).?,.?\\(", "\\),\\(");
+						inserts = insert.split(" ");
+						for(int i = 0; i<inserts.length;i++)
+						{
+							writeInserts(inserts[i]);
+						}
 					}
 				}
+				
 				
 			}
 			bw.close();
 			br.close();
 			System.out.println("Pageranky nacitane.");
-			countPageRanks();
-			System.out.println("Writeing file.");
-			writeFile();
-			System.out.println("All done.");
+			
 			
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
@@ -85,11 +97,22 @@ public class Parser {
 			e.printStackTrace();
 		}
 	}
-	
+	public void getPageRank()
+	{
+		try {
+			countPageRanks();
+			System.out.println("Writeing file.");
+			writeFile();
+			System.out.println("All done.");
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
 	
 	private void writeFile() throws IOException
 	{
-		BufferedWriter b = new BufferedWriter(new OutputStreamWriter(new FileOutputStream("C:\\martinka\\VI\\sample-output-pageRank.txt"),Charset.forName("UTF-8").newEncoder()));
+		BufferedWriter b = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(path + "\\output-pageRank.txt"),Charset.forName("UTF-8").newEncoder()));
 		double pom;
 		for(Zaznam z:zaznam_list)
 		{
@@ -124,8 +147,8 @@ public class Parser {
 		double rank = 1; //na porovnanie zmeny pageranku
 		double rankChange = 1;
 		PageRank pr = new PageRank();
-		String file1 = "C:\\martinka\\VI\\output-links-sample.txt";
-		String file2 = "C:\\martinka\\VI\\output-links-sample-test.txt";
+		String file1 = path + "\\output-links-help.txt";
+		String file2 = path + "\\output-links.txt";
 		String pom = "";
 		while(rankChange > 0.01)
 		{

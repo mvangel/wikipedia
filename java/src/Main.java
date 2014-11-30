@@ -8,10 +8,11 @@ public class Main {
  
   public static void main(String[] argv) {
  
+	  MainWindow mw = new MainWindow();
 	FileParser fp = new FileParser();
-	fp.parseFile();
-	Parser p = new Parser();
-	p.readFile();
+	fp.parseFile("C:\\Users\\whitelilit\\workspace\\VyhladavanieInformacii\\data");
+	//Parser p = new Parser();
+	//p.readFile();
 	
 	
 	

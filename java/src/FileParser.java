@@ -1,5 +1,6 @@
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -7,21 +8,23 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.nio.charset.Charset;
+import java.nio.file.Files;
+import java.nio.file.Path;
 
 
 public class FileParser {
 
 	private BufferedWriter bw;
 	
-	public void parseFile()
+	public void parseFile(String path)
 	{
-		p_parseFile();
+		p_parseFile(path);
 	}
-	private void p_parseFile()
+	private void p_parseFile(String path)
 	{
 		try {
-			bw = new BufferedWriter(new OutputStreamWriter(new FileOutputStream("C:\\martinka\\VI\\old\\output_test-pages.txt"),Charset.forName("UTF-8").newEncoder()));
-			BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream("C:\\martinka\\VI\\skwiki-latest-page.sql"),Charset.forName("UTF-8").newDecoder()));
+			BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(path + "\\skwiki-latest-page.sql"),Charset.forName("UTF-8").newDecoder()));
+			bw = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(path + "\\output-skwiki-latest-page.txt"),Charset.forName("UTF-8").newEncoder()));
 			String sCurrentLine,insert;
 			String[] inserts;
 			while ((sCurrentLine = br.readLine()) != null) {
@@ -33,10 +36,14 @@ public class FileParser {
 						parseInserts(inserts[i]);
 					}
 				}
+			
 				
 			}
 			bw.close();
 			br.close();
+			
+			//File f = new File(path + "\\outputskwiki-latest-page.txt");
+			//f.delete();
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
