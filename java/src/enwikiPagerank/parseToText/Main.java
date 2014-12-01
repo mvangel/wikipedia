@@ -96,11 +96,11 @@ public class Main implements Runnable {
 			 *   
 			 */
 			PagerankComputation.createPagerankHashMap(currPath
-					+ "/sampleonlyIDs.txt");
+					+ "/eonlyIDs.txt");
 			PagerankComputation.createOutgoingHashMap(currPath
-					+ "/sampleoutgoing.txt");
+					+ "/outgoing.txt");
 			PagerankComputation.computePagerank(currPath
-					+ "/samplecleanFile.txt", null, currPath, 220);
+					+ "/cleanFile.txt", null, currPath, 220);
 			break;
 			
 		case 7:
@@ -134,6 +134,13 @@ public class Main implements Runnable {
 			pT.testForEqualOutput();
 			break;
 			
+			
+			case 9:
+			/*
+			 * creates histogram for final pagerank file
+			 */
+			HistogramCreator.createHistogram(currPath+"/finalPgrnk.txt", currPath+"/histogram.txt");
+			break;
 			
 		default: 
 			System.out.println("Wrong parameters - system exit");
