@@ -23,11 +23,11 @@ namespace WikiCalendar
     /// </summary>
     public partial class MainWindow : Window
     {
-		Controller control;
+		MyXMLParser control;
         public MainWindow()
         {
             InitializeComponent();
-			control = new Controller();
+			control = new MyXMLParser();
         }
 		private void Button_Click(object sender, RoutedEventArgs e)
 		{

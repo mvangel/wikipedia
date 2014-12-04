@@ -9,13 +9,17 @@ using System.Collections;
 
 namespace WikiCalendar
 {
-	public class Controller
+	/// <summary>
+	/// Xml parser with storage for all events. It parses wiki xml dump sent as parameter to constructor. It has functionality like Controller. 
+	/// It uses Indexes to search for events or return all events information
+	/// </summary>
+	public class MyXMLParser
 	{
-		public Controller()
+		public MyXMLParser()
 		{
 			xml = new XElement("days");
 			allEvents = new LinkedList<CalendarEvent>();
-			allDays = new SortedList<long, DayEvents>();
+			allDays = new SortedList<long, DayEventCollection>();
 			index = new IndexMaker("LuceneIndex","date");
 			pageCounter = 0;
 		}
@@ -24,7 +28,7 @@ namespace WikiCalendar
 		public int pageCounter{get;set;}
 		XElement xml { get; set; }
 		LinkedList<CalendarEvent> allEvents;
-		SortedList<long, DayEvents> allDays;
+		SortedList<long, DayEventCollection> allDays;
 		IndexMaker index;
 
 		public void initParsing(String path)
@@ -138,7 +142,7 @@ namespace WikiCalendar
 							else
 							{
 
-								allDays.Add(extractedEvent.dateId, new DayEvents(extractedEvent.date.Day, extractedEvent.date.Month, extractedEvent.date.Year, extractedEvent));
+								allDays.Add(extractedEvent.dateId, new DayEventCollection(extractedEvent.date.Day, extractedEvent.date.Month, extractedEvent.date.Year, extractedEvent));
 							}
 
 

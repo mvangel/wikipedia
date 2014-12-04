@@ -6,7 +6,10 @@ using System.Threading.Tasks;
 
 namespace WikiCalendar
 {
-	class DayEvents:ICollection<CalendarEvent>
+	/// <summary>
+	/// Collection of CalendarEvents which happened at same date.
+	/// </summary>
+	class DayEventCollection:ICollection<CalendarEvent>
 	{
 		DateTime date;
 		public int day {get; set; }
@@ -16,7 +19,7 @@ namespace WikiCalendar
 
 		HashSet<CalendarEvent> eventList {get; set;}
 
-		public DayEvents(int _day,int _month, int _year,CalendarEvent cEvent) 
+		public DayEventCollection(int _day,int _month, int _year,CalendarEvent cEvent) 
 		{
 			day = _day;
 			month = _month;

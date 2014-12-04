@@ -23,7 +23,7 @@ namespace WikiCalendarTest
 			String inputPath =	@"..\..\..\..\Data\sample_input_enwiki-latest-pages-articles1.xml";
 			String exportPath = @"..\..\..\..\Data\sample_output_enwiki-latest-pages-articles1_unit_test.xml";
 			
-			Controller control = new Controller();
+			MyXMLParser control = new MyXMLParser();
 			control.initParsing(inputPath);
 			control.exportEventsXML(exportPath);
 

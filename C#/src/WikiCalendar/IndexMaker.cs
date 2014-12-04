@@ -13,6 +13,9 @@ using System.Threading.Tasks;
 
 namespace WikiCalendar
 {
+	/// <summary>
+	/// Class is used for index making and index reading. Once index is made its not neccesarry to make it again with new run of application. It will read previously made index.
+	/// </summary>
 	public class IndexMaker
 	{
 	private const string DOC_ID_FIELD_NAME = "ID_FIELD";

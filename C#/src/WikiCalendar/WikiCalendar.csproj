@@ -77,7 +77,7 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="CalendarEvent.cs" />
-    <Compile Include="Controller.cs" />
+    <Compile Include="MyXMLParser.cs" />
     <Compile Include="DayEvents.cs" />
     <Compile Include="IndexMaker.cs" />
     <Compile Include="MainWindow.xaml.cs">

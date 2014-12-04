@@ -8,6 +8,9 @@ using System.Xml.Linq;
 
 namespace WikiCalendar
 {
+	/// <summary>
+	/// Structure for storing informtaion about event.
+	/// </summary>
 	public class CalendarEvent
 	{
 		public DateTime date { get; set; } //TODO parsing dates of wiki
