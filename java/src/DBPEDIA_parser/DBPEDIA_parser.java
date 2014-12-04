@@ -5,7 +5,7 @@ import java.io.*;
 /**
  * PROGRAM FOR PARSING AND INDEXING DBPEDIA DUMP FILES
  *
- * @author Zuzka
+ * @author Zuzana Grešlíková
  */
 public class DBPEDIA_parser {
 
