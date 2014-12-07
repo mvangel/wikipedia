@@ -5,7 +5,10 @@ import java.io.InputStreamReader;
 import java.nio.charset.Charset;
 
 import javax.swing.JOptionPane;
-
+/**
+ * class for reading the final pagerank page.
+ *
+ */
 
 public class PageRankReader {
 	private String path;

@@ -1,4 +1,4 @@
-/*
+/**
  * Interface for working with main window.
  */
 public class WindowInterface {

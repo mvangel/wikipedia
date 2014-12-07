@@ -1,4 +1,4 @@
-/*
+/**
  * TRieda re zaznamenanie jednotlivych odkazov ukazujucich na stranky ktorym sa pocita pagerank
  * Stranky, ktorym sa pocita pagerank su ulozene v classe Zaznam.
  */

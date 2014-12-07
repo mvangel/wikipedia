@@ -11,7 +11,11 @@ import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
-
+/**
+ * Class for parsing input file skwiki latest pagelinks and counting the pagerank for each file.
+ * In the end creates a file containing pagerank for each page.
+ *
+ */
 
 public class Parser {
 	private BufferedWriter bw,bufw = null;
@@ -110,7 +114,7 @@ public class Parser {
 	public void getPageRank()
 	{
 		try {
-			countPageRanks();
+			//countPageRanks();
 			System.out.println("Writeing file.");
 			writeFile();
 			System.out.println("All done.");

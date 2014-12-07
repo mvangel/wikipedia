@@ -10,7 +10,10 @@ import java.io.OutputStreamWriter;
 import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.nio.file.Path;
-
+/**
+ * class for reading pages file and parsing it into an output with a pageid and page name in separate rows.
+ *
+ */
 
 public class FileParser {
 
