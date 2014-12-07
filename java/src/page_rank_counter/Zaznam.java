@@ -1,4 +1,4 @@
-/*
+/**
  * Trieda popisujuca jednotlive zaznamy, pre ktore sa pocita pagerank.
  */
 public class Zaznam {
