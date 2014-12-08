@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<days>
+	<day>
+		<date>1909|02|24</date> 
+		<events>
+			<event>
+				<event_title>August Derleth</event_title>
+				<event_type>birth_date</event_type>
+				<page_id>980</page_id>
+			</event>
+		</events>
+	</day>
+	<day>
+		<date>1971|07|04</date>
+		<events>
+			<event>
+				<event_title>August Derleth</event_title>
+				<event_type>death_date</event_type>
+				<page_id>980</page_id>
+			</event>
+		</events>
+	</day>
+	<day>
+		<date>1905|02|02</date>
+		<events>
+			<event>
+				<event_title>Ayn Rand</event_title>
+				<event_type>birth_date</event_type>
+				<page_id>339</page_id>
+			</event>
+		</events>
+	</day>
+	<day>
+		<date>1982|03|06</date>
+		<events>
+			<event>
+				<event_title>Ayn Rand</event_title>
+				<event_type>death_date</event_type>
+				<page_id>339</page_id>
+			</event>
+		</events>
+	</day>
+	</day>
+		<day>
+		<date>2012|12|10</date>
+		<events>
+			<event>
+				<event_title>Ada (programming language)</event_title>
+				<event_type>latest_release_date</event_type>
+				<page_id>1242</page_id>
+			</event>
+		</events>
+	</day>
+</days>
+
